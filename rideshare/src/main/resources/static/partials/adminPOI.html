@@ -1,0 +1,326 @@
+<!--add new poi button will open modal -->
+<div class="btn-container" style="margin: 2em;">
+	<button class="btn btn-primary btn-lg" data-target="#addPoiModal" data-toggle="modal">Add a POI</button>
+</div>
+<!-- add poi modal -->
+<div class="modal fade" id="addPoiModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Add a POI</h4>
+			</div>
+			<div class="modal-body">
+				<form id="addPoi-form">
+					<table class="table">
+						<tr>
+							<td>
+								<input class="form-control" type="text" id="poiName" ng-model="poi.poiName" placeholder="Point of Interest Name" required>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input class="form-control" type="text" id="poiAddress1" ng-model="poi.addressLine1" placeholder="Address Line" required>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input class="form-control" type="text" id="poiAddress2" ng-model="poi.addressLine2" value="" placeholder="Address Line 2">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="text" class="form-control" id="poiCity" ng-model="poi.city" placeholder="City" required>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<select class="form-control" id="poiState" ng-model="poi.state" required size="1">
+									<option value="" style="display: none" selected>State</option>
+									<option value="AK">AK</option>
+									<option value="AL">AL</option>
+									<option value="AR">AR</option>
+									<option value="AZ">AZ</option>
+									<option value="CA">CA</option>
+									<option value="CO">CO</option>
+									<option value="CT">CT</option>
+									<option value="DC">DC</option>
+									<option value="DE">DE</option>
+									<option value="FL">FL</option>
+									<option value="GA">GA</option>
+									<option value="HI">HI</option>
+									<option value="IA">IA</option>
+									<option value="ID">ID</option>
+									<option value="IL">IL</option>
+									<option value="IN">IN</option>
+									<option value="KS">KS</option>
+									<option value="KY">KY</option>
+									<option value="LA">LA</option>
+									<option value="MA">MA</option>
+									<option value="MD">MD</option>
+									<option value="ME">ME</option>
+									<option value="MI">MI</option>
+									<option value="MN">MN</option>
+									<option value="MO">MO</option>
+									<option value="MS">MS</option>
+									<option value="MT">MT</option>
+									<option value="NC">NC</option>
+									<option value="ND">ND</option>
+									<option value="NE">NE</option>
+									<option value="NH">NH</option>
+									<option value="NJ">NJ</option>
+									<option value="NM">NM</option>
+									<option value="NV">NV</option>
+									<option value="NY">NY</option>
+									<option value="OH">OH</option>
+									<option value="OK">OK</option>
+									<option value="OR">OR</option>
+									<option value="PA">PA</option>
+									<option value="RI">RI</option>
+									<option value="SC">SC</option>
+									<option value="SD">SD</option>
+									<option value="TN">TN</option>
+									<option value="TX">TX</option>
+									<option value="UT">UT</option>
+									<option value="VA">VA</option>
+									<option value="VT">VT</option>
+									<option value="WA">WA</option>
+									<option value="WI">WI</option>
+									<option value="WV">WV</option>
+									<option value="WY">WY</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<!--not currently doing anything to check state abbreviations atm-->
+								<input type="number" class="form-control" id="poiZipcode" ng-model="poi.zipCode" placeholder="Zip Code" required>
+							</td>
+						</tr>
+						<tr style="display: none">
+							<td>
+								<!--latitude/longitude taken when form address submitted-->
+								<input type="number" id="poiLat" ng-model="poi.latitude" style="display: none">
+								<input type="number" id="poiLng" ng-model="poi.longitude" style="display: none">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<select id="poiType" class="form-control" ng-model="poi.type" ng-options="type.typeName for type in types" required>
+									<option value="" style="display: none" selected>Type of Point of Interest</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input class="btn btn-primary" type="button" value="Close" data-dismiss="modal" />
+				<input class="btn btn-primary" type="submit" value="Save Changes" ng-click="addPoi()" data-dismiss="modal" />
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end of add poi modal -->
+
+<!--view all pois-->
+<div class="panel-group" id="poiAccordian">
+	<div class="panel panel-default" ng-repeat="poi in allpois" style="border: none">
+		<div class="panel-heading" data-toggle="collapse" data-target="#collapse{{poi.poiId}}">
+			<h4 class="panel-title">
+				<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#poiAccordian" href="#collapse{{poi.poiId}}" target="_self"
+				 style="text-decoration:none">
+					{{poi.poiName}}
+				</a>
+			</h4>
+		</div>
+		<div id="collapse{{poi.poiId}}" class="panel-collapse collapse">
+			<div class="panel-body container-fluid" data-toggle="collapse" data-target="#collapse{{poi.poiId}}" style="padding: 2em">
+
+				<!-- Beginning of expanded portion -->
+				<div class="row">
+					<table style="padding: 1em">
+						<tr>
+							<td>
+								Address Line 1:
+							</td>
+							<td>
+								{{poi.addressLine1}}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Address Line 2:
+							</td>
+							<td>
+								{{poi.addressLine2}}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								City:
+							</td>
+							<td>
+								{{poi.city}}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								State:
+							</td>
+							<td>
+								{{poi.state}}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Zip:
+							</td>
+							<td>
+								{{poi.zipCode}}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Type:
+							</td>
+							<td>
+								{{poi.type.typeName}}
+							</td>
+						</tr>
+					</table>
+					<div class="row btn-container">
+						<button class="btn btn-primary" ng-click="openModal($index)" data-toggle="modal" data-target="#editPoiModal">Edit POI</button>
+						<button class="btn btn-primary" ng-click="removePoi($index)">Remove POI</button>
+					</div>
+					<!-- End of expanded portion -->
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- store current poi somewhere to save info, then allow edit of data and reset table  -->
+	<!--Edit Poi Modal -->
+	<div class="modal" id="editPoiModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+					<h4 class="modal-title">Edit POI</h4>
+				</div>
+				<div class="modal-body">
+					<form id="updatePoi-form">
+						<table class="table">
+							<tr>
+								<td>
+									<input class="form-control" type="text" id="poiName" ng-model="newPoi.poiName" placeholder="Point of Interest Name" required>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input class="form-control" type="text" id="poiAddress1" ng-model="newPoi.addressLine1" placeholder="Address Line" required>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input class="form-control" type="text" id="poiAddress2" ng-model="newPoi.addressLine2" value="" placeholder="Address Line 2">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="text" class="form-control" id="poiCity" ng-model="newPoi.city" placeholder="City" required>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<select class="form-control" id="poiState" ng-model="newPoi.state" required size="1">
+										<option value="" style="display: none" selected>State</option>
+										<option value="AK">AK</option>
+										<option value="AL">AL</option>
+										<option value="AR">AR</option>
+										<option value="AZ">AZ</option>
+										<option value="CA">CA</option>
+										<option value="CO">CO</option>
+										<option value="CT">CT</option>
+										<option value="DC">DC</option>
+										<option value="DE">DE</option>
+										<option value="FL">FL</option>
+										<option value="GA">GA</option>
+										<option value="HI">HI</option>
+										<option value="IA">IA</option>
+										<option value="ID">ID</option>
+										<option value="IL">IL</option>
+										<option value="IN">IN</option>
+										<option value="KS">KS</option>
+										<option value="KY">KY</option>
+										<option value="LA">LA</option>
+										<option value="MA">MA</option>
+										<option value="MD">MD</option>
+										<option value="ME">ME</option>
+										<option value="MI">MI</option>
+										<option value="MN">MN</option>
+										<option value="MO">MO</option>
+										<option value="MS">MS</option>
+										<option value="MT">MT</option>
+										<option value="NC">NC</option>
+										<option value="ND">ND</option>
+										<option value="NE">NE</option>
+										<option value="NH">NH</option>
+										<option value="NJ">NJ</option>
+										<option value="NM">NM</option>
+										<option value="NV">NV</option>
+										<option value="NY">NY</option>
+										<option value="OH">OH</option>
+										<option value="OK">OK</option>
+										<option value="OR">OR</option>
+										<option value="PA">PA</option>
+										<option value="RI">RI</option>
+										<option value="SC">SC</option>
+										<option value="SD">SD</option>
+										<option value="TN">TN</option>
+										<option value="TX">TX</option>
+										<option value="UT">UT</option>
+										<option value="VA">VA</option>
+										<option value="VT">VT</option>
+										<option value="WA">WA</option>
+										<option value="WI">WI</option>
+										<option value="WV">WV</option>
+										<option value="WY">WY</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="number" class="form-control" id="poiZipcode" ng-model="newPoi.zipCode" placeholder="Zip Code" required>
+								</td>
+							</tr>
+							<tr style="display: none">
+								<td>
+									<!--latitude/longitude taken when form address submitted-->
+									<input type="number" id="poiLat" ng-model="newPoi.latitude" style="display: none">
+									<input type="number" id="poiLng" ng-model="newPoi.longitude" style="display: none">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<select id="poiType" class="form-control" ng-model="newPoi.type" ng-options="type.typeName for type in types" required>
+									<option value="" style="display: none" selected>Type of Point of Interest</option>
+								</select>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<input class="btn btn-primary" type="button" value="Close" data-dismiss="modal" />
+					<input class="btn btn-primary" type="submit" value="Save Changes" ng-click="updatePoi()" data-dismiss="modal" />
+				</div>
+			</div>
+		</div>
+	</div>
