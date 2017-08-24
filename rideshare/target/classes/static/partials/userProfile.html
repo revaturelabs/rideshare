@@ -1,0 +1,139 @@
+<div class="container-fluid" style="padding-bottom: 2em">
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-4">
+			<h3>Your Info:</h3>
+			<table class="table">
+				<tr>
+					<td>Name: </td>
+					<td>{{user.fullName}}</td>
+				</tr>
+				<tr>
+					<td>Email: </td>
+					<td>{{user.email}}
+				</tr>
+				<!-- <tr>
+					<td>
+						<a href="javascript:void(0)" data-toggle="popover" data-content="Integrate the app with your Slack account. This allows you to receive notifications on Slack when a ride is about to arrive.">
+							<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+						</a>
+					</td>
+					<td>
+						<a href="integrate/slack">
+							<img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png"
+							srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" />
+						</a>
+					</td>
+				</tr> -->
+			</table>
+		</div>
+	</div>
+	<!--User can set POI-->
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-4">
+			<h3>Your point of interest preferences:</h3>
+			<!-- <form id="setPoi"> -->
+				<table class="table">
+					<tr>
+						<td>Select Main POI:</td>
+						<td><select class="form-control" id="mainPoi" ng-model="mainPoiOption" ng-options="poi as poi.poiName for poi in allpois"></select></td>
+					</tr>
+					<tr>
+						<td>Select Work POI:</td>
+						<td><select class="form-control" id="workPoi" ng-model="workPoiOption" ng-options="poi as poi.poiName for poi in allpois"></select></td>
+					</tr>
+				</table>
+				<button class="btn btn-primary" type="submit" ng-click="setPois()">Save Changes</button>
+			<!-- </form> -->
+		</div>
+	</div>
+
+	<!--User can add/remove Car info-->
+	<div>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-4">
+				<h3>Your car:</h3>
+				<div ng-if="buttonText === 'Edit Car'">
+					<table class="table">
+						<tr>
+							<td>Make:</td>
+							<td>{{car.brand}}</td>
+						</tr>
+						<tr>
+							<td>Model:</td>
+							<td>{{car.model}}</td>
+						</tr>
+						<tr>
+							<td>Color:</td>
+							<td>{{car.color}}</td>
+						</tr>
+						<tr>
+							<td>Plate:</td>
+							<td>{{car.licensePlate}}</td>
+						</tr>
+						<tr>
+							<td>Smoke Free:</td>
+							<td ng-if="car.smokeFree">Yes</td>
+							<td ng-if="!car.smokeFree">No</td>
+						</tr>
+						<tr>
+							<td>Notes:</td>
+							<td>{{car.notes}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+		<button class="btn btn-primary" data-toggle="modal" data-target="#carModal">{{buttonText}}</button>
+	</div>
+	<!--Car Modal -->
+	<div class="modal" id="carModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+					<h4 class="modal-title">Car Info</h4>
+				</div>
+				<div class="modal-body">
+					<form id="addOrUpdateCar">
+						<table class="table">
+							<tr>
+								<td><input class="form-control" type="text" ng-model="carCopy.brand" placeholder="Car Make" required/> </td>
+							</tr>
+							<tr>
+								<td> <input class="form-control" type="text" ng-model="carCopy.model" placeholder="Car Model" required/></td>
+							</tr>
+							<tr>
+								<td><input class="form-control" type="text" ng-model="carCopy.color" placeholder="Color" required/></td>
+							</tr>
+							<tr>
+								<td><input class="form-control" type="text" ng-model="carCopy.licensePlate" placeholder="License Plate" required/></td>
+							</tr>
+							<tr>
+								<td><input class="form-control" type="text" ng-model="carCopy.notes" placeholder="Notes" /></td>
+							</tr>
+							<tr>
+								<td><label>No Smoking</label>
+									<input type="checkbox" ng-model="carCopy.smokeFree"><br/></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<input class="btn btn-primary" type="button" value="Close" data-dismiss="modal" />
+					<input class="btn btn-primary" type="submit" value="Save Changes" ng-click="addCar()" ng-if="buttonText == 'Add Car'" data-dismiss="modal"
+					/>
+					<input class="btn btn-primary" type="submit" value="Remove Car" ng-click="removeCar()" ng-if="buttonText == 'Edit Car'" data-dismiss="modal"
+					/>
+					<input class="btn btn-primary" type="submit" value="Update Car" ng-click="updateCar()" ng-if="buttonText == 'Edit Car'" data-dismiss="modal"
+					/>
+				</div>
+			</div>
+		</div>
+	</div> <!-- car modal end -->
+</div> <!-- div fluid container end -->
