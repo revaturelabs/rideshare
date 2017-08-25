@@ -197,6 +197,16 @@ export let driverController = function($scope, $http, $state){
 		});
 
 	}
+	
+	//ignore open requests
+	$scope.denyReq = function(id) {
+		//set up this endpoint
+		$http.get("/ride/request/ignore/"+id)
+		.then(function(response) {
+			//setTimeout(function(){$state.reload();}, 500);
+			$scope.ignoreRequest = response.data;
+		});
+	}
 
 
 	function compare(a,b) {

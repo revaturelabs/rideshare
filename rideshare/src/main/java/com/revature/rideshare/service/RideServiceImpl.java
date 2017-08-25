@@ -82,7 +82,7 @@ public class RideServiceImpl implements RideService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.revature.rideshare.service.RideService#acceptRequest(long, com.revature.rideshare.domain.User)
+	 * @see com.revature.rideshare.service.RideService#[[equest(long, com.revature.rideshare.domain.User)
 	 */
 	@Override
 	public boolean acceptRequest(long id, User u) {
@@ -115,6 +115,13 @@ public class RideServiceImpl implements RideService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	//edit this
+	@Override
+	public boolean ignoreRequest(long id, User u) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 	/* (non-Javadoc)

@@ -178,6 +178,17 @@ public interface RideService {
 	 * 
 	 * @return true on success, false on failure.
 	 */
+	boolean ignoreRequest(long id, User u);
+//edit this javadoc
+	/**
+	 * Takes in an AvailableRide id and deletes ALL Rides associated with it.
+	 * Sets the RequestStatus of ALL RideRequest objects associated to 'OPEN'
+	 * and deletes the AvailableRide object.
+	 *
+	 * @param long  id The id of the Ride to cancel.
+	 * 
+	 * @return true on success, false on failure.
+	 */
 	boolean cancelOffer(long id, User u);
 	
 	/**
