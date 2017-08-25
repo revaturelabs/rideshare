@@ -3,14 +3,15 @@ package com.revature.rideshare.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.revature.rideshare.domain.AvailableRide;
 import com.revature.rideshare.domain.PointOfInterest;
@@ -132,11 +133,11 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 * @see com.revature.rideshare.service.SlackMessageService#getTextFields(org.codehaus.jackson.JsonNode)
 	 */
 	@Override
-	public ArrayList<String> getTextFields(JsonNode payload){
+	public List<String> getTextFields(JsonNode payload){
 		String message = payload.path("original_message").toString();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			ArrayList<String> values = new ArrayList<String>();
+			List<String> values = new ArrayList<String>();
 			SlackJSONBuilder slackMessage = mapper.readValue(message, SlackJSONBuilder.class);
 			values = getTextFields(slackMessage);
 			return values;
@@ -150,13 +151,13 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 * @see com.revature.rideshare.service.SlackMessageService#getTextFields(com.revature.rideshare.json.SlackJSONBuilder)
 	 */
 	@Override
-	public ArrayList<String> getTextFields(SlackJSONBuilder slackMessage){
-		ArrayList<Attachment> attachments = slackMessage.getAttachments();
-		ArrayList<String> strings = new ArrayList<String>();
+	public List<String> getTextFields(SlackJSONBuilder slackMessage){
+		List<Attachment> attachments = slackMessage.getAttachments();
+		List<String> strings = new ArrayList<String>();
 		String[] dateSplit = slackMessage.getText().split(" ");
 		strings.add(dateSplit[dateSplit.length-1]);
 		for(Attachment attachment:attachments){
-			ArrayList<Action> actions = attachment.getActions();
+			List<Action> actions = attachment.getActions();
 			for(Action action:actions){
 				if(action.getType().equals("select")){
 					strings.add(action.getText());
@@ -172,12 +173,12 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	@Override
 	@SuppressWarnings("deprecation")
 	public Attachment createAvailableRidesAttachment(Date starttime, Date endtime,String filter,String poiName,String callbackId){
-		ArrayList<Action> actions = new ArrayList<Action>();
-		ArrayList<Option> options = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
+		List<Option> options = new ArrayList<Option>();
 		PointOfInterest poi = poiService.getPoi(poiName);
 		String destinationText="";
 		String alternateDestinationText="";
-		ArrayList<AvailableRide> rides = rideService.getAvailableRidesByTime(starttime, endtime);
+		List<AvailableRide> rides = rideService.getAvailableRidesByTime(starttime, endtime);
 		if(filter.equals("To")){
 			rides=rideService.filterAvailableRidesByDropoffPoi(rides, poi);
 			destinationText=poi.getPoiName();
