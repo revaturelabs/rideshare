@@ -1,5 +1,7 @@
 package com.revature.rideshare.service;
 
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,8 @@ public class SlackMessageServiceTests {
 		
 		assert (testActions.contains(toFromAction));
 
+//		when(poiService.getAll()).then;
+		
 	}
 
 }
