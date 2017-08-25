@@ -53,14 +53,14 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createPoiSelectDestinationAttachment(String callbackId){
-		ArrayList<Action> actions = new ArrayList<Action>();
-		ArrayList<Option> poiOptions = new ArrayList<Option>();
-		ArrayList<Option> toFromOptions = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
+		List<Option> poiOptions = new ArrayList<Option>();
+		List<Option> toFromOptions = new ArrayList<Option>();
 		Option toOption = new Option("To","To");
 		Option fromOption = new Option("From","From");
 		toFromOptions.add(toOption);
 		toFromOptions.add(fromOption);
-		ArrayList<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
+		List<PointOfInterest> pois = poiService.getAll();
 		for (PointOfInterest poi : pois) {
 			Option o = new Option(poi.getPoiName(), poi.getPoiName());
 			poiOptions.add(o);
@@ -78,8 +78,8 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createSeatsAttachment(String callbackId){
-		ArrayList<Option> seatOptions = new ArrayList<Option>();
-		ArrayList<Action> actions = new ArrayList<Action>();
+		List<Option> seatOptions = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
 		for(int i=1;i<5;i++){
 			Option o = new Option(Integer.toString(i),Integer.toString(i));
 			seatOptions.add(o);
@@ -223,10 +223,10 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createTimeAttachment(String callbackId) {
-		ArrayList<Option> hourOptions = new ArrayList<Option>();
-		ArrayList<Option> minuteOptions = new ArrayList<Option>();
-		ArrayList<Option> meridians = new ArrayList<Option>();
-		ArrayList<Action> actions = new ArrayList<Action>();
+		List<Option> hourOptions = new ArrayList<Option>();
+		List<Option> minuteOptions = new ArrayList<Option>();
+		List<Option> meridians = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
 
 		for (int i = 1; i <= 12; i++) {
 			Option o = new Option(Integer.toString(i), Integer.toString(i));
@@ -264,7 +264,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createConfirmationButtonsAttachment(String callbackId) {
-		ArrayList<Action> actions = new ArrayList<Action>();
+		List<Action> actions = new ArrayList<Action>();
 
 		Action okayButton = new Action("OKAY", "OKAY", "button", "okay");
 		Action cancelButton = new Action("cancel", "CANCEL", "button", "cancel");
@@ -281,10 +281,10 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createPOIAttachment(String text, String callbackId) {
-		ArrayList<Action> actions = new ArrayList<Action>();
-		ArrayList<Option> poiOptions = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
+		List<Option> poiOptions = new ArrayList<Option>();
 
-		ArrayList<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
+		List<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
 		for (PointOfInterest poi : pois) {
 			Option o = new Option(poi.getPoiName(), poi.getPoiName());
 			poiOptions.add(o);
