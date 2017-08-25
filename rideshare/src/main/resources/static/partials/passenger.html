@@ -51,7 +51,7 @@
 			
 		<!-- accordion used for display  -->	
 		<div class="panel-group" id="accordionOpen">
-			<div class="panel panel-default"  ng-repeat="offer in openOffer" style = "border: none">
+			<div class="panel panel-default"  dir-paginate="offer in openOffer | itemsPerPage: 5" style = "border: none"><!-- add paginate to this line -->
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapse{{offer.availRideId}}" >
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionOpen" href="#collapse{{offer.availRideId}}" target="_self" style="text-decoration:none">
@@ -288,6 +288,9 @@
 				</form>
 
 			</div>
+			
+			<dir-pagination-controls></dir-pagination-controls>
+			
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary"
 					ng-click="addRequest(pickup,dropoff,notes,time)"
