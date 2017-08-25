@@ -260,8 +260,8 @@ public class SlackService{
 			String dropoffName = strings.get(5);
 			Date time = slackMessageService.createRideDate(dateString,hour,minute,meridian);
 			short seatsAvailable = Short.parseShort(strings.get(6));
-			PointOfInterest pickupPOI = poiService.getPoi(pickupName);
-			PointOfInterest dropoffPOI = poiService.getPoi(dropoffName);
+			PointOfInterest pickupPOI = poiService.getPOI(pickupName);
+			PointOfInterest dropoffPOI = poiService.getPOI(dropoffName);
 			AvailableRide availableRide = new AvailableRide();
 			availableRide.setCar(userCar);
 			availableRide.setPickupPOI(pickupPOI);
@@ -301,8 +301,8 @@ public class SlackService{
 		RideRequest rideRequest = new RideRequest();
 		rideRequest.setUser(user);
 		rideRequest.setStatus(RequestStatus.OPEN);
-		rideRequest.setPickupLocation(poiService.getPoi(fromPOI));
-		rideRequest.setDropOffLocation(poiService.getPoi(toPOI));
+		rideRequest.setPickupLocation(poiService.getPOI(fromPOI));
+		rideRequest.setDropOffLocation(poiService.getPOI(toPOI));
 		rideRequest.setTime(time);
 		boolean success = rideService.addRequest(rideRequest);
 		if(success){
@@ -465,8 +465,8 @@ public class SlackService{
 		User u = userService.getUserBySlackId(userId);
 		AvailableRide ride = rideService.getRideById(rideId);
 		Date time = ride.getTime();
-		String fromPOI = ride.getPickupPOI().getPoiName();
-		String toPOI = ride.getDropoffPOI().getPoiName();
+		String fromPOI = ride.getPickupPOI().getPOIName();
+		String toPOI = ride.getDropoffPOI().getPOIName();
 		boolean addedUser = rideService.acceptOffer(rideId, u);
 		String confirmationMessage;
 		if(addedUser){

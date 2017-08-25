@@ -28,7 +28,7 @@ public class PointOfInterestService {
 	 *
 	 * @param PointOfInterestRepository
 	 */
-	public void setPoiRepo(PointOfInterestRepository poiRepo) {
+	public void setPOIRepo(PointOfInterestRepository poiRepo) {
 		this.poiRepo = poiRepo;
 	}
 
@@ -37,7 +37,7 @@ public class PointOfInterestService {
 	 *
 	 * @param PointOfInterestTypeRepository
 	 */
-	public void setPoiTypeRepo(PointOfInterestTypeRepository poiTypeRepo) {
+	public void setPOITypeRepo(PointOfInterestTypeRepository poiTypeRepo) {
 		this.poiTypeRepo = poiTypeRepo;
 	}
 
@@ -67,7 +67,7 @@ public class PointOfInterestService {
 	 *
 	 * @return boolean true on success, false on failure.
 	 */
-	public void addPoi(PointOfInterest poi) {
+	public void addPOI(PointOfInterest poi) {
 		poiRepo.saveAndFlush(poi);
 	}
 
@@ -78,7 +78,7 @@ public class PointOfInterestService {
 	 *            POI object.
 	 *
 	 */
-	public void removePoi(PointOfInterest poi) {
+	public void removePOI(PointOfInterest poi) {
 		poiRepo.delete(poi);
 	}
 
@@ -90,7 +90,7 @@ public class PointOfInterestService {
 	 *
 	 * @return boolean true on success, false on failure.
 	 */
-	public boolean updatePoi(PointOfInterest poi) {
+	public boolean updatePOI(PointOfInterest poi) {
 		PointOfInterest temp = poiRepo.saveAndFlush(poi);
 		if (temp == null) {
 			return false;
@@ -106,20 +106,24 @@ public class PointOfInterestService {
 	 *
 	 * @return PointOfInterest POI object.
 	 */
-	public PointOfInterest getPoi(int id) {
-		return poiRepo.findBypoiId(id);
+	public PointOfInterest getPOI(int id) {
+		return poiRepo.findByPOIId(id);
 	}
 	
-	public PointOfInterest getOnePoiByName(String name) {
-		List<PointOfInterest> pois = poiRepo.findByPoiName(name);
+	/*
+	 * Had to comment it out because same naming convention
+	 */
+	
+	public PointOfInterest getOnePOIByName(String name) {
+		List<PointOfInterest> pois = poiRepo.findByPOIName(name);
 		if (pois.isEmpty()) {
 			return null;
 		} else {
 			return pois.get(0);
 		}
 	}
-	
-	public PointOfInterest getPoiByStreetAddress(String addressLine1) {
+
+	public PointOfInterest getPOIByStreetAddress(String addressLine1) {
 		List<PointOfInterest> pois = poiRepo.findByAddressLine1(addressLine1);
 		if (pois.isEmpty()) {
 			return null;
@@ -128,7 +132,12 @@ public class PointOfInterestService {
 		}
 	}
 	
-	public PointOfInterest getPoi(String name){
-		return poiRepo.findBypoiName(name);
+	public PointOfInterest getPOI(String name){
+		List<PointOfInterest> pois = poiRepo.findByPOIName(name);
+		if (pois.isEmpty()) {
+			return null;
+		} else {
+			return pois.get(0);
+		}
 	}
 }
