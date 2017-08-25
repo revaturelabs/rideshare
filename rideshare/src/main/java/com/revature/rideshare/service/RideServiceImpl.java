@@ -214,7 +214,7 @@ public class RideServiceImpl implements RideService {
 		Collections.sort(openReqs); // sorting by date.
 
 		// Sorting by closest to farthest POI
-		PointOfInterest temp = poiService.getPoi(poiId);
+		PointOfInterest temp = poiService.getPOI(poiId);
 		openReqs = sortRequestsByPOI(openReqs, temp);
 
 		return openReqs;
@@ -390,7 +390,7 @@ public class RideServiceImpl implements RideService {
 		Collections.sort(openOffers); // Sorting by date.
 
 		// Sorting by closest to farthest POI
-		PointOfInterest temp = poiService.getPoi(poiId);
+		PointOfInterest temp = poiService.getPOI(poiId);
 		openOffers = sortAvailableByPOI(openOffers, temp);
 		
 		return openOffers;
@@ -398,7 +398,7 @@ public class RideServiceImpl implements RideService {
 
 	@Override
 	public List<AvailableRide> getOpenOffersByDestination(int poiId){
-		return availRideRepo.findByDropoffPOI(poiService.getPoi(poiId));
+		return availRideRepo.findByDropoffPOI(poiService.getPOI(poiId));
 	}
 	
 	/* (non-Javadoc)
@@ -466,8 +466,8 @@ public class RideServiceImpl implements RideService {
 		int[] poisByDistance = calculateDistance(pois, mpoi);
 		for (int i : poisByDistance) {
 			for (int k = 0; k < reqs.size(); k++) {
-				if (reqs.get(k).getDropOffLocation().getPoiId() == i + 1
-						&& mpoi.getPoiId() == reqs.get(k).getPickupLocation().getPoiId()) {
+				if (reqs.get(k).getDropOffLocation().getPOIId() == i + 1
+						&& mpoi.getPOIId() == reqs.get(k).getPickupLocation().getPOIId()) {
 					temp.add(reqs.get(k));
 					reqs.remove(k--);
 				}
@@ -488,8 +488,8 @@ public class RideServiceImpl implements RideService {
 		int[] poisByDistance = calculateDistance(pois, mpoi);
 		for (int i : poisByDistance) {
 			for (int k = 0; k < reqs.size(); k++) {
-				if (reqs.get(k).getDropoffPOI().getPoiId() == i + 1
-						&& mpoi.getPoiId() == reqs.get(k).getPickupPOI().getPoiId()) {
+				if (reqs.get(k).getDropoffPOI().getPOIId() == i + 1
+						&& mpoi.getPOIId() == reqs.get(k).getPickupPOI().getPOIId()) {
 					temp.add(reqs.get(k));
 					reqs.remove(k--);
 				}
@@ -517,7 +517,7 @@ public class RideServiceImpl implements RideService {
 		// distance is then stored in a Treemap which naturally orders.
 		for (int i = 0; i < pois.size(); i++) {
 			// skipping the main POI.
-			if (mpoi.getPoiId() == pois.get(i).getPoiId()) {
+			if (mpoi.getPOIId() == pois.get(i).getPOIId()) {
 				continue;
 			}
 			double poiLat = Math.abs(pois.get(i).getLatitude());
@@ -554,7 +554,7 @@ public class RideServiceImpl implements RideService {
 	public List<AvailableRide> filterAvailableRidesByDropoffPoi(List<AvailableRide> rides,PointOfInterest dropoffPoi){
 		ArrayList<AvailableRide> returnList = new ArrayList<AvailableRide>();
 		for(AvailableRide ride:rides){
-			if(ride.getDropoffPOI().getPoiName().equals(dropoffPoi.getPoiName())){
+			if(ride.getDropoffPOI().getPOIName().equals(dropoffPoi.getPOIName())){
 				returnList.add(ride);
 			}
 		}
@@ -564,7 +564,7 @@ public class RideServiceImpl implements RideService {
 	public List<AvailableRide> filterAvailableRidesByPickupPoi(List<AvailableRide> rides,PointOfInterest pickupPoi){
 		ArrayList<AvailableRide> returnList = new ArrayList<AvailableRide>();
 		for(AvailableRide ride:rides){
-			if(ride.getPickupPOI().getPoiName().equals(pickupPoi.getPoiName())){
+			if(ride.getPickupPOI().getPOIName().equals(pickupPoi.getPOIName())){
 				returnList.add(ride);
 			}
 		}

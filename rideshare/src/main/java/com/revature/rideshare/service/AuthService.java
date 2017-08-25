@@ -5,6 +5,7 @@ import com.revature.rideshare.dao.PointOfInterestRepository;
 import com.revature.rideshare.domain.User;
 import com.revature.rideshare.exception.BannedUserException;
 import com.revature.rideshare.exception.SlackApiException;
+import com.revature.rideshare.service.UserService;
 
 public interface AuthService {
 

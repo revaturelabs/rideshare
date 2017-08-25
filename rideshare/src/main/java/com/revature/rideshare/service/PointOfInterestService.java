@@ -14,14 +14,22 @@ public interface PointOfInterestService {
 	 *
 	 * @param PointOfInterestRepository
 	 */
-	void setPoiRepo(PointOfInterestRepository poiRepo);
+
+	public void setPOIRepo(PointOfInterestRepository poiRepo) {
+		this.poiRepo = poiRepo;
+	}
+
 
 	/**
 	 * Set the POI Type Repo.
 	 *
 	 * @param PointOfInterestTypeRepository
 	 */
-	void setPoiTypeRepo(PointOfInterestTypeRepository poiTypeRepo);
+
+	public void setPOITypeRepo(PointOfInterestTypeRepository poiTypeRepo) {
+		this.poiTypeRepo = poiTypeRepo;
+	}
+
 
 	/**
 	 * Retrieve a list of all POIs.
@@ -45,7 +53,11 @@ public interface PointOfInterestService {
 	 *
 	 * @return boolean true on success, false on failure.
 	 */
-	void addPoi(PointOfInterest poi);
+
+	public void addPOI(PointOfInterest poi) {
+		poiRepo.saveAndFlush(poi);
+	}
+
 
 	/**
 	 * Removes a POI from the database.
@@ -54,7 +66,11 @@ public interface PointOfInterestService {
 	 *            POI object.
 	 *
 	 */
-	void removePoi(PointOfInterest poi);
+
+	public void removePOI(PointOfInterest poi) {
+		poiRepo.delete(poi);
+	}
+
 
 	/**
 	 * Updates a PointOfInterest.
@@ -64,7 +80,15 @@ public interface PointOfInterestService {
 	 *
 	 * @return boolean true on success, false on failure.
 	 */
-	boolean updatePoi(PointOfInterest poi);
+
+	public boolean updatePOI(PointOfInterest poi) {
+		PointOfInterest temp = poiRepo.saveAndFlush(poi);
+		if (temp == null) {
+			return false;
+		}
+		return true;
+	}
+
 
 	/**
 	 * Retrieves a PointOfInterest object based on the input id.
@@ -74,12 +98,40 @@ public interface PointOfInterestService {
 	 *
 	 * @return PointOfInterest POI object.
 	 */
-	PointOfInterest getPoi(int id);
 
-	PointOfInterest getOnePoiByName(String name);
+	public PointOfInterest getPOI(int id) {
+		return poiRepo.findByPOIId(id);
+	}
+	
+	/*
+	 * Had to comment it out because same naming convention
+	 */
+	
+	public PointOfInterest getOnePOIByName(String name) {
+		List<PointOfInterest> pois = poiRepo.findByPOIName(name);
+		if (pois.isEmpty()) {
+			return null;
+		} else {
+			return pois.get(0);
+		}
+	}
 
-	PointOfInterest getPoiByStreetAddress(String addressLine1);
-
-	PointOfInterest getPoi(String name);
-
+	public PointOfInterest getPOIByStreetAddress(String addressLine1) {
+		List<PointOfInterest> pois = poiRepo.findByAddressLine1(addressLine1);
+		if (pois.isEmpty()) {
+			return null;
+		} else {
+			return pois.get(0);
+		}
+	}
+	
+	public PointOfInterest getPOI(String name){
+		List<PointOfInterest> pois = poiRepo.findByPOIName(name);
+		if (pois.isEmpty()) {
+			return null;
+		} else {
+			return pois.get(0);
+		}
+	}
 }
+
