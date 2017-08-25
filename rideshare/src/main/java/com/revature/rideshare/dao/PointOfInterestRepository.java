@@ -7,16 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.revature.rideshare.domain.PointOfInterest;
 
 public interface PointOfInterestRepository extends JpaRepository<PointOfInterest, Long> {
-
-	List<PointOfInterest> findByPOIName(String name);
+	
+	List<PointOfInterest> findByPoiName(String name);
 	
 	List<PointOfInterest> findByAddressLine1(String addressLine1);
 
-	PointOfInterest findByPOIId(int id);	
+	PointOfInterest findBypoiId(int id);
 	
-	/*
-	 * Had to comment it out because same naming convention
-	 */
-	//PointOfInterest findByPOIName(String name);
+	PointOfInterest findBypoiName(String name);
 	
 }
