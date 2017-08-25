@@ -1,4 +1,4 @@
-package com.revature.rideshare;
+package com.revature.rideshare.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
