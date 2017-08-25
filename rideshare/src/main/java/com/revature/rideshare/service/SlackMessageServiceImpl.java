@@ -69,7 +69,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 		Action poiAction = new Action("POI", "Pick a destination", "select",poiOptions);
 		actions.add(toFromAction);
 		actions.add(poiAction);
-		Attachment attachment = new Attachment("Select a destination or origin", "Unable to view destinations", "newRideMessage", "#3AA3E3", "default", actions);
+		Attachment attachment = new Attachment("Select a destination or origin", "Unable to view destinations", callbackId, "#3AA3E3", "default", actions);
 		return attachment;
 	}
 	
