@@ -26,21 +26,22 @@ import com.revature.rideshare.dao.PointOfInterestRepository;
 import com.revature.rideshare.domain.User;
 import com.revature.rideshare.exception.BannedUserException;
 import com.revature.rideshare.exception.SlackApiException;
+import com.revature.rideshare.util.EnviromentalVariables;
 
 @Component
 public class AuthServiceImpl implements AuthService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Value("#{systemEnvironment['RIDESHARE_JWT_SECRET']}")
+	@Value(EnviromentalVariables.JWTSecret)
 	private String jwtSecret;
-	@Value("#{systemEnvironment['RIDESHARE_SLACK_ID']}")
+	@Value(EnviromentalVariables.slackID)
 	private String slackAppId;
-	@Value("#{systemEnvironment['RIDESHARE_SLACK_SECRET']}")
+	@Value(EnviromentalVariables.slackSecret)
 	private String slackAppSecret;
-	@Value("#{systemEnvironment['RIDESHARE_SLACK_VERIFICATION']}")
+	@Value(EnviromentalVariables.slackVerify)
 	private String slackAppVerificationToken;
-	@Value("#{systemEnvironment['RIDESHARE_SLACK_TEAM']}")
+	@Value(EnviromentalVariables.slackTeam)
 	private String slackAppTeamId;
 	@Value("${rideshare.deploy-url}")
 	private String rideshareUrl;

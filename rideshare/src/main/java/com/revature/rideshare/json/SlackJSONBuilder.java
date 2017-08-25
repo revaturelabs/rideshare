@@ -1,6 +1,6 @@
 package com.revature.rideshare.json;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is used to create a JSON object for passing messages to the user
@@ -36,14 +36,14 @@ public class SlackJSONBuilder {
 	
 	// Provide a JSON array of attachment objects. Adds additional components to the message. 
 	// Messages should contain no more than 20 attachments.
-	private ArrayList<Attachment> attachments;
+	private List<Attachment> attachments;
 	
 	/**
 	 * No-arg constructor 
 	 */
 	public SlackJSONBuilder() {}
 	
-	public SlackJSONBuilder(String text, String botId, String type, String subtype, String ts, ArrayList<Attachment> attachments) {
+	public SlackJSONBuilder(String text, String botId, String type, String subtype, String ts, List<Attachment> attachments) {
 		this.text = text;
 		this.bot_id = botId;
 		this.type = type;
@@ -59,7 +59,7 @@ public class SlackJSONBuilder {
 	 * @param response_type
 	 * @param attachments
 	 */
-	public SlackJSONBuilder(String channel, String text, String response_type, ArrayList<Attachment> attachments) {
+	public SlackJSONBuilder(String channel, String text, String response_type, List<Attachment> attachments) {
 		this.channel = channel;
 		this.text = text;
 		this.response_type = response_type;
@@ -118,7 +118,7 @@ public class SlackJSONBuilder {
 	 * Get the list of attachments that the message contains
 	 * @return list of attachments
 	 */
-	public ArrayList<Attachment> getAttachments() {
+	public List<Attachment> getAttachments() {
 		return attachments;
 	}
 
@@ -126,7 +126,7 @@ public class SlackJSONBuilder {
 	 * Set the list of attachments that the message contains
 	 * @param attachments
 	 */
-	public void setAttachments(ArrayList<Attachment> attachments) {
+	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
 	}
 
@@ -164,10 +164,10 @@ public class SlackJSONBuilder {
 
 	public void addDelimiters() {
 		for (Attachment attachment : this.attachments) {
-			ArrayList<Action> actions = attachment.getActions();
+			List<Action> actions = attachment.getActions();
 			for (int i = 0; i < actions.size(); i++) {
 				if (actions.get(i).getType().equals("select")) {
-					ArrayList<Option> actionOptions = actions.get(i).getOptions();
+					List<Option> actionOptions = actions.get(i).getOptions();
 					for (Option option : actionOptions) {
 						//TODO:use nonstandard delimiter character
 						option.setValue("" + i + "-" + option.getValue());

@@ -2,62 +2,48 @@ package com.revature.rideshare.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.revature.rideshare.dao.PointOfInterestRepository;
 import com.revature.rideshare.dao.PointOfInterestTypeRepository;
 import com.revature.rideshare.domain.PointOfInterest;
 import com.revature.rideshare.domain.PointOfInterestType;
 
-@Component("poiService")
-@Transactional // need??
-public class PointOfInterestService {
-
-	@Autowired
-	private PointOfInterestRepository poiRepo;
-	@Autowired
-	private PointOfInterestTypeRepository poiTypeRepo;
-
-	public PointOfInterestService() {
-	}
+public interface PointOfInterestService {
 
 	/**
 	 * Set the POI Repo.
 	 *
 	 * @param PointOfInterestRepository
 	 */
+
 	public void setPOIRepo(PointOfInterestRepository poiRepo) {
 		this.poiRepo = poiRepo;
 	}
+
 
 	/**
 	 * Set the POI Type Repo.
 	 *
 	 * @param PointOfInterestTypeRepository
 	 */
+
 	public void setPOITypeRepo(PointOfInterestTypeRepository poiTypeRepo) {
 		this.poiTypeRepo = poiTypeRepo;
 	}
+
 
 	/**
 	 * Retrieve a list of all POIs.
 	 *
 	 * @return List<PointOfInterest>
 	 */
-	public List<PointOfInterest> getAll() {
-		return poiRepo.findAll();
-	}
+	List<PointOfInterest> getAll();
 
 	/**
 	 * Retrieve a list of all POI types.
 	 *
 	 * @return List<PointOfInterestType> a list of all POI types.
 	 */
-	public List<PointOfInterestType> getAllTypes() {
-		return poiTypeRepo.findAll();
-	}
+	List<PointOfInterestType> getAllTypes();
 
 	/**
 	 * Updates a PointOfInterest.
@@ -67,9 +53,11 @@ public class PointOfInterestService {
 	 *
 	 * @return boolean true on success, false on failure.
 	 */
+
 	public void addPOI(PointOfInterest poi) {
 		poiRepo.saveAndFlush(poi);
 	}
+
 
 	/**
 	 * Removes a POI from the database.
@@ -78,9 +66,11 @@ public class PointOfInterestService {
 	 *            POI object.
 	 *
 	 */
+
 	public void removePOI(PointOfInterest poi) {
 		poiRepo.delete(poi);
 	}
+
 
 	/**
 	 * Updates a PointOfInterest.
@@ -90,6 +80,7 @@ public class PointOfInterestService {
 	 *
 	 * @return boolean true on success, false on failure.
 	 */
+
 	public boolean updatePOI(PointOfInterest poi) {
 		PointOfInterest temp = poiRepo.saveAndFlush(poi);
 		if (temp == null) {
@@ -97,6 +88,7 @@ public class PointOfInterestService {
 		}
 		return true;
 	}
+
 
 	/**
 	 * Retrieves a PointOfInterest object based on the input id.
@@ -106,6 +98,7 @@ public class PointOfInterestService {
 	 *
 	 * @return PointOfInterest POI object.
 	 */
+
 	public PointOfInterest getPOI(int id) {
 		return poiRepo.findByPOIId(id);
 	}
@@ -141,3 +134,4 @@ public class PointOfInterestService {
 		}
 	}
 }
+
