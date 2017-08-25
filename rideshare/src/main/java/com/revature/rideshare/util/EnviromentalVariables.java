@@ -1,7 +1,8 @@
 package com.revature.rideshare.util;
 
-public class EnviromentalVariables {
+public interface EnviromentalVariables {
 
+	
 	public final static String  JWTSecret = "#{systemEnvironment['RIDESHARE_JWT_SECRET']}";
 	public final static String  slackID = "#{systemEnvironment['RIDESHARE_SLACK_ID']}";
 	public final static String  slackSecret = "#{systemEnvironment['RIDESHARE_SLACK_SECRET']}";
