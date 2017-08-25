@@ -53,9 +53,9 @@ public class SlackMessageServiceTests {
 
 		List<Option> toFromOptions = getToFromOptions();
 
-		Action ToAction = new Action("To/From","To/From","select",toFromOptions);
-
-		assert (testActions.contains(ToAction));
+		Action toFromAction = new Action("To/From","To/From","select",toFromOptions);
+		
+		assert (testActions.contains(toFromAction));
 
 	}
 
