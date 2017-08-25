@@ -19,28 +19,7 @@ public interface SlackMessageService {
 	 * @param String callbackId
 	 * @return Attachment Which lets user select their destination/origin (to/from option with POI.)
 	 */
-
-	public Attachment createPoiSelectDestinationAttachment(String callbackId){
-		ArrayList<Action> actions = new ArrayList<Action>();
-		ArrayList<Option> poiOptions = new ArrayList<Option>();
-		ArrayList<Option> toFromOptions = new ArrayList<Option>();
-		Option toOption = new Option("To","To");
-		Option fromOption = new Option("From","From");
-		toFromOptions.add(toOption);
-		toFromOptions.add(fromOption);
-		ArrayList<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
-		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPOIName(), poi.getPOIName());
-			poiOptions.add(o);
-		}
-		Action toFromAction = new Action("To/From","To/From","select",toFromOptions);
-		Action poiAction = new Action("POI", "Pick a destination", "select",poiOptions);
-		actions.add(toFromAction);
-		actions.add(poiAction);
-		Attachment attachment = new Attachment("Select a destination or origin", "Unable to view destinations", "newRideMessage", "#3AA3E3", "default", actions);
-		return attachment;
-	}
-	
+	Attachment createPoiSelectDestinationAttachment(String callbackId);
 
 	/**
 	 * Creates the Attachment that contains a drop down menu with the number of seats a ride can have.
@@ -95,54 +74,8 @@ public interface SlackMessageService {
 	 * @param String callbackId
 	 * @return Attachment Which lets user select from rides matching their criteria.
 	 */
-
-	@SuppressWarnings("deprecation")
-	public Attachment createAvailableRidesAttachment(Date starttime, Date endtime,String filter,String poiName,String callbackId){
-		ArrayList<Action> actions = new ArrayList<Action>();
-		ArrayList<Option> options = new ArrayList<Option>();
-		PointOfInterest poi = poiService.getPOI(poiName);
-		String destinationText="";
-		String alternateDestinationText="";
-		ArrayList<AvailableRide> rides = rideService.getAvailableRidesByTime(starttime, endtime);
-		if(filter.equals("To")){
-			rides=rideService.filterAvailableRidesByDropoffPoi(rides, poi);
-			destinationText=poi.getPOIName();
-		}else if(filter.equals("From")){
-			rides=rideService.filterAvailableRidesByPickupPoi(rides, poi);
-			destinationText=poi.getPOIName();
-		}
-		for(AvailableRide ride:rides){
-			if(ride.isOpen()){
-				if(filter.equals("To")){
-					alternateDestinationText=ride.getPickupPOI().getPOIName();
-				}else if(filter.equals("From")){
-					alternateDestinationText=ride.getDropoffPOI().getPOIName();
-				}
-					Date time = ride.getTime();
-					String hours = ""+time.getHours();
-					String minutes = ""+time.getMinutes();
-					String meridian = "AM";
-					if(minutes.equals("0")){
-						minutes = minutes+"0";
-					}
-					if(time.getHours()>=12){
-						meridian = "PM";
-						if(time.getHours()>12){
-							hours = ""+(time.getHours()-12);
-						}
-					}
-					String timeText = hours + ":" + minutes + meridian;
-					String text = timeText+" "+destinationText+">"+alternateDestinationText+" ID:"+ride.getAvailRideId();
-					Option o = new Option(text,text);
-					options.add(o);
-			}
-		}
-		Action action = new Action("AvailableRides","Select from the following rides","select",options);
-		actions.add(action);
-		Attachment availableRidesAttachment = new Attachment("AvailableRides","Available Rides","Unable to display available rides", callbackId, "#3AA3E3", "default", actions);
-		return availableRidesAttachment;
-	}
-	
+	Attachment createAvailableRidesAttachment(Date starttime, Date endtime, String filter, String poiName,
+			String callbackId);
 
 	/**
 	 * Creates an Attachment that contains three drop down menus: hour, minutes, and meridian
@@ -164,20 +97,7 @@ public interface SlackMessageService {
 	 * @param String callbackId
 	 * @return Attachment Contains POI drop downs.
 	 */
-
-	public Attachment createPOIAttachment(String text, String callbackId) {
-		ArrayList<Action> actions = new ArrayList<Action>();
-		ArrayList<Option> poiOptions = new ArrayList<Option>();
-
-		ArrayList<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
-		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPOIName(), poi.getPOIName());
-			poiOptions.add(o);
-		}
-
-		Action action = new Action("POI", "Pick a destination", "select",poiOptions);
-		actions.add(action);
-
+	Attachment createPOIAttachment(String text, String callbackId);
 
 	/**
 	 * Extracts userId from a payload
