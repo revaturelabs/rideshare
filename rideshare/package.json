@@ -7,7 +7,7 @@
   "scripts": {
     "start": "npm run watch:dev",
     "build": "npm run build:prod",
-    "start:dev": "webpack-dev-server --progress --colors --hot --inline --env.dev --port 8088",
+    "start:dev": "webpack-dev-server --progress --colors --hot --inline --env.dev --port 8090",
     "watch:dev": "webpack --watch --env.dev",
     "build:prod": "webpack --env.prod"
   },
