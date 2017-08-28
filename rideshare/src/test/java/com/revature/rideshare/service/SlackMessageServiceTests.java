@@ -55,7 +55,7 @@ public class SlackMessageServiceTests {
 		List<PointOfInterest> pois = getMockPoiList();
 		List<Option> poiOptions = new ArrayList<Option>();
 		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPoiName(), poi.getPoiName());
+			Option o = new Option(poi.getPOIName(), poi.getPOIName());
 			poiOptions.add(o);
 		}
 		
