@@ -48,7 +48,7 @@ public class PointOfInterestController {
 	 */
 	@PostMapping("/addPoi")
 	public void addPoi(@RequestBody String jsonPoi) {
-		poiService.addPoi(getPoi(jsonPoi));
+		poiService.addPOI(getPOI(jsonPoi));
 	}
 
 	/**
@@ -57,8 +57,8 @@ public class PointOfInterestController {
 	 * @param jsonPoi - String representation of a PointOfInterest object in JSON format
 	 */
 	@PostMapping("/removePoi")
-	public void removePoi(@RequestBody String jsonPoi) {
-		poiService.removePoi(getPoi(jsonPoi));
+	public void removePOI(@RequestBody String jsonPoi) {
+		poiService.removePOI(getPOI(jsonPoi));
 	}
 
 	/**
@@ -67,8 +67,8 @@ public class PointOfInterestController {
 	 * @param poi - the PointOfInterest object to be updated
 	 */
 	@PostMapping("/updatePoi")
-	public void updatePoi(@RequestBody PointOfInterest poi) {
-		poiService.updatePoi(poi);
+	public void updatePOI(@RequestBody PointOfInterest poi) {
+		poiService.updatePOI(poi);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class PointOfInterestController {
 	 * @param jsonString - JSON representation of a PointOfInterest Object
 	 * @return the PointofInterest Object represented by the JSON string parameter
 	 */
-	public PointOfInterest getPoi(String jsonString) {
+	public PointOfInterest getPOI(String jsonString) {
 		try {
 			return (PointOfInterest) new ObjectMapper().readValue(jsonString, PointOfInterest.class);
 		} catch (Exception e) {
