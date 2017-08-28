@@ -190,4 +190,27 @@ public class Action {
 		return "Action [name=" + name + ", text=" + text + ", type=" + type + ", value=" + value + ", options="
 				+ options + "]";
 	}
+	
+	public boolean equals(Object other)
+	{
+		Action otherAction = (Action) other;
+		if (otherAction == null)
+		{
+			return false;
+		}
+		if (!otherAction.getName().equals(this.getName()))
+		{
+			return false;
+		}
+		if (!otherAction.getType().equals(this.getType()))
+		{
+			return false;
+		}
+		if (!otherAction.getText().equals(this.getText()))
+		{
+			return false;
+		}
+		return true;
+	}
+	
 }
