@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -179,7 +181,7 @@ public class SlackServiceImpl implements SlackService{
 	public String findRidesMessage(String userId,String text){
 		ObjectMapper mapper = new ObjectMapper();
 		String date = slackMessageService.getDateFromText(text);
-		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
+		List<Attachment> attachments = new ArrayList<Attachment>();
 		String callbackId = "findRidesMessage";
 		// Creating the attachments
 		Attachment toFromPOIAttachment = slackMessageService.createPOISelectDestinationAttachment(callbackId);
@@ -220,7 +222,7 @@ public class SlackServiceImpl implements SlackService{
 		Car userCar = carService.getCarForUser(user);
 		if(userCar!=null){
 			SlackJSONBuilder slackMessage = slackMessageService.convertPayloadToSlackJSONBuilder(payload);
-			ArrayList<String> strings=new ArrayList<String>();
+			List<String> strings=new ArrayList<String>();
 			strings=slackMessageService.getTextFields(slackMessage);
 			String dateString=strings.get(0);
 			String hour = strings.get(1);
@@ -256,7 +258,7 @@ public class SlackServiceImpl implements SlackService{
 		String userId = payload.path("user").path("id").asText();
 		User user = userService.getUserBySlackId(userId);
 		SlackJSONBuilder slackMessage = slackMessageService.convertPayloadToSlackJSONBuilder(payload);
-		ArrayList<String> values = new ArrayList<String>();
+		List<String> values = new ArrayList<String>();
 		values = slackMessageService.getTextFields(slackMessage);
 		values.forEach(v -> System.out.println("Value: " + v));
 		String date = values.get(0);
@@ -301,9 +303,9 @@ public class SlackServiceImpl implements SlackService{
 	public String foundRidesByMessage(JsonNode payload){
 		ObjectMapper mapper = new ObjectMapper();
 		String userId=slackMessageService.getUserId(payload);
-		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
+		List<Attachment> attachments = new ArrayList<Attachment>();
 		String callbackId = "foundRidesByMessage";
-		ArrayList<String> strings = slackMessageService.getTextFields(payload);
+		List<String> strings = slackMessageService.getTextFields(payload);
 		String dateString = strings.get(0);
 		String filter = strings.get(1);
 		String poiName = strings.get(2);
@@ -373,7 +375,7 @@ public class SlackServiceImpl implements SlackService{
 		SlackJSONBuilder cMessage;
 		try {
 			cMessage = mapper.readValue(currentMessage, SlackJSONBuilder.class);
-			ArrayList<String> strings= slackMessageService.getTextFields(cMessage);
+			List<String> strings= slackMessageService.getTextFields(cMessage);
 			boolean isNewRequestOrRide=(callbackId.equals("newRideMessage")||callbackId.equals("newRequestMessage"));
 			if(isNewRequestOrRide&&strings.get(4).equals(strings.get(5))){
 				return ("Invalid Selection: Cannot use matching origin and destination.");
@@ -471,11 +473,11 @@ public class SlackServiceImpl implements SlackService{
 	public boolean compareMessages(String currentMessage, String template) {
 		SlackJSONBuilder cMessage = slackMessageService.convertMessageStringToSlackJSONBuilder(currentMessage);
 		SlackJSONBuilder tMessage = slackMessageService.convertMessageStringToSlackJSONBuilder(template);
-		ArrayList<Attachment> cAttachments = cMessage.getAttachments();
-		ArrayList<Attachment> tAttachments = tMessage.getAttachments();
+		List<Attachment> cAttachments = cMessage.getAttachments();
+		List<Attachment> tAttachments = tMessage.getAttachments();
 		for (int i = 0; i < cAttachments.size(); i++) {
-			ArrayList<Action> cActions = cAttachments.get(i).getActions();
-			ArrayList<Action> tActions = tAttachments.get(i).getActions();
+			List<Action> cActions = cAttachments.get(i).getActions();
+			List<Action> tActions = tAttachments.get(i).getActions();
 			for (int j = 0; j < cActions.size(); j++) {
 				String type = cActions.get(j).getType();
 				if (type.equals("select")) {

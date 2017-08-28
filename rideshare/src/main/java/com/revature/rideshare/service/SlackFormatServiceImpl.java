@@ -3,6 +3,7 @@ package com.revature.rideshare.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.codehaus.jackson.JsonNode;
@@ -103,7 +104,7 @@ public class SlackFormatServiceImpl implements SlackFormatService {
 	@Override
 	public boolean isPreviousTime(JsonNode payload) {
 		SlackJSONBuilder message = slackMessageService.convertPayloadToSlackJSONBuilder(payload);
-		ArrayList<String> strings = slackMessageService.getTextFields(message);
+		List<String> strings = slackMessageService.getTextFields(message);
 		String callbackId = payload.path("callback_id").asText();
 		System.out.println(callbackId);
 		Date today = new Date();

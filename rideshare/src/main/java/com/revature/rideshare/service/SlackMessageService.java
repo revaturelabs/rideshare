@@ -2,6 +2,7 @@ package com.revature.rideshare.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -56,14 +57,14 @@ public interface SlackMessageService {
 	 * @param slackMessage
 	 * @return ArrayList<String> of user selection strings(positions 1-end) and selected date(position 0.)
 	 */
-	ArrayList<String> getTextFields(JsonNode payload);
+	List<String> getTextFields(JsonNode payload);
 
 	/**
 	 * Retrieves message selections a user has made in a message.
 	 * @param slackMessage
 	 * @return ArrayList<String> of user selection strings(positions 1-end) and selected date(position 0.)
 	 */
-	ArrayList<String> getTextFields(SlackJSONBuilder slackMessage);
+	List<String> getTextFields(SlackJSONBuilder slackMessage);
 
 	/**
 	 * Creates attachment for passengers to select rides.
