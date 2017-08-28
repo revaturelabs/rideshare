@@ -3,6 +3,8 @@ package com.revature.rideshare.json;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.rideshare.util.EquivalenceUtilities;
+
 /**
  * This class is used to create a JSON object for passing messages to the user
  * by creating Java objects which have the hierarchical structure of a slack
@@ -210,13 +212,13 @@ public class SlackJSONBuilder {
 		if (otherJSONBuilder == null) {
 			return false;
 		}
-		if (!otherJSONBuilder.getChannel().equals(getChannel())) {
+		if (!EquivalenceUtilities.SafeCompareStrings(otherJSONBuilder.getChannel(), getChannel())) {
 			return false;
 		}
-		if (!otherJSONBuilder.getText().equals(getText())) {
+		if (!EquivalenceUtilities.SafeCompareStrings(otherJSONBuilder.getText(), getText())) {
 			return false;
 		}
-		if (!otherJSONBuilder.getType().equals(getType())) {
+		if (!EquivalenceUtilities.SafeCompareStrings(otherJSONBuilder.getType(), getType())) {
 			return false;
 		}
 		return true;
