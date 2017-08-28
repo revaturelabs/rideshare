@@ -199,15 +199,15 @@ public class Action {
 		{
 			return false;
 		}
-		if (!otherAction.getName().equals(this.getName()))
+		if (!(otherAction.getName() == this.getName()) && !otherAction.getName().equals(this.getName()))
 		{
 			return false;
 		}
-		if (!otherAction.getType().equals(this.getType()))
+		if (!(otherAction.getType() == this.getType()) && !otherAction.getType().equals(this.getType()))
 		{
 			return false;
 		}
-		if (!otherAction.getText().equals(this.getText()))
+		if (!(otherAction.getText() == this.getText()) && !otherAction.getText().equals(this.getText()))
 		{
 			return false;
 		}

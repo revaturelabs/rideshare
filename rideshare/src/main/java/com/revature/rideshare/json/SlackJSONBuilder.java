@@ -210,13 +210,13 @@ public class SlackJSONBuilder {
 		if (otherJSONBuilder == null) {
 			return false;
 		}
-		if (!otherJSONBuilder.getChannel().equals(getChannel())) {
+		if (!(otherJSONBuilder.getChannel() == getChannel()) && !otherJSONBuilder.getChannel().equals(getChannel())) {
 			return false;
 		}
-		if (!otherJSONBuilder.getText().equals(getText())) {
+		if (!(otherJSONBuilder.getText() == getText()) && !otherJSONBuilder.getText().equals(getText())) {
 			return false;
 		}
-		if (!otherJSONBuilder.getType().equals(getType())) {
+		if (!(otherJSONBuilder.getType() == getType()) && !otherJSONBuilder.getType().equals(getType())) {
 			return false;
 		}
 		return true;
