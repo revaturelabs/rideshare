@@ -190,7 +190,8 @@ public class Action {
 		return "Action [name=" + name + ", text=" + text + ", type=" + type + ", value=" + value + ", options="
 				+ options + "]";
 	}
-	
+
+	@Override
 	public boolean equals(Object other)
 	{
 		Action otherAction = (Action) other;
@@ -212,5 +213,4 @@ public class Action {
 		}
 		return true;
 	}
-	
 }
