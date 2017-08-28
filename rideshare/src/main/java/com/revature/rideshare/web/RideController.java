@@ -110,10 +110,18 @@ public class RideController {
 		return rideService.getOpenRequestsForUser(u);
 	}
 	
+	//Test code
+	
+	public List<RideRequest> getOpenRequestTest(User u) {
+		
+		return rideService.getOpenRequestsForUser(u);
+	}
+	
 	@GetMapping("/request/open/{id}")
 	public List<RideRequest> getOpenRequests(@PathVariable(value = "id") int id) {
 		return rideService.getOpenRequests(id);
 	}
+	
 
 	@GetMapping("/request/active")
 	public List<Ride> getActiveRequestsForCurrentUser(@RequestHeader(name = "X-JWT-RIDESHARE") String token) {

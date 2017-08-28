@@ -260,10 +260,10 @@ public interface RideService {
 
 	ArrayList<AvailableRide> getAvailableRidesByTime(Date starttime, Date endtime);
 
-	ArrayList<AvailableRide> filterAvailableRidesByDropoffPoi(ArrayList<AvailableRide> rides,
+	ArrayList<AvailableRide> filterAvailableRidesByDropoffPOI(ArrayList<AvailableRide> rides,
 			PointOfInterest dropoffPoi);
 
-	ArrayList<AvailableRide> filterAvailableRidesByPickupPoi(ArrayList<AvailableRide> rides, PointOfInterest pickupPoi);
+	ArrayList<AvailableRide> filterAvailableRidesByPickupPOI(ArrayList<AvailableRide> rides, PointOfInterest pickupPoi);
 
 	AvailableRide getRideById(long availableRideId);
 
