@@ -23,6 +23,7 @@
 
 body {
 	font-family: 'Futura-Std-Book';
+	min-height: 100%;
 }
 
 th {
@@ -374,4 +375,41 @@ textarea {
 	font-size: 1.5em;
 	color: #202020;
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+/***********************
+	Footer
+	*******************/
+	
+.container{
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> e817abf484857f7f863a2bc7092dc72aa36320f4
+=======
+>>>>>>> e817abf484857f7f863a2bc7092dc72aa36320f4
+>>>>>>> e8bdee4b898c2eaebf63462e4a73c296b9da570a
+	
+	position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+	float: bottom;
+>>>>>>> d32e104d090fcb66eca8b55708e9b7b9b173fe68
+>>>>>>> e817abf484857f7f863a2bc7092dc72aa36320f4
+=======
+=======
+	float: bottom;
+>>>>>>> d32e104d090fcb66eca8b55708e9b7b9b173fe68
+>>>>>>> e817abf484857f7f863a2bc7092dc72aa36320f4
+>>>>>>> e8bdee4b898c2eaebf63462e4a73c296b9da570a
+	
 }
