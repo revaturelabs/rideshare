@@ -382,9 +382,13 @@ textarea {
 	*******************/
 	
 .container{
+<<<<<<< HEAD
 	
 	position: absolute;
     bottom: 0;
     margin: 0 auto;
+=======
+	float: bottom;
+>>>>>>> d32e104d090fcb66eca8b55708e9b7b9b173fe68
 	
 }
