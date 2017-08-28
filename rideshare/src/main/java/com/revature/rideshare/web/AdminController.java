@@ -14,7 +14,6 @@ import com.revature.rideshare.domain.Car;
 import com.revature.rideshare.domain.PointOfInterest;
 import com.revature.rideshare.domain.Ride;
 import com.revature.rideshare.domain.User;
-import com.revature.rideshare.service.AdminService;
 import com.revature.rideshare.service.CarService;
 import com.revature.rideshare.service.PointOfInterestService;
 import com.revature.rideshare.service.RideService;
@@ -32,14 +31,10 @@ public class AdminController {
 
 	@Autowired
 	private CarService carService;
-	
-	@Autowired
-	private AdminService adminService;
 
 	@Autowired
 	private PointOfInterestService poiService;
 
-	
 	/**
 	 * Retrieve all Cars. 
 	 * 
@@ -48,6 +43,16 @@ public class AdminController {
 	@GetMapping("/cars")
 	public List<Car> getAllCars() {
 		return carService.getAll();
+	}
+
+	/**
+	 * Retrieve all Users.  
+	 * 
+	 * @return List of all User objects
+	 */
+	@GetMapping("/users")
+	public List<User> getAllUsers() {
+		return userService.getAll();
 	}
 
 	/**
@@ -118,26 +123,4 @@ public class AdminController {
 	public List<Ride> getAllInactiveRides() {
 		return rideService.getAllInactiveRides();
 	}
-	
-	/**
-	 * Toggles ban status on a user
-	 * @param id : id of user to toggle status on
-	 */
-	//UPDATE FOR FRONTEND INTEGRATION
-	@GetMapping("/toggleUserBan")
-	public void toggleBanStatus(@PathVariable(value = "id") long id){
-		User user = userService.getUser(id);
-		adminService.toggleUserBanStatus(user);
-	}
-	
-	/**
-	 * Gets list of all Users in the system
-	 * Will return user regardless of banned status
-	 * @return List of all users in system
-	 */
-	@GetMapping("/users")
-	public List<User> getAllUsers() {
-		return adminService.getAll();
-	}
-	
 }
