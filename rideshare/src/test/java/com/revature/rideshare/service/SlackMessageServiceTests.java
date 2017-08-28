@@ -119,7 +119,7 @@ public class SlackMessageServiceTests {
 		assert (testAttachment.getActions().size() == 1);
 		
 		//Fails if the only action does not contain the correct number of options.
-		assert(testAttachment.getActions().get(0).getOptions().size() == 4);
+		assert(testAttachment.getActions().get(0).getOptions().size() == SlackMessageServiceImpl.MAX_NUMBER_SEATS);
 
 	}
 
@@ -128,7 +128,7 @@ public class SlackMessageServiceTests {
 
 		ObjectMapper mapper = new ObjectMapper();
 
-		String currentMessage = "Testing message.";
+		String currentMessage = "{ \"channel\":\"Testing Channel\" }";
 
 		SlackJSONBuilder jsonBuilder = slackMessageService.convertMessageStringToSlackJSONBuilder(currentMessage);
 
