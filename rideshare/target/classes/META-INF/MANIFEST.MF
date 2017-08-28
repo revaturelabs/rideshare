@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: Revature RideShare
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Hansen
+Built-By: justi_000
 Implementation-Vendor-Id: com.revature
-Build-Jdk: 1.8.0_141
+Build-Jdk: 1.8.0_131
 Implementation-URL: http://projects.spring.io/spring-boot/rideshare/
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
