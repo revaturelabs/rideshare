@@ -88,7 +88,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 */
 	@Override
 	public PointOfInterest getPOI(int id) {
-		return poiRepo.findByPOIId(id);
+		return poiRepo.findBypoiId(id);
 	}
 	
 	/* (non-Javadoc)
@@ -96,7 +96,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 */
 	@Override
 	public PointOfInterest getOnePOIByName(String name) {
-		List<PointOfInterest> pois = poiRepo.findByPOIName(name);
+		List<PointOfInterest> pois = poiRepo.findBypoiName(name);
 		if (pois.isEmpty()) {
 			return null;
 		} else {
@@ -122,6 +122,6 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 */
 	@Override
 	public PointOfInterest getPOI(String name){
-		return poiRepo.findBypoiName(name);
+		return poiRepo.findByPoiName(name);
 	}
 }
