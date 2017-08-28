@@ -5,46 +5,55 @@ import java.util.List;
 
 /**
  * This class is used to create a JSON object for passing messages to the user
- * by creating Java objects which have the hierarchical structure of a slack message.
- * <br><br>To create an interactive message, first create a set of options or buttons, then 
- * attach these to an actions array, then attach the actions array to an attachment.
- * You can then add that attachment to a SlackJSONBuilder object which can be converted into
- * String format and sent to a user as a slack message.
+ * by creating Java objects which have the hierarchical structure of a slack
+ * message. <br>
+ * <br>
+ * To create an interactive message, first create a set of options or buttons,
+ * then attach these to an actions array, then attach the actions array to an
+ * attachment. You can then add that attachment to a SlackJSONBuilder object
+ * which can be converted into String format and sent to a user as a slack
+ * message.
  */
 public class SlackJSONBuilder {
-	
+
 	// Name of the channel, @username, or user_id
 	private String channel;
-	
-	//The basic text of the message. Only required if the message contains zero attachments.
+
+	// The basic text of the message. Only required if the message contains zero
+	// attachments.
 	private String text;
-	
+
 	/*
-	 * This field cannot be specified for a brand new message and must be used only in response to 
-	 * the execution of message button action or a slash command response. 
+	 * This field cannot be specified for a brand new message and must be used
+	 * only in response to the execution of message button action or a slash
+	 * command response.
 	 * 
-	 * Expects one of two values:
-     *     - in_channel — display the message to all users in the channel where a message button was clicked. 
-     *                    Messages sent in response to invoked button actions are set to in_channel by default.
-     *      - ephemeral — display the message only to the user who clicked a message button. 
-     *                    Messages sent in response to Slash commands are set to ephemeral by default.
+	 * Expects one of two values: - in_channel — display the message to all
+	 * users in the channel where a message button was clicked. Messages sent in
+	 * response to invoked button actions are set to in_channel by default. -
+	 * ephemeral — display the message only to the user who clicked a message
+	 * button. Messages sent in response to Slash commands are set to ephemeral
+	 * by default.
 	 */
 	private String response_type;
 	private String bot_id;
 	private String type;
 	private String subtype;
 	private String ts;
-	
-	// Provide a JSON array of attachment objects. Adds additional components to the message. 
+
+	// Provide a JSON array of attachment objects. Adds additional components to
+	// the message.
 	// Messages should contain no more than 20 attachments.
 	private List<Attachment> attachments;
-	
+
 	/**
-	 * No-arg constructor 
+	 * No-arg constructor
 	 */
-	public SlackJSONBuilder() {}
-	
-	public SlackJSONBuilder(String text, String botId, String type, String subtype, String ts, List<Attachment> attachments) {
+	public SlackJSONBuilder() {
+	}
+
+	public SlackJSONBuilder(String text, String botId, String type, String subtype, String ts,
+			List<Attachment> attachments) {
 		this.text = text;
 		this.bot_id = botId;
 		this.type = type;
@@ -52,9 +61,10 @@ public class SlackJSONBuilder {
 		this.ts = ts;
 		this.attachments = attachments;
 	}
-	
+
 	/**
 	 * Constructor used for creating a Request JSON object
+	 * 
 	 * @param channel
 	 * @param text
 	 * @param response_type
@@ -69,6 +79,7 @@ public class SlackJSONBuilder {
 
 	/**
 	 * Gets the channel name that the message will be sent to.
+	 * 
 	 * @return the channel name
 	 */
 	public String getChannel() {
@@ -77,6 +88,7 @@ public class SlackJSONBuilder {
 
 	/**
 	 * Sets the channel name
+	 * 
 	 * @param channel
 	 */
 	public void setChannel(String channel) {
@@ -85,6 +97,7 @@ public class SlackJSONBuilder {
 
 	/**
 	 * Gets the message text.
+	 * 
 	 * @return the message text
 	 */
 	public String getText() {
@@ -93,6 +106,7 @@ public class SlackJSONBuilder {
 
 	/**
 	 * Set the message text
+	 * 
 	 * @param text
 	 */
 	public void setText(String text) {
@@ -101,6 +115,7 @@ public class SlackJSONBuilder {
 
 	/**
 	 * Get the response_type of the message
+	 * 
 	 * @return
 	 */
 	public String getResponse_type() {
@@ -109,6 +124,7 @@ public class SlackJSONBuilder {
 
 	/**
 	 * Sets the response_type of the message
+	 * 
 	 * @param response_type
 	 */
 	public void setResponse_type(String response_type) {
@@ -117,6 +133,7 @@ public class SlackJSONBuilder {
 
 	/**
 	 * Get the list of attachments that the message contains
+	 * 
 	 * @return list of attachments
 	 */
 	public List<Attachment> getAttachments() {
@@ -125,6 +142,7 @@ public class SlackJSONBuilder {
 
 	/**
 	 * Set the list of attachments that the message contains
+	 * 
 	 * @param attachments
 	 */
 	public void setAttachments(List<Attachment> attachments) {
@@ -170,19 +188,37 @@ public class SlackJSONBuilder {
 				if (actions.get(i).getType().equals("select")) {
 					List<Option> actionOptions = actions.get(i).getOptions();
 					for (Option option : actionOptions) {
-						//TODO:use nonstandard delimiter character
+						// TODO:use nonstandard delimiter character
 						option.setValue("" + i + "-" + option.getValue());
 					}
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * String representation of the Request message.
 	 */
 	@Override
 	public String toString() {
 		return "RideRequestJSON [channel=" + channel + ", text=" + text + "]";
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		SlackJSONBuilder otherJSONBuilder = (SlackJSONBuilder) other;
+		if (otherJSONBuilder == null) {
+			return false;
+		}
+		if (!otherJSONBuilder.getChannel().equals(getChannel())) {
+			return false;
+		}
+		if (!otherJSONBuilder.getText().equals(getText())) {
+			return false;
+		}
+		if (!otherJSONBuilder.getType().equals(getType())) {
+			return false;
+		}
+		return true;
 	}
 }
