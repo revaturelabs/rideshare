@@ -199,11 +199,11 @@ export let driverController = function($scope, $http, $state){
 	//ignore open requests
 	$scope.ignoreReq = function(id) {
 		//set up this endpoint
+		console.log("Ignore Request Clicked!");
 		$http.get("/ride/request/ignore/"+id)
 		.then(function(response) {
-			//setTimeout(function(){$state.reload();}, 500);
-			//console.log("Ignore Request!")
-			//$scope.openRequest = response.data;
+			console.log("Ignore Request Response!")
+			$scope.openRequest = response.data;
 			setTimeout(function(){$state.reload();}, 500);
 		});
 	}
