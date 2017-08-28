@@ -58,7 +58,7 @@ public class RideController {
 	
 	//edit this
 	@GetMapping("/request/ignore/{id}")
-	public boolean ignoreRequest(@PathVariable(value = "id") long id,
+	public List<RideRequest> ignoreRequest(@PathVariable(value = "id") long id,
 			@RequestHeader(name = "X-JWT-RIDESHARE") String token) {
 		User u = authService.getUserFromToken(token);
 		return rideService.ignoreRequest(id, u);

@@ -82,7 +82,7 @@ public class RideServiceImpl implements RideService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.revature.rideshare.service.RideService#[[equest(long, com.revature.rideshare.domain.User)
+	 * @see com.revature.rideshare.service.RideService#request(long, com.revature.rideshare.domain.User)
 	 */
 	@Override
 	public boolean acceptRequest(long id, User u) {
@@ -117,11 +117,27 @@ public class RideServiceImpl implements RideService {
 		}
 	}
 	
-	//edit this
 	@Override
-	public boolean ignoreRequest(long id, User u) {
+	public List<RideRequest> ignoreRequest(long id, User u) {
 		// TODO Auto-generated method stub
-		return true;
+		
+		List<RideRequest> allReqs = rideReqRepo.findByUser(u);
+		List<RideRequest> temp = new ArrayList<RideRequest>();
+
+		for (RideRequest r : allReqs) {
+			if (r.getStatus() == RequestStatus.OPEN) {
+				//dont add ignored request
+				if(r.getRequestId() == id){
+					//do not add
+				} else {
+					temp.add(r);
+				}
+			} else {
+				logger.debug("NOT ADDED\n\n");
+			}
+		}
+
+		return temp;
 	}
 
 	/* (non-Javadoc)
