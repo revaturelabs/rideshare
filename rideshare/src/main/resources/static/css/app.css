@@ -23,6 +23,7 @@
 
 body {
 	font-family: 'Futura-Std-Book';
+	min-height: 100%;
 }
 
 th {
@@ -374,4 +375,16 @@ textarea {
 	font-size: 1.5em;
 	color: #202020;
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+/***********************
+	Footer
+	*******************/
+	
+.container{
+	
+	position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+	
 }
