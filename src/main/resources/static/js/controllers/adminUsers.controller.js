@@ -22,6 +22,7 @@ export let adminUsersController = function($scope, $http, $state) {
         
         $http.post(url, $scope.user)
         .then((formResponse) => {
+        	console.log(formResponse.data)
             $state.reload('main.adminUsers');
         },
         (failedResponse) => {

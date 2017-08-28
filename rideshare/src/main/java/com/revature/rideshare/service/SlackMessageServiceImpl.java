@@ -60,7 +60,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 * revature.rideshare.service.PointOfInterestService)
 	 */
 	@Override
-	public void setPOIService(PointOfInterestService poiService) {
+	public void setPoiService(PointOfInterestService poiService) {
 		this.poiService = poiService;
 	}
 
@@ -77,14 +77,9 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 		List<Option> toFromOptions = new ArrayList<Option>();
 		Option toOption = new Option("To","To");
 		Option fromOption = new Option("From","From");
-
 		toFromOptions.add(toOption);
 		toFromOptions.add(fromOption);
-<<<<<<< HEAD
-		List<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
-=======
 		List<PointOfInterest> pois = poiService.getAll();
->>>>>>> bc09026ebff07b378574e6c3f213a7859814917b
 		for (PointOfInterest poi : pois) {
 			Option o = new Option(poi.getPOIName(), poi.getPOIName());
 			poiOptions.add(o);
@@ -177,11 +172,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 * codehaus.jackson.JsonNode)
 	 */
 	@Override
-<<<<<<< HEAD
-	public List<String> getTextFields(JsonNode payload){
-=======
 	public List<String> getTextFields(JsonNode payload) {
->>>>>>> bc09026ebff07b378574e6c3f213a7859814917b
 		String message = payload.path("original_message").toString();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
@@ -203,17 +194,6 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 * revature.rideshare.json.SlackJSONBuilder)
 	 */
 	@Override
-<<<<<<< HEAD
-	public List<String> getTextFields(SlackJSONBuilder slackMessage){
-		List<Attachment> attachments = slackMessage.getAttachments();
-		List<String> strings = new ArrayList<String>();
-		String[] dateSplit = slackMessage.getText().split(" ");
-		strings.add(dateSplit[dateSplit.length-1]);
-		for(Attachment attachment:attachments){
-			List<Action> actions = attachment.getActions();
-			for(Action action:actions){
-				if(action.getType().equals("select")){
-=======
 	public List<String> getTextFields(SlackJSONBuilder slackMessage) {
 		List<Attachment> attachments = slackMessage.getAttachments();
 		List<String> strings = new ArrayList<String>();
@@ -223,7 +203,6 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 			List<Action> actions = attachment.getActions();
 			for (Action action : actions) {
 				if (action.getType().equals("select")) {
->>>>>>> bc09026ebff07b378574e6c3f213a7859814917b
 					strings.add(action.getText());
 				}
 			}
@@ -240,7 +219,6 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	@SuppressWarnings("deprecation")
-
 	public Attachment createAvailableRidesAttachment(Date starttime, Date endtime,String filter,String poiName,String callbackId){
 		List<Action> actions = new ArrayList<Action>();
 		List<Option> options = new ArrayList<Option>();
@@ -255,12 +233,12 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 			rides=rideService.filterAvailableRidesByPickupPOI(rides, poi);
 			destinationText=poi.getPOIName();
 		}
-		for(AvailableRide ride:rides){
-			if(ride.isOpen()){
-				if(filter.equals("To")){
-					alternateDestinationText=ride.getPickupPOI().getPOIName();
-				}else if(filter.equals("From")){
-					alternateDestinationText=ride.getDropoffPOI().getPOIName();
+		for (AvailableRide ride : rides) {
+			if (ride.isOpen()) {
+				if (filter.equals("To")) {
+					alternateDestinationText = ride.getPickupPOI().getPOIName();
+				} else if (filter.equals("From")) {
+					alternateDestinationText = ride.getDropoffPOI().getPOIName();
 				}
 				Date time = ride.getTime();
 				String hours = "" + time.getHours();

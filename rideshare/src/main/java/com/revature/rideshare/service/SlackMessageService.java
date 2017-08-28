@@ -12,7 +12,7 @@ public interface SlackMessageService {
 
 	void setRideService(RideService rideService);
 
-	void setPOIService(PointOfInterestService poiService);
+	void setPoiService(PointOfInterestService poiService);
 
 	/**
 	 * Creates attachment for POI selection.

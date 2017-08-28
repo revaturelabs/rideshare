@@ -103,7 +103,7 @@ public class SlackServiceImpl implements SlackService{
 	 * @see com.revature.rideshare.service.SlackService#setPoiService(com.revature.rideshare.service.PointOfInterestService)
 	 */
 	@Override
-	public void setPOIService(PointOfInterestService poiService) {
+	public void setPoiService(PointOfInterestService poiService) {
 		this.poiService = poiService;
 	}
 

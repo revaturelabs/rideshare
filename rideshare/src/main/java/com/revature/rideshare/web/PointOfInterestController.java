@@ -48,7 +48,7 @@ public class PointOfInterestController {
 	 */
 	@PostMapping("/addPoi")
 	public void addPoi(@RequestBody String jsonPoi) {
-		poiService.addPOI(getPoi(jsonPoi));
+		poiService.addPoi(getPoi(jsonPoi));
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class PointOfInterestController {
 	 */
 	@PostMapping("/removePoi")
 	public void removePoi(@RequestBody String jsonPoi) {
-		poiService.removePOI(getPoi(jsonPoi));
+		poiService.removePoi(getPoi(jsonPoi));
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class PointOfInterestController {
 	 */
 	@PostMapping("/updatePoi")
 	public void updatePoi(@RequestBody PointOfInterest poi) {
-		poiService.updatePOI(poi);
+		poiService.updatePoi(poi);
 	}
 
 	/**

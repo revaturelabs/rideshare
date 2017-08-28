@@ -82,7 +82,7 @@ public class PointOfInterest implements Serializable {
 		return poiName;
 	}
 
-	public void setPOIName(String poiName) {
+	public void setPoiName(String poiName) {
 		this.poiName = poiName;
 	}
 

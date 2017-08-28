@@ -84,7 +84,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.revature.rideshare.service.PointOfInterestService#getPOI(int)
+	 * @see com.revature.rideshare.service.PointOfInterestService#getPoi(int)
 	 */
 	@Override
 	public PointOfInterest getPOI(int id) {
@@ -96,7 +96,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 */
 	@Override
 	public PointOfInterest getOnePOIByName(String name) {
-		List<PointOfInterest> pois = poiRepo.findBypoiName(name);
+		List<PointOfInterest> pois = poiRepo.findByPoiName(name);
 		if (pois.isEmpty()) {
 			return null;
 		} else {
@@ -122,6 +122,6 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 */
 	@Override
 	public PointOfInterest getPOI(String name){
-		return poiRepo.findByPoiName(name);
+		return poiRepo.findBypoiName(name);
 	}
 }
