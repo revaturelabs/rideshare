@@ -3,14 +3,15 @@ package com.revature.rideshare.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.revature.rideshare.domain.AvailableRide;
 import com.revature.rideshare.domain.PointOfInterest;
@@ -52,14 +53,14 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createPoiSelectDestinationAttachment(String callbackId){
-		ArrayList<Action> actions = new ArrayList<Action>();
-		ArrayList<Option> poiOptions = new ArrayList<Option>();
-		ArrayList<Option> toFromOptions = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
+		List<Option> poiOptions = new ArrayList<Option>();
+		List<Option> toFromOptions = new ArrayList<Option>();
 		Option toOption = new Option("To","To");
 		Option fromOption = new Option("From","From");
 		toFromOptions.add(toOption);
 		toFromOptions.add(fromOption);
-		ArrayList<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
+		List<PointOfInterest> pois = poiService.getAll();
 		for (PointOfInterest poi : pois) {
 			Option o = new Option(poi.getPoiName(), poi.getPoiName());
 			poiOptions.add(o);
@@ -68,7 +69,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 		Action poiAction = new Action("POI", "Pick a destination", "select",poiOptions);
 		actions.add(toFromAction);
 		actions.add(poiAction);
-		Attachment attachment = new Attachment("Select a destination or origin", "Unable to view destinations", "newRideMessage", "#3AA3E3", "default", actions);
+		Attachment attachment = new Attachment("Select a destination or origin", "Unable to view destinations", callbackId, "#3AA3E3", "default", actions);
 		return attachment;
 	}
 	
@@ -77,8 +78,8 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createSeatsAttachment(String callbackId){
-		ArrayList<Option> seatOptions = new ArrayList<Option>();
-		ArrayList<Action> actions = new ArrayList<Action>();
+		List<Option> seatOptions = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
 		for(int i=1;i<5;i++){
 			Option o = new Option(Integer.toString(i),Integer.toString(i));
 			seatOptions.add(o);
@@ -132,11 +133,11 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 * @see com.revature.rideshare.service.SlackMessageService#getTextFields(org.codehaus.jackson.JsonNode)
 	 */
 	@Override
-	public ArrayList<String> getTextFields(JsonNode payload){
+	public List<String> getTextFields(JsonNode payload){
 		String message = payload.path("original_message").toString();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			ArrayList<String> values = new ArrayList<String>();
+			List<String> values = new ArrayList<String>();
 			SlackJSONBuilder slackMessage = mapper.readValue(message, SlackJSONBuilder.class);
 			values = getTextFields(slackMessage);
 			return values;
@@ -150,13 +151,13 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 * @see com.revature.rideshare.service.SlackMessageService#getTextFields(com.revature.rideshare.json.SlackJSONBuilder)
 	 */
 	@Override
-	public ArrayList<String> getTextFields(SlackJSONBuilder slackMessage){
-		ArrayList<Attachment> attachments = slackMessage.getAttachments();
-		ArrayList<String> strings = new ArrayList<String>();
+	public List<String> getTextFields(SlackJSONBuilder slackMessage){
+		List<Attachment> attachments = slackMessage.getAttachments();
+		List<String> strings = new ArrayList<String>();
 		String[] dateSplit = slackMessage.getText().split(" ");
 		strings.add(dateSplit[dateSplit.length-1]);
 		for(Attachment attachment:attachments){
-			ArrayList<Action> actions = attachment.getActions();
+			List<Action> actions = attachment.getActions();
 			for(Action action:actions){
 				if(action.getType().equals("select")){
 					strings.add(action.getText());
@@ -172,12 +173,12 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	@Override
 	@SuppressWarnings("deprecation")
 	public Attachment createAvailableRidesAttachment(Date starttime, Date endtime,String filter,String poiName,String callbackId){
-		ArrayList<Action> actions = new ArrayList<Action>();
-		ArrayList<Option> options = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
+		List<Option> options = new ArrayList<Option>();
 		PointOfInterest poi = poiService.getPoi(poiName);
 		String destinationText="";
 		String alternateDestinationText="";
-		ArrayList<AvailableRide> rides = rideService.getAvailableRidesByTime(starttime, endtime);
+		List<AvailableRide> rides = rideService.getAvailableRidesByTime(starttime, endtime);
 		if(filter.equals("To")){
 			rides=rideService.filterAvailableRidesByDropoffPoi(rides, poi);
 			destinationText=poi.getPoiName();
@@ -222,10 +223,10 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createTimeAttachment(String callbackId) {
-		ArrayList<Option> hourOptions = new ArrayList<Option>();
-		ArrayList<Option> minuteOptions = new ArrayList<Option>();
-		ArrayList<Option> meridians = new ArrayList<Option>();
-		ArrayList<Action> actions = new ArrayList<Action>();
+		List<Option> hourOptions = new ArrayList<Option>();
+		List<Option> minuteOptions = new ArrayList<Option>();
+		List<Option> meridians = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
 
 		for (int i = 1; i <= 12; i++) {
 			Option o = new Option(Integer.toString(i), Integer.toString(i));
@@ -263,7 +264,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createConfirmationButtonsAttachment(String callbackId) {
-		ArrayList<Action> actions = new ArrayList<Action>();
+		List<Action> actions = new ArrayList<Action>();
 
 		Action okayButton = new Action("OKAY", "OKAY", "button", "okay");
 		Action cancelButton = new Action("cancel", "CANCEL", "button", "cancel");
@@ -280,10 +281,10 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createPOIAttachment(String text, String callbackId) {
-		ArrayList<Action> actions = new ArrayList<Action>();
-		ArrayList<Option> poiOptions = new ArrayList<Option>();
+		List<Action> actions = new ArrayList<Action>();
+		List<Option> poiOptions = new ArrayList<Option>();
 
-		ArrayList<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
+		List<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
 		for (PointOfInterest poi : pois) {
 			Option o = new Option(poi.getPoiName(), poi.getPoiName());
 			poiOptions.add(o);
