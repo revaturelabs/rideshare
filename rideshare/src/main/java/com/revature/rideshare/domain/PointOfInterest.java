@@ -70,15 +70,15 @@ public class PointOfInterest implements Serializable {
 		this.type = type;
 	}
 
-	public int getPOIId() {
+	public int getPoiId() {
 		return poiId;
 	}
 
-	public void setPOIId(int poiId) {
+	public void setPoiId(int poiId) {
 		this.poiId = poiId;
 	}
 
-	public String getPOIName() {
+	public String getPoiName() {
 		return poiName;
 	}
 

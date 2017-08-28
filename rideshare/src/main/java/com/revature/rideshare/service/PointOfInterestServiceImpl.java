@@ -27,7 +27,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 * @see com.revature.rideshare.service.PointOfInterestService#setPoiRepo(com.revature.rideshare.dao.PointOfInterestRepository)
 	 */
 	@Override
-	public void setPOIRepo(PointOfInterestRepository poiRepo) {
+	public void setPoiRepo(PointOfInterestRepository poiRepo) {
 		this.poiRepo = poiRepo;
 	}
 
@@ -35,7 +35,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 * @see com.revature.rideshare.service.PointOfInterestService#setPoiTypeRepo(com.revature.rideshare.dao.PointOfInterestTypeRepository)
 	 */
 	@Override
-	public void setPOITypeRepo(PointOfInterestTypeRepository poiTypeRepo) {
+	public void setPoiTypeRepo(PointOfInterestTypeRepository poiTypeRepo) {
 		this.poiTypeRepo = poiTypeRepo;
 	}
 
@@ -59,7 +59,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 * @see com.revature.rideshare.service.PointOfInterestService#addPoi(com.revature.rideshare.domain.PointOfInterest)
 	 */
 	@Override
-	public void addPOI(PointOfInterest poi) {
+	public void addPoi(PointOfInterest poi) {
 		poiRepo.saveAndFlush(poi);
 	}
 
@@ -67,7 +67,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 * @see com.revature.rideshare.service.PointOfInterestService#removePoi(com.revature.rideshare.domain.PointOfInterest)
 	 */
 	@Override
-	public void removePOI(PointOfInterest poi) {
+	public void removePoi(PointOfInterest poi) {
 		poiRepo.delete(poi);
 	}
 
@@ -75,7 +75,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 * @see com.revature.rideshare.service.PointOfInterestService#updatePoi(com.revature.rideshare.domain.PointOfInterest)
 	 */
 	@Override
-	public boolean updatePOI(PointOfInterest poi) {
+	public boolean updatePoi(PointOfInterest poi) {
 		PointOfInterest temp = poiRepo.saveAndFlush(poi);
 		if (temp == null) {
 			return false;
@@ -87,16 +87,16 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 * @see com.revature.rideshare.service.PointOfInterestService#getPoi(int)
 	 */
 	@Override
-	public PointOfInterest getPOI(int id) {
-		return poiRepo.findByPOIId(id);
+	public PointOfInterest getPoi(int id) {
+		return poiRepo.findBypoiId(id);
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.revature.rideshare.service.PointOfInterestService#getOnePoiByName(java.lang.String)
 	 */
 	@Override
-	public PointOfInterest getOnePOIByName(String name) {
-		List<PointOfInterest> pois = poiRepo.findByPOIName(name);
+	public PointOfInterest getOnePoiByName(String name) {
+		List<PointOfInterest> pois = poiRepo.findByPoiName(name);
 		if (pois.isEmpty()) {
 			return null;
 		} else {
@@ -108,7 +108,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 * @see com.revature.rideshare.service.PointOfInterestService#getPoiByStreetAddress(java.lang.String)
 	 */
 	@Override
-	public PointOfInterest getPOIByStreetAddress(String addressLine1) {
+	public PointOfInterest getPoiByStreetAddress(String addressLine1) {
 		List<PointOfInterest> pois = poiRepo.findByAddressLine1(addressLine1);
 		if (pois.isEmpty()) {
 			return null;
@@ -121,7 +121,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 	 * @see com.revature.rideshare.service.PointOfInterestService#getPoi(java.lang.String)
 	 */
 	@Override
-	public PointOfInterest getPOI(String name){
+	public PointOfInterest getPoi(String name){
 		return poiRepo.findBypoiName(name);
 	}
 }

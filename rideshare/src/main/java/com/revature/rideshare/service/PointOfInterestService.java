@@ -14,14 +14,14 @@ public interface PointOfInterestService {
 	 *
 	 * @param PointOfInterestRepository
 	 */
-	void setPOIRepo(PointOfInterestRepository poiRepo);
+	void setPoiRepo(PointOfInterestRepository poiRepo);
 
 	/**
 	 * Set the POI Type Repo.
 	 *
 	 * @param PointOfInterestTypeRepository
 	 */
-	void setPOITypeRepo(PointOfInterestTypeRepository poiTypeRepo);
+	void setPoiTypeRepo(PointOfInterestTypeRepository poiTypeRepo);
 
 	/**
 	 * Retrieve a list of all POIs.
@@ -45,7 +45,7 @@ public interface PointOfInterestService {
 	 *
 	 * @return boolean true on success, false on failure.
 	 */
-	void addPOI(PointOfInterest poi);
+	void addPoi(PointOfInterest poi);
 
 	/**
 	 * Removes a POI from the database.
@@ -54,7 +54,7 @@ public interface PointOfInterestService {
 	 *            POI object.
 	 *
 	 */
-	void removePOI(PointOfInterest poi);
+	void removePoi(PointOfInterest poi);
 
 	/**
 	 * Updates a PointOfInterest.
@@ -64,7 +64,7 @@ public interface PointOfInterestService {
 	 *
 	 * @return boolean true on success, false on failure.
 	 */
-	boolean updatePOI(PointOfInterest poi);
+	boolean updatePoi(PointOfInterest poi);
 
 	/**
 	 * Retrieves a PointOfInterest object based on the input id.
@@ -74,12 +74,12 @@ public interface PointOfInterestService {
 	 *
 	 * @return PointOfInterest POI object.
 	 */
-	PointOfInterest getPOI(int id);
+	PointOfInterest getPoi(int id);
 
-	PointOfInterest getOnePOIByName(String name);
+	PointOfInterest getOnePoiByName(String name);
 
-	PointOfInterest getPOIByStreetAddress(String addressLine1);
+	PointOfInterest getPoiByStreetAddress(String addressLine1);
 
-	PointOfInterest getPOI(String name);
+	PointOfInterest getPoi(String name);
 
 }

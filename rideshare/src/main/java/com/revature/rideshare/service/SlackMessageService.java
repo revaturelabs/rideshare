@@ -19,7 +19,7 @@ public interface SlackMessageService {
 	 * @param String callbackId
 	 * @return Attachment Which lets user select their destination/origin (to/from option with POI.)
 	 */
-	Attachment createPOISelectDestinationAttachment(String callbackId);
+	Attachment createPoiSelectDestinationAttachment(String callbackId);
 
 	/**
 	 * Creates the Attachment that contains a drop down menu with the number of seats a ride can have.
