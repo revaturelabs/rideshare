@@ -1,7 +1,6 @@
 package com.revature.rideshare.service;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -88,6 +87,11 @@ public class SlackFormatServiceTest {
 	public void testIsValidUserNullAndDateAfter() {
 		testIsValidUserAndDate(getNextMonth(), null, "You have not permitted the slack application in slack or don't exist in our database."
 				+ " Please log in to the application and permit our application to use slash commands.");
+	}
+	
+	@Test
+	public void testIsPreviousTime() {
+		assertTrue(false);
 	}
 	
 	private Calendar getNextMonth() {
