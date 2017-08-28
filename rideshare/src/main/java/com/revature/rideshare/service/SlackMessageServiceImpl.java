@@ -26,13 +26,13 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private static final Integer MAX_NUMBER_SEATS = 4;
+	public static final Integer MAX_NUMBER_SEATS = 4;
 
-	private static final Integer NUMBER_OF_HOURS = 12;
+	public static final Integer NUMBER_OF_HOURS = 12;
 	
-	private static final Integer MAX_MINUTES = 45;
+	public static final Integer MAX_MINUTES = 45;
 	
-	private static final Integer MINUTES_INCREMENT = 15;
+	public static final Integer MINUTES_INCREMENT = 15;
 
 	@Autowired
 	PointOfInterestService poiService;
