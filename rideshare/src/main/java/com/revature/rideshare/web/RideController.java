@@ -55,14 +55,6 @@ public class RideController {
 		User u = authService.getUserFromToken(token);
 		return rideService.acceptRequest(id, u);
 	}
-	
-	//edit this
-	@GetMapping("/request/ignore/{id}")
-	public List<RideRequest> ignoreRequest(@PathVariable(value = "id") long id,
-			@RequestHeader(name = "X-JWT-RIDESHARE") String token) {
-		User u = authService.getUserFromToken(token);
-		return rideService.ignoreRequest(id, u);
-	}
 
 	/**
 	 * Takes in a rideID, cancels the RideRequest and reopens the AvailableRide.
@@ -153,7 +145,7 @@ public class RideController {
 		User u = authService.getUserFromToken(token);
 		return rideService.acceptOffer(id, u);
 	}
-	
+
 	/**
 	 * Takes in an AvailableRide ID, deletes all associated Rides and reopens
 	 * all associated RideRequests.

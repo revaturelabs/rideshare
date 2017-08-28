@@ -170,18 +170,6 @@ public interface RideService {
 	boolean acceptOffer(long id, User u);
 
 	/**
-	 * Takes in an AvailableRide id and removes the selected ride from the available rides.
-	 * Sets the RequestStatus of ALL RideRequest objects associated to 'OPEN'
-	 * and deletes the AvailableRide object.
-	 *
-	 * @param long  id The id of the Ride to cancel.
-	 * @param User 	u the active user.
-	 * 
-	 * @return a new list of requests without the selected request.
-	 */
-	List<RideRequest> ignoreRequest(long id, User u);
-
-	/**
 	 * Takes in an AvailableRide id and deletes ALL Rides associated with it.
 	 * Sets the RequestStatus of ALL RideRequest objects associated to 'OPEN'
 	 * and deletes the AvailableRide object.

@@ -65,7 +65,7 @@
 					{{req.pickupLocation.poiName}}
 					<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
 					{{req.dropOffLocation.poiName}}
-					
+						
 						</a>
 					</h4>
 				</div>
@@ -76,10 +76,6 @@
 					<em>Note:</em> {{req.notes}} <span ng-show=" req.notes == null"> N/A </span>
 
 					<div class="btn-container">
-					<!-- ng-if the endpoint returns false, not greyed out, if it returns true the whole thing
-					gets grayed out -->
-					<button type="button" class="btn btn-primary"
-							ng-click="ignoreReq(req.requestId)">Ignore Request</button>
 						<button type="button" class="btn btn-primary"
 							ng-click="acceptReq(req.requestId)">Accept Request</button>
 					</div>
