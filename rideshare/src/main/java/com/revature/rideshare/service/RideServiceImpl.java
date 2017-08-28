@@ -82,7 +82,7 @@ public class RideServiceImpl implements RideService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.revature.rideshare.service.RideService#acceptRequest(long, com.revature.rideshare.domain.User)
+	 * @see com.revature.rideshare.service.RideService#request(long, com.revature.rideshare.domain.User)
 	 */
 	@Override
 	public boolean acceptRequest(long id, User u) {
@@ -115,6 +115,32 @@ public class RideServiceImpl implements RideService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	@Override
+	public List<RideRequest> ignoreRequest(long id, User u) {
+		// TODO Auto-generated method stub
+		
+		List<RideRequest> allReqs = rideReqRepo.findByUser(u);
+		List<RideRequest> temp = new ArrayList<RideRequest>();
+/*
+		for (RideRequest r : allReqs) {
+			if (r.getStatus() == RequestStatus.OPEN) {
+				//dont add ignored request
+				if(r.getRequestId() == id){
+					//do not add
+				} else {
+					temp.add(r);
+				}
+			} else {
+				logger.debug("NOT ADDED\n\n");
+			}
+		}*/
+		
+		RideRequest req = rideReqRepo.getOne(id);
+		req.setStatus(RideRequest.RequestStatus.STALE);
+
+		return temp;
 	}
 
 	/* (non-Javadoc)
@@ -547,11 +573,11 @@ public class RideServiceImpl implements RideService {
 		return poiByDistance;
 	}
 	@Override
-	public ArrayList<AvailableRide> getAvailableRidesByTime(Date starttime, Date endtime){
+	public List<AvailableRide> getAvailableRidesByTime(Date starttime, Date endtime){
 		return (ArrayList<AvailableRide>)availRideRepo.findByTimeBetween(starttime, endtime);
 	}
 	@Override
-	public ArrayList<AvailableRide> filterAvailableRidesByDropoffPoi(ArrayList<AvailableRide> rides,PointOfInterest dropoffPoi){
+	public List<AvailableRide> filterAvailableRidesByDropoffPoi(List<AvailableRide> rides,PointOfInterest dropoffPoi){
 		ArrayList<AvailableRide> returnList = new ArrayList<AvailableRide>();
 		for(AvailableRide ride:rides){
 			if(ride.getDropoffPOI().getPoiName().equals(dropoffPoi.getPoiName())){
@@ -561,7 +587,7 @@ public class RideServiceImpl implements RideService {
 		return returnList;
 	}
 	@Override
-	public ArrayList<AvailableRide> filterAvailableRidesByPickupPoi(ArrayList<AvailableRide> rides,PointOfInterest pickupPoi){
+	public List<AvailableRide> filterAvailableRidesByPickupPoi(List<AvailableRide> rides,PointOfInterest pickupPoi){
 		ArrayList<AvailableRide> returnList = new ArrayList<AvailableRide>();
 		for(AvailableRide ride:rides){
 			if(ride.getPickupPOI().getPoiName().equals(pickupPoi.getPoiName())){
