@@ -190,12 +190,10 @@ export let driverController = function($scope, $http, $state){
 	// accept open requests
 	$scope.acceptReq = function(id){
 
-
 		$http.get("/ride/request/accept/"+id)
 		.then(function(response) {
 			setTimeout(function(){$state.reload();}, 500);
 		});
-
 	}
 	
 	//ignore open requests
@@ -204,11 +202,11 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/request/ignore/"+id)
 		.then(function(response) {
 			//setTimeout(function(){$state.reload();}, 500);
-			console.log("Ignore Request!")
-			$scope.openRequest = response.data;
+			//console.log("Ignore Request!")
+			//$scope.openRequest = response.data;
+			setTimeout(function(){$state.reload();}, 500);
 		});
 	}
-
 
 	function compare(a,b) {
 		if (a.availRide.availRideId < b.availRide.availRideId)

@@ -123,7 +123,7 @@ public class RideServiceImpl implements RideService {
 		
 		List<RideRequest> allReqs = rideReqRepo.findByUser(u);
 		List<RideRequest> temp = new ArrayList<RideRequest>();
-
+/*
 		for (RideRequest r : allReqs) {
 			if (r.getStatus() == RequestStatus.OPEN) {
 				//dont add ignored request
@@ -135,7 +135,10 @@ public class RideServiceImpl implements RideService {
 			} else {
 				logger.debug("NOT ADDED\n\n");
 			}
-		}
+		}*/
+		
+		RideRequest req = rideReqRepo.getOne(id);
+		req.setStatus(RideRequest.RequestStatus.STALE);
 
 		return temp;
 	}
