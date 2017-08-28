@@ -1,6 +1,7 @@
 package com.revature.rideshare.json;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is used to create an Action this can be in an Attachment
@@ -29,14 +30,14 @@ public class Action {
 	
 	// Used only with message menus. 
 	// The individual options to appear in this menu, provided as an array of option fields.
-	private ArrayList<Option> options;
+	private List<Option> options;
 	
 	/**
 	 * no-arg constructor
 	 */
 	public Action() {}
 	
-	public Action(String id, String dataSource, String style, String name, String text, String type, ArrayList<Option> options) {
+	public Action(String id, String dataSource, String style, String name, String text, String type, List<Option> options) {
 		super();
 		this.id = id;
 		this.data_source = dataSource;
@@ -54,7 +55,7 @@ public class Action {
 	 * @param type
 	 * @param options
 	 */
-	public Action(String name, String text, String type, ArrayList<Option> options) {
+	public Action(String name, String text, String type, List<Option> options) {
 		super();
 		this.name = name;
 		this.text = text;
@@ -145,7 +146,7 @@ public class Action {
 	 * Get the list of options that the action contains
 	 * @return the list of options
 	 */
-	public ArrayList<Option> getOptions() {
+	public List<Option> getOptions() {
 		return options;
 	}
 
@@ -153,7 +154,7 @@ public class Action {
 	 * Set the list of options that the action contains
 	 * @param options
 	 */
-	public void setOptions(ArrayList<Option> options) {
+	public void setOptions(List<Option> options) {
 		this.options = options;
 	}
 
@@ -189,4 +190,27 @@ public class Action {
 		return "Action [name=" + name + ", text=" + text + ", type=" + type + ", value=" + value + ", options="
 				+ options + "]";
 	}
+	
+	public boolean equals(Object other)
+	{
+		Action otherAction = (Action) other;
+		if (otherAction == null)
+		{
+			return false;
+		}
+		if (!otherAction.getName().equals(this.getName()))
+		{
+			return false;
+		}
+		if (!otherAction.getType().equals(this.getType()))
+		{
+			return false;
+		}
+		if (!otherAction.getText().equals(this.getText()))
+		{
+			return false;
+		}
+		return true;
+	}
+	
 }
