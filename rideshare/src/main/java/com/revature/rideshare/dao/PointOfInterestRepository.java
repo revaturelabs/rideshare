@@ -8,7 +8,9 @@ import com.revature.rideshare.domain.PointOfInterest;
 
 public interface PointOfInterestRepository extends JpaRepository<PointOfInterest, Long> {
 	
+
 	List<PointOfInterest> findBypoiName(String name);
+
 	
 	List<PointOfInterest> findByAddressLine1(String addressLine1);
 

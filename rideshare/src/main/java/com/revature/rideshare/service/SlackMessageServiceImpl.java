@@ -71,17 +71,17 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 * createPoiSelectDestinationAttachment(java.lang.String)
 	 */
 	@Override
-	public Attachment createPOISelectDestinationAttachment(String callbackId){
+	public Attachment createPoiSelectDestinationAttachment(String callbackId) {
 		List<Action> actions = new ArrayList<Action>();
 		List<Option> poiOptions = new ArrayList<Option>();
 		List<Option> toFromOptions = new ArrayList<Option>();
-		Option toOption = new Option("To","To");
-		Option fromOption = new Option("From","From");
+		Option toOption = new Option("To", "To");
+		Option fromOption = new Option("From", "From");
 		toFromOptions.add(toOption);
 		toFromOptions.add(fromOption);
 		List<PointOfInterest> pois = poiService.getAll();
 		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPOIName(), poi.getPOIName());
+			Option o = new Option(poi.getPoiName(), poi.getPoiName());
 			poiOptions.add(o);
 		}
 		Action toFromAction = new Action("To/From", "To/From", "select", toFromOptions);
@@ -219,26 +219,27 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	@SuppressWarnings("deprecation")
-	public Attachment createAvailableRidesAttachment(Date starttime, Date endtime,String filter,String poiName,String callbackId){
+	public Attachment createAvailableRidesAttachment(Date starttime, Date endtime, String filter, String poiName,
+			String callbackId) {
 		List<Action> actions = new ArrayList<Action>();
 		List<Option> options = new ArrayList<Option>();
-		PointOfInterest poi = poiService.getPOI(poiName);
-		String destinationText="";
-		String alternateDestinationText="";
+		PointOfInterest poi = poiService.getPoi(poiName);
+		String destinationText = "";
+		String alternateDestinationText = "";
 		List<AvailableRide> rides = rideService.getAvailableRidesByTime(starttime, endtime);
-		if(filter.equals("To")){
-			rides=rideService.filterAvailableRidesByDropoffPOI(rides, poi);
-			destinationText=poi.getPOIName();
-		}else if(filter.equals("From")){
-			rides=rideService.filterAvailableRidesByPickupPOI(rides, poi);
-			destinationText=poi.getPOIName();
+		if (filter.equals("To")) {
+			rides = rideService.filterAvailableRidesByDropoffPoi(rides, poi);
+			destinationText = poi.getPoiName();
+		} else if (filter.equals("From")) {
+			rides = rideService.filterAvailableRidesByPickupPoi(rides, poi);
+			destinationText = poi.getPoiName();
 		}
 		for (AvailableRide ride : rides) {
 			if (ride.isOpen()) {
 				if (filter.equals("To")) {
-					alternateDestinationText = ride.getPickupPOI().getPOIName();
+					alternateDestinationText = ride.getPickupPOI().getPoiName();
 				} else if (filter.equals("From")) {
-					alternateDestinationText = ride.getDropoffPOI().getPOIName();
+					alternateDestinationText = ride.getDropoffPOI().getPoiName();
 				}
 				Date time = ride.getTime();
 				String hours = "" + time.getHours();
@@ -348,7 +349,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 
 		List<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
 		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPOIName(), poi.getPOIName());
+			Option o = new Option(poi.getPoiName(), poi.getPoiName());
 			poiOptions.add(o);
 		}
 

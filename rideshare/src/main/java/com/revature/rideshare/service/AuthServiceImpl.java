@@ -218,8 +218,10 @@ public class AuthServiceImpl implements AuthService {
 			u.setFirstName(firstname);
 			u.setLastName(lastname);
 			u.setFullName(userIdentity.path("name").asText());
+
 			u.setMainPOI(poiRepo.findBypoiName("Icon at Dulles").get(0));
 			u.setWorkPOI(poiRepo.findBypoiName("Revature Office").get(0));
+
 			u.setBanned(false);
 			userService.addUser(u);
 			logger.info("Created new account for " + u);
