@@ -23,7 +23,6 @@
 
 body {
 	font-family: 'Futura-Std-Book';
-	min-height: 100%;
 }
 
 th {
@@ -376,6 +375,7 @@ textarea {
 	color: #202020;
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
+<<<<<<< HEAD
 
 /***********************
 	Footer
@@ -425,3 +425,5 @@ textarea {
 >>>>>>> e8bdee4b898c2eaebf63462e4a73c296b9da570a
 	
 }
+=======
+>>>>>>> parent of 8151909... second attempt to fix the footer
