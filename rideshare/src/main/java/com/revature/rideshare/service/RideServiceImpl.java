@@ -492,8 +492,8 @@ public class RideServiceImpl implements RideService {
 		int[] poisByDistance = calculateDistance(pois, mpoi);
 		for (int i : poisByDistance) {
 			for (int k = 0; k < reqs.size(); k++) {
-				if (reqs.get(k).getDropOffLocation().getPOIId() == i + 1
-						&& mpoi.getPOIId() == reqs.get(k).getPickupLocation().getPOIId()) {
+				if (reqs.get(k).getDropOffLocation().getPoiId() == i + 1
+						&& mpoi.getPoiId() == reqs.get(k).getPickupLocation().getPoiId()) {
 					temp.add(reqs.get(k));
 					reqs.remove(k--);
 				}
@@ -514,8 +514,8 @@ public class RideServiceImpl implements RideService {
 		int[] poisByDistance = calculateDistance(pois, mpoi);
 		for (int i : poisByDistance) {
 			for (int k = 0; k < reqs.size(); k++) {
-				if (reqs.get(k).getDropoffPOI().getPOIId() == i + 1
-						&& mpoi.getPOIId() == reqs.get(k).getPickupPOI().getPOIId()) {
+				if (reqs.get(k).getDropoffPOI().getPoiId() == i + 1
+						&& mpoi.getPoiId() == reqs.get(k).getPickupPOI().getPoiId()) {
 					temp.add(reqs.get(k));
 					reqs.remove(k--);
 				}
@@ -543,7 +543,7 @@ public class RideServiceImpl implements RideService {
 		// distance is then stored in a Treemap which naturally orders.
 		for (int i = 0; i < pois.size(); i++) {
 			// skipping the main POI.
-			if (mpoi.getPOIId() == pois.get(i).getPOIId()) {
+			if (mpoi.getPoiId() == pois.get(i).getPoiId()) {
 				continue;
 			}
 			double poiLat = Math.abs(pois.get(i).getLatitude());
@@ -580,7 +580,7 @@ public class RideServiceImpl implements RideService {
 	public List<AvailableRide> filterAvailableRidesByDropoffPoi(List<AvailableRide> rides,PointOfInterest dropoffPoi){
 		ArrayList<AvailableRide> returnList = new ArrayList<AvailableRide>();
 		for(AvailableRide ride:rides){
-			if(ride.getDropoffPOI().getPOIName().equals(dropoffPoi.getPOIName())){
+			if(ride.getDropoffPOI().getPoiName().equals(dropoffPoi.getPoiName())){
 				returnList.add(ride);
 			}
 		}
@@ -590,7 +590,7 @@ public class RideServiceImpl implements RideService {
 	public List<AvailableRide> filterAvailableRidesByPickupPoi(List<AvailableRide> rides,PointOfInterest pickupPoi){
 		ArrayList<AvailableRide> returnList = new ArrayList<AvailableRide>();
 		for(AvailableRide ride:rides){
-			if(ride.getPickupPOI().getPOIName().equals(pickupPoi.getPOIName())){
+			if(ride.getPickupPOI().getPoiName().equals(pickupPoi.getPoiName())){
 				returnList.add(ride);
 			}
 		}

@@ -424,8 +424,8 @@ public class SlackServiceImpl implements SlackService{
 		User u = userService.getUserBySlackId(userId);
 		AvailableRide ride = rideService.getRideById(rideId);
 		Date time = ride.getTime();
-		String fromPOI = ride.getPickupPOI().getPOIName();
-		String toPOI = ride.getDropoffPOI().getPOIName();
+		String fromPOI = ride.getPickupPOI().getPoiName();
+		String toPOI = ride.getDropoffPOI().getPoiName();
 		boolean addedUser = rideService.acceptOffer(rideId, u);
 		String confirmationMessage;
 		if(addedUser){
