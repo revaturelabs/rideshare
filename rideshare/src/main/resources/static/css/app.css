@@ -383,14 +383,12 @@ textarea {
 	*******************/
 	
 .container{
-	flex: 1 0 auto;
-	position: absolute;
+
+	
+	position: relative;
     bottom: 0;
     margin: 0 auto;
-}
 
-body {
-  display: flex;
-  flex-direction: column;
+	
 }
 
