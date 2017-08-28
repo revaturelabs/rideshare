@@ -14,7 +14,7 @@ public interface SlackService {
 
 	void setRideService(RideService rideService);
 
-	void setPOIService(PointOfInterestService poiService);
+	void setPoiService(PointOfInterestService poiService);
 
 	/**
 	  * Creates an interactive message that will be sent to the user.<br>
