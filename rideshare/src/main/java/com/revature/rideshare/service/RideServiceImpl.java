@@ -551,12 +551,18 @@ public class RideServiceImpl implements RideService {
 		return poiByDistance;
 	}
 	@Override
-	public ArrayList<AvailableRide> getAvailableRidesByTime(Date starttime, Date endtime){
+	public List<AvailableRide> getAvailableRidesByTime(Date starttime, Date endtime){
 		return (ArrayList<AvailableRide>)availRideRepo.findByTimeBetween(starttime, endtime);
 	}
 	@Override
+<<<<<<< HEAD
 	public List<AvailableRide> filterAvailableRidesByDropoffPOI(List<AvailableRide> rides,PointOfInterest dropoffPoi){
 		List<AvailableRide> returnList = new ArrayList<AvailableRide>();
+=======
+	public ArrayList<AvailableRide> filterAvailableRidesByDropoffPOI(ArrayList<AvailableRide> rides,PointOfInterest dropoffPoi){
+
+		ArrayList<AvailableRide> returnList = new ArrayList<AvailableRide>();
+>>>>>>> bc09026ebff07b378574e6c3f213a7859814917b
 		for(AvailableRide ride:rides){
 			if(ride.getDropoffPOI().getPOIName().equals(dropoffPoi.getPOIName())){
 				returnList.add(ride);
@@ -565,8 +571,15 @@ public class RideServiceImpl implements RideService {
 		return returnList;
 	}
 	@Override
+<<<<<<< HEAD
 	public List<AvailableRide> filterAvailableRidesByPickupPOI(List<AvailableRide> rides,PointOfInterest pickupPoi){
 		List<AvailableRide> returnList = new ArrayList<AvailableRide>();
+=======
+
+	public ArrayList<AvailableRide> filterAvailableRidesByPickupPOI(ArrayList<AvailableRide> rides,PointOfInterest pickupPoi){
+
+		ArrayList<AvailableRide> returnList = new ArrayList<AvailableRide>();
+>>>>>>> bc09026ebff07b378574e6c3f213a7859814917b
 		for(AvailableRide ride:rides){
 			if(ride.getPickupPOI().getPOIName().equals(pickupPoi.getPOIName())){
 				returnList.add(ride);

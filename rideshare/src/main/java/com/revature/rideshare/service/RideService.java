@@ -259,11 +259,16 @@ public interface RideService {
 	List<AvailableRide> getOpenOffersByDestination(int poiId);
 
 	List<AvailableRide> getAvailableRidesByTime(Date starttime, Date endtime);
+<<<<<<< HEAD
+=======
+
+>>>>>>> bc09026ebff07b378574e6c3f213a7859814917b
 
 	List<AvailableRide> filterAvailableRidesByDropoffPOI(List<AvailableRide> rides,
 			PointOfInterest dropoffPoi);
 
 	List<AvailableRide> filterAvailableRidesByPickupPOI(List<AvailableRide> rides, PointOfInterest pickupPoi);
+
 
 	AvailableRide getRideById(long availableRideId);
 
