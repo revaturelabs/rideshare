@@ -53,7 +53,7 @@ public class AdminController {
 	/**
 	 * Takes the User's ID and a boolean value representing the user's Admin status, and changes the
 	 * User's Admin status accordingly. 
-	 * 
+	 * Same Process for bans
 	 * @param id - number value representing each User
 	 * @param isAdmin - true if user is Admin, false otherwise 
 	 */
@@ -119,17 +119,6 @@ public class AdminController {
 	@GetMapping("/rideHistory")
 	public List<Ride> getAllInactiveRides() {
 		return rideService.getAllInactiveRides();
-	}
-	
-	/**
-	 * Toggles ban status on a user
-	 * @param id : id of user to toggle status on
-	 */
-	//UPDATE FOR FRONTEND INTEGRATION
-	@GetMapping("/toggleUserBan")
-	public void toggleBanStatus(@PathVariable(value = "id") long id){
-		User user = userService.getUser(id);
-		adminService.toggleUserBanStatus(user);
 	}
 	
 	/**

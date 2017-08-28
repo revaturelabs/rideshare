@@ -11,11 +11,4 @@ public interface AdminService {
 	 * @return - list of all users
 	 */
 	List<User> getAll();
-	
-	/**
-	 * Called from AdminController
-	 * Toggles ban boolean on given user
-	 * @param user - user to toggle ban boolean on 
-	 */
-	void toggleUserBanStatus(User user);
 }

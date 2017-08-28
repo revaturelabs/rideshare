@@ -20,14 +20,4 @@ public class AdminServiceImpl implements AdminService {
 	public List<User> getAll() {
 		return userRepo.findAll();
 	}
-
-	@Override
-	public void toggleUserBanStatus(User user) {
-		if(user.isBanned()){			//if banned, unban
-			user.setBanned(false);
-		}else{
-			user.setBanned(true);		//else ban
-		}
-		userRepo.saveAndFlush(user);
-	}
 }
