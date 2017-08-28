@@ -272,10 +272,11 @@ public interface RideService {
 
 	List<AvailableRide> getAvailableRidesByTime(Date starttime, Date endtime);
 
-	List<AvailableRide> filterAvailableRidesByDropoffPoi(List<AvailableRide> rides,
+
+	List<AvailableRide> filterAvailableRidesByDropoffPOI(List<AvailableRide> rides,
 			PointOfInterest dropoffPoi);
 
-	List<AvailableRide> filterAvailableRidesByPickupPoi(List<AvailableRide> rides, PointOfInterest pickupPoi);
+	List<AvailableRide> filterAvailableRidesByPickupPOI(List<AvailableRide> rides, PointOfInterest pickupPoi);
 
 	AvailableRide getRideById(long availableRideId);
 

@@ -88,7 +88,7 @@ public class AdminController {
 	 */
 	@PostMapping("/addPOI")
 	public void addPoi(@RequestBody PointOfInterest poi) {
-		poiService.addPoi(poi);
+		poiService.addPOI(poi);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class AdminController {
 	 */
 	@PostMapping("/removePOI")
 	public void removePoi(@RequestBody PointOfInterest poi) {
-		poiService.removePoi(poi);
+		poiService.removePOI(poi);
 	}
 
 	/**
