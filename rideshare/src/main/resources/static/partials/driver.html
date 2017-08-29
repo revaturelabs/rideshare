@@ -260,7 +260,7 @@
 <!-- 								</select> -->
 								<select id="toPOI" class="form-control" ng-model="dropoff">
 									<option value="" disabled selected>Destination</option>
-									<option ng-repeat="x in allMainPOI" ng-if="x.poiId!=pickup.poiId!"
+									<option ng-repeat="x in allMainPOI"
 										ng-selected="destination{{ x.poiId }}" id="{{ x.poiId - 1 }}"  data-poiId="{{ x.poiId - 1 }}">{{
 										x.poiName }}</option>
 								</select>
@@ -304,6 +304,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary"
+					ng-if="dropoff.poiId!=pickup.poiId!"
 					ng-click="addOffer(pickup,dropoff,notes,time,seats)"
 					data-dismiss="modal">Submit</button>
 			</div>
