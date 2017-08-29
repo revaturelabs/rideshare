@@ -48,7 +48,7 @@ export let authFactory = function($window, $log, jwtHelper) {
 			}
 			return result;
 		}
-		isBanned: function() {
+		/*isBanned: function() {
 			let result = false;
 			let token = $window.localStorage.getItem('RideShare_auth_token');
 			if (token) {
@@ -62,5 +62,5 @@ export let authFactory = function($window, $log, jwtHelper) {
 			}
 			return result;
 		}
-	};
+*/	};
 };
