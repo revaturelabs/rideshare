@@ -9,15 +9,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ObjectNode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.revature.rideshare.domain.PointOfInterest;
 import com.revature.rideshare.json.Action;
 import com.revature.rideshare.json.Attachment;
@@ -156,10 +157,30 @@ public class SlackMessageServiceTests {
 	@Test
 	public void testConvertPayloadToSlackJSONBuilder() {
 		ObjectMapper mapper = new ObjectMapper();
-		String message = "{ \"original_message\":\"Testing Info\" }";
-		ObjectNode TestNode = JsonNodeFactory.instance.objectNode();
-		TestNode.set("original_message", "Testing Info");
-		slackMessageService.convertPayloadToSlackJSONBuilder(TestNode);
+		String message = "{ \"channel\" : \"Testing Info\" }";
+		String messagepayload = "{ \"original_message\": " + message + " }";
+		ObjectNode TestNode = null;
+		SlackJSONBuilder exampleJSONBuilder = null;
+		try {
+			TestNode = mapper.readValue(messagepayload, ObjectNode.class);
+			exampleJSONBuilder = mapper.readValue(message, SlackJSONBuilder.class);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			fail();
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			fail();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			fail();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SlackJSONBuilder slackJSONBuilder = slackMessageService.convertPayloadToSlackJSONBuilder(TestNode);
+
+		assert (exampleJSONBuilder.equals(slackJSONBuilder));
+
 	}
 
 }
