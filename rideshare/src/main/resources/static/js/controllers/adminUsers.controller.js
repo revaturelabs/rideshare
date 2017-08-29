@@ -13,10 +13,7 @@ export let adminUsersController = function($scope, $http, $state) {
     $scope.changeAdmin = function(index){
         $scope.user = $scope.users[index];
         $scope.isAdmin = document.getElementById("isAdmin").value;
-        $scope.isBanned = document.getElementById("isBanned").value;
-        
-        console.log($scope.isAdmin);
-        console.log($scope.isBanned);
+        $scope.isBanned = false;
 
         if ($scope.isAdmin === undefined)   
             $scope.isAdmin = false; 
@@ -28,7 +25,6 @@ export let adminUsersController = function($scope, $http, $state) {
         
         $http.post(url, $scope.user)
         .then((formResponse) => {
-        	console.log(formResponse.data)
             $state.reload('main.adminUsers');
         },
         (failedResponse) => {
