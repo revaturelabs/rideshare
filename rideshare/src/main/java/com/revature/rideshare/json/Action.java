@@ -212,6 +212,12 @@ public class Action {
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return new String(name + text + value + type + EquivalenceUtilities.ListHash(options)).hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object other) {
 		Action otherAction = (Action) other;
 		if (otherAction == null) {

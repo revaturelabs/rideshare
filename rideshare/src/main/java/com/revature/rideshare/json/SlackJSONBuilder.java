@@ -207,6 +207,12 @@ public class SlackJSONBuilder {
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return new String(channel + text + type).hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object other) {
 		SlackJSONBuilder otherJSONBuilder = (SlackJSONBuilder) other;
 		if (otherJSONBuilder == null) {
