@@ -79,7 +79,6 @@ public class SlackMessageServiceTests {
 		attachmentJSON = mapper.writeValueAsString(attachments);
 		attachmentJSON = "\"attachments\" : " + attachmentJSON;
 		String message = "{ \"channel\" : \"" + channel + "\", \"text\" : \"" + text + "\", " + attachmentJSON + " }";
-		System.out.println(message);
 		return message;
 	}
 
@@ -98,6 +97,20 @@ public class SlackMessageServiceTests {
 		return mapper.readValue(message, SlackJSONBuilder.class);
 	}
 
+	Attachment getDummyAttachment()
+	{
+		return new Attachment();
+	}
+	
+	List<Attachment> getDummyAttachmentList()
+	{
+		List<Attachment> attachments = new ArrayList<Attachment>();
+
+		attachments.add(getDummyAttachment());
+		
+		return attachments;
+	}
+	
 	@Test
 	public void testCreatePoiSelectDestinationAttachment() {
 
@@ -190,15 +203,13 @@ public class SlackMessageServiceTests {
 		try {
 			TestNode = getSlackJsonNode("Test Channel", "Test Text", new ArrayList<Attachment>());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 
 		try {
 			exampleJSONBuilder = getSlackJSONBuilder("Test Channel", "Test Text", new ArrayList<Attachment>());
 		} catch (IOException e) {
 			fail();
-			e.printStackTrace();
 		}
 
 		SlackJSONBuilder slackJSONBuilder = slackMessageService.convertPayloadToSlackJSONBuilder(TestNode);
@@ -220,7 +231,6 @@ public class SlackMessageServiceTests {
 
 		date = slackMessageService
 				.getDateFromText("Alright let's say stuff is gonna go down on 08/09 in the year 20xx");
-		System.out.println("Date string: " + date);
 		if (!date.equals("08/09")) {
 			// Can only parse a date at the end of a string?
 			// TODO: Make this fail
@@ -229,13 +239,15 @@ public class SlackMessageServiceTests {
 
 	@Test
 	public void testgetTextFields() {
+		List<String> TestString = null;
+		List<Attachment> attachments = getDummyAttachmentList();
 		try {
-			List<String> TestString = slackMessageService
-					.getTextFields(getSlackJSONBuilder("Test Channel", "Test Text", new ArrayList<Attachment>()));
+			TestString = slackMessageService
+					.getTextFields(getSlackJSONBuilder("Test Channel", "Test 8/29", attachments));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			fail();
 		}
+		System.out.println(TestString);
 	}
 
 }
