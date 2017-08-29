@@ -71,7 +71,7 @@ public class SlackMessageServiceTests {
 
 	}
 
-	String getSlackJSON(String channel, String text, List<Attachment> attachments)
+	String getSlackJson(String channel, String text, List<Attachment> attachments)
 			throws JsonGenerationException, JsonMappingException, IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -85,32 +85,75 @@ public class SlackMessageServiceTests {
 	JsonNode getSlackJsonNode(String channel, String text, List<Attachment> attachments)
 			throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		String message = getSlackJSON(channel, text, attachments);
+		String message = getSlackJson(channel, text, attachments);
 		String messagepayload = "{ \"original_message\": " + message + " }";
 		return mapper.readValue(messagepayload, ObjectNode.class);
 	}
 
-	SlackJSONBuilder getSlackJSONBuilder(String channel, String text, List<Attachment> attachments)
+	SlackJSONBuilder getSlackJsonBuilder(String channel, String text, List<Attachment> attachments)
 			throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		String message = getSlackJSON(channel, text, attachments);
+		String message = getSlackJson(channel, text, attachments);
 		return mapper.readValue(message, SlackJSONBuilder.class);
 	}
 
-	Attachment getDummyAttachment()
-	{
-		return new Attachment();
+	Option getDummyOption(String textvalue) {
+
+		Option out = new Option();
+
+		out.setText(textvalue);
+		out.setValue(textvalue);
+
+		return out;
+
 	}
-	
-	List<Attachment> getDummyAttachmentList()
-	{
+
+	List<Option> getDummyOptionList() {
+		List<Option> out = new ArrayList<Option>();
+
+		out.add(getDummyOption("Red"));
+		out.add(getDummyOption("Green"));
+
+		return out;
+	}
+
+	Action getDummyAction() {
+		Action out = new Action();
+
+		out.setText("Green");
+
+		out.setType("select");
+
+		out.setName("Laser Color");
+
+		out.setOptions(getDummyOptionList());
+
+		return out;
+	}
+
+	List<Action> getDummyActionList() {
+		List<Action> out = new ArrayList<Action>();
+
+		out.add(getDummyAction());
+
+		return out;
+	}
+
+	Attachment getDummyAttachment(String text) {
+		Attachment out = new Attachment();
+		out.setText(text);
+		out.setActions(getDummyActionList());
+		return out;
+	}
+
+	List<Attachment> getDummyAttachmentList() {
 		List<Attachment> attachments = new ArrayList<Attachment>();
 
-		attachments.add(getDummyAttachment());
-		
+		attachments.add(getDummyAttachment("Blaster"));
+
 		return attachments;
 	}
-	
+
 	@Test
 	public void testCreatePoiSelectDestinationAttachment() {
 
@@ -207,7 +250,7 @@ public class SlackMessageServiceTests {
 		}
 
 		try {
-			exampleJSONBuilder = getSlackJSONBuilder("Test Channel", "Test Text", new ArrayList<Attachment>());
+			exampleJSONBuilder = getSlackJsonBuilder("Test Channel", "Test Text", new ArrayList<Attachment>());
 		} catch (IOException e) {
 			fail();
 		}
@@ -238,16 +281,58 @@ public class SlackMessageServiceTests {
 	}
 
 	@Test
-	public void testgetTextFields() {
+	public void testgetTextFieldsSlackJsonBuilder() {
 		List<String> TestString = null;
 		List<Attachment> attachments = getDummyAttachmentList();
 		try {
 			TestString = slackMessageService
-					.getTextFields(getSlackJSONBuilder("Test Channel", "Test 8/29", attachments));
+					.getTextFields(getSlackJsonBuilder("Test Channel", "Test 8/29", attachments));
 		} catch (IOException e) {
 			fail();
 		}
+		List<String> comparisonString = new ArrayList<String>();
 		System.out.println(TestString);
+
+		Action dummyAction = getDummyAction();
+
+		comparisonString.add("8/29");
+
+		comparisonString.add(dummyAction.getText());
+
+		assert (TestString.size() == comparisonString.size());
+
+		for (int i = 0; i < comparisonString.size(); i++) {
+			assert (TestString.get(i).equals(comparisonString.get(i)));
+		}
+
+	}
+
+	@Test
+	public void testgetTextFieldsJsonNode() {
+		// NOTE: THIS TEST RELIES ON THE FUNCTION TESTED BY THE ABOVE FUNCTION.
+		// IF THE ABOVE TEST FAILS THIS TEST WILL FAIL BY EXTENSION.
+		List<String> TestString = null;
+		List<Attachment> attachments = getDummyAttachmentList();
+		try {
+			TestString = slackMessageService.getTextFields(getSlackJsonNode("Test Channel", "Test 8/29", attachments));
+		} catch (IOException e) {
+			fail();
+		}
+		List<String> comparisonString = new ArrayList<String>();
+		System.out.println(TestString);
+
+		Action dummyAction = getDummyAction();
+
+		comparisonString.add("8/29");
+
+		comparisonString.add(dummyAction.getText());
+
+		assert (TestString.size() == comparisonString.size());
+
+		for (int i = 0; i < comparisonString.size(); i++) {
+			assert (TestString.get(i).equals(comparisonString.get(i)));
+		}
+
 	}
 
 }
