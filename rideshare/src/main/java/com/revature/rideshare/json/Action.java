@@ -232,6 +232,10 @@ public class Action {
 		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getText(), getText())) {
 			return false;
 		}
+		if (!EquivalenceUtilities.SafeCompare(getOptions(), otherAction.getOptions()))
+		{
+			return false;
+		}
 		return true;
 	}
 }
