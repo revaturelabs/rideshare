@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -18,9 +19,11 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.revature.rideshare.domain.AvailableRide;
 import com.revature.rideshare.domain.PointOfInterest;
 import com.revature.rideshare.json.Action;
 import com.revature.rideshare.json.Attachment;
@@ -339,4 +342,49 @@ public class SlackMessageServiceTests {
 
 	}
 
+	@Test
+	@SuppressWarnings("deprecation")
+	public void testCreateAvailableRidesAttachment()
+	{
+		
+		Date starttime = new Date(11, 11, 11, 10, 45);
+		Date endtime = new Date(11, 11, 11, 11, 30);
+
+		String filter = "";
+
+		String poiName = "Ivory Tower";
+
+		String callbackId = "Call Me Back Please";
+
+		PointOfInterest testPoi = new PointOfInterest();
+		
+		AvailableRide testRide = new AvailableRide();
+		
+		testPoi.setPoiName(poiName);
+
+		testRide.setDropoffPOI(testPoi);
+		
+		testRide.setOpen(true);
+		
+		testRide.setTime(starttime);
+		
+		List<AvailableRide> testRides = new ArrayList<AvailableRide>();
+		
+		testRides.add(testRide);
+		
+		when(poiService.getPoi(Matchers.matches(poiName))).thenReturn(testPoi);
+		
+		when(rideService.getAvailableRidesByTime(Matchers.same(starttime), Matchers.same(endtime))).thenReturn(testRides);
+		
+		Attachment Output = slackMessageService.createAvailableRidesAttachment(starttime, endtime, filter, poiName, callbackId);
+		
+		assert(Output != null);
+		
+		System.out.println(Output.getText());
+		System.out.println(Output.getActions());
+		
+		
+		
+	}
+	
 }
