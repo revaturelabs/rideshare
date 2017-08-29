@@ -82,7 +82,7 @@ public class RideServiceImpl implements RideService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.revature.rideshare.service.RideService#acceptRequest(long, com.revature.rideshare.domain.User)
+	 * @see com.revature.rideshare.service.RideService#request(long, com.revature.rideshare.domain.User)
 	 */
 	@Override
 	public boolean acceptRequest(long id, User u) {
@@ -115,6 +115,33 @@ public class RideServiceImpl implements RideService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	@Override
+	public List<RideRequest> ignoreRequest(long id, User u) {
+		// TODO Auto-generated method stub
+		
+		List<RideRequest> allReqs = rideReqRepo.findByStatus(RequestStatus.OPEN);
+		//List<RideRequest> temp = new ArrayList<RideRequest>();
+		RideRequest rq = rideReqRepo.getOne(id);
+
+/*		for (RideRequest r : allReqs) {
+			if (r.getStatus() == RequestStatus.OPEN) {
+				//dont add ignored request
+				if(r.getRequestId() == id){
+					//do not add
+					RideRequest req = rideReqRepo.getOne(id);
+					req.setStatus(RideRequest.RequestStatus.STALE);
+				} else {
+					temp.add(r);
+				}
+			} else {
+				logger.debug("NOT ADDED\n\n");
+			}
+		}*/
+		allReqs.remove(rq);
+		
+		return allReqs;
 	}
 
 	/* (non-Javadoc)
