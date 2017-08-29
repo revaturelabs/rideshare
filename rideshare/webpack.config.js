@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
-let source = path.join(__dirname, 'src', 'main', 'resources', 'static');
+let source = path.join(__dirname, 'src', 'main', 'webapp', 'static');
 let output = path.join(__dirname, 'src', 'main', 'resources', 'static');
 
 module.exports = (env = {}) => {
