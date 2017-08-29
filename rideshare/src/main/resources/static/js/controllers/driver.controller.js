@@ -211,8 +211,8 @@ export let driverController = function($scope, $http, $state){
 			setTimeout(function(){$state.reload();}, 500);
 		});
 	}
-	
-	$scope.ignoreReq = function(rideId) {
+	*/
+	$scope.ignoreReqParam = function(rideId) {
 		$http.get('/ride/request/ignore/' + rideId).then(
 			(response) => {
 				for(let i = 0; i < $scope.openRequest.length; i++){
@@ -224,7 +224,7 @@ export let driverController = function($scope, $http, $state){
 				setTimeout(function(){$state.reload();}, 500);
 			}
 		);
-	};*/
+	};
 
 	function compare(a,b) {
 		if (a.availRide.availRideId < b.availRide.availRideId)
