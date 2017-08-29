@@ -189,31 +189,19 @@ export let driverController = function($scope, $http, $state){
 
 	// accept open requests
 	$scope.acceptReq = function(id){
-
+		console.log("ACCEPT REQUEST CLICKED");
 		$http.get("/ride/request/accept/"+id)
 		.then(function(response) {
 			setTimeout(function(){$state.reload();}, 500);
 		});
 	}
 	
-	$scope.ignoreReq1 = function(id){
-
-		$http.get("/ride/request/accept/"+id)
-		.then(function(response) {
-			setTimeout(function(){$state.reload();}, 500);
-		});
-	}
-	
-	$scope.ignoreReq2 = function(id){
-
-		$http.get("/ride/request/ignore/"+id)
-		.then(function(response) {
-			setTimeout(function(){$state.reload();}, 500);
-		});
+	$scope.ignoreReq = function() {
+		console.log("ignore request test");
 	}
 	
 	//ignore open requests
-	$scope.ignoreReq3 = function(id) {
+/*	$scope.ignoreReq3 = function(id) {
 		//set up this endpoint
 		console.log("Ignore Request Clicked!");
 		$http.get("/ride/request/ignore/"+id)
@@ -223,8 +211,8 @@ export let driverController = function($scope, $http, $state){
 			setTimeout(function(){$state.reload();}, 500);
 		});
 	}
-	
-	$scope.ignoreReq4 = function(rideId) {
+	*/
+	$scope.ignoreReqParam = function(rideId) {
 		$http.get('/ride/request/ignore/' + rideId).then(
 			(response) => {
 				for(let i = 0; i < $scope.openRequest.length; i++){
