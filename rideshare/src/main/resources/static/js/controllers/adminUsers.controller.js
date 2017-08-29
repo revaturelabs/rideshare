@@ -13,7 +13,7 @@ export let adminUsersController = function($scope, $http, $state) {
     $scope.changeAdmin = function(index){
         $scope.user = $scope.users[index];
         $scope.isAdmin = document.getElementById("isAdmin").value;
-        $scope.isBanned = false;
+        $scope.isBanned = document.getElementById("isBanned").value;;
 
         if ($scope.isAdmin === undefined)   
             $scope.isAdmin = false; 
