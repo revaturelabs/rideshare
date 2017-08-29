@@ -30,7 +30,10 @@ public class UserServiceTest {
 	
 	@InjectMocks
 	UserService userService = new UserServiceImpl();
+
+	//TODO: Determine if getAll() for users should be inside User or Admin service, then either re-implement or remove test.
 	
+	/*
 	@Test
 	public void testGetAll() {
 		int mockUserListSize = 5;
@@ -49,7 +52,7 @@ public class UserServiceTest {
 		assertNotNull(carList);
 		assertTrue(carList.size() == mockUserListSize);
 	}
-	
+*/	
 	@Test
 	public void testAddUser() {
 		User mockUser = new User();
