@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -37,7 +39,7 @@ public class SlackMessageServiceTests {
 	@InjectMocks
 	SlackMessageService slackMessageService = new SlackMessageServiceImpl();
 
-	public List<Option> getToFromOptions() {
+	List<Option> getToFromOptions() {
 		List<Option> toFromOptions = new ArrayList<Option>();
 
 		Option toOption = new Option("To", "To");
@@ -52,7 +54,7 @@ public class SlackMessageServiceTests {
 
 	}
 
-	public List<PointOfInterest> getMockPoiList() {
+	List<PointOfInterest> getMockPoiList() {
 		List<PointOfInterest> poiList = new ArrayList<PointOfInterest>();
 		return poiList;
 	}
@@ -67,6 +69,33 @@ public class SlackMessageServiceTests {
 
 		return poiOptions;
 
+	}
+
+	String getSlackJSON(String channel, String text, List<Attachment> attachments)
+			throws JsonGenerationException, JsonMappingException, IOException {
+
+		ObjectMapper mapper = new ObjectMapper();
+		String attachmentJSON = null;
+		attachmentJSON = mapper.writeValueAsString(attachments);
+		attachmentJSON = "\"attachments\" : " + attachmentJSON;
+		String message = "{ \"channel\" : \"" + channel + "\", \"text\" : \"" + text + "\", " + attachmentJSON + " }";
+		System.out.println(message);
+		return message;
+	}
+
+	JsonNode getSlackJsonNode(String channel, String text, List<Attachment> attachments)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		String message = getSlackJSON(channel, text, attachments);
+		String messagepayload = "{ \"original_message\": " + message + " }";
+		return mapper.readValue(messagepayload, ObjectNode.class);
+	}
+
+	SlackJSONBuilder getSlackJSONBuilder(String channel, String text, List<Attachment> attachments)
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		String message = getSlackJSON(channel, text, attachments);
+		return mapper.readValue(message, SlackJSONBuilder.class);
 	}
 
 	@Test
@@ -156,31 +185,57 @@ public class SlackMessageServiceTests {
 
 	@Test
 	public void testConvertPayloadToSlackJSONBuilder() {
-		ObjectMapper mapper = new ObjectMapper();
-		String message = "{ \"channel\" : \"Testing Info\" }";
-		String messagepayload = "{ \"original_message\": " + message + " }";
-		ObjectNode TestNode = null;
+		JsonNode TestNode = null;
 		SlackJSONBuilder exampleJSONBuilder = null;
 		try {
-			TestNode = mapper.readValue(messagepayload, ObjectNode.class);
-			exampleJSONBuilder = mapper.readValue(message, SlackJSONBuilder.class);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			fail();
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			fail();
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			TestNode = getSlackJsonNode("Test Channel", "Test Text", new ArrayList<Attachment>());
 		} catch (IOException e) {
-			fail();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		try {
+			exampleJSONBuilder = getSlackJSONBuilder("Test Channel", "Test Text", new ArrayList<Attachment>());
+		} catch (IOException e) {
+			fail();
+			e.printStackTrace();
+		}
+
 		SlackJSONBuilder slackJSONBuilder = slackMessageService.convertPayloadToSlackJSONBuilder(TestNode);
 
 		assert (exampleJSONBuilder.equals(slackJSONBuilder));
 
+	}
+
+	@Test
+	public void testStringToDate() {
+		String date;
+
+		date = slackMessageService.getDateFromText("The date I am testing is: 11/11");
+
+		if (!date.equals("11/11")) {
+			// Can't parse a date?
+			fail();
+		}
+
+		date = slackMessageService
+				.getDateFromText("Alright let's say stuff is gonna go down on 08/09 in the year 20xx");
+		System.out.println("Date string: " + date);
+		if (!date.equals("08/09")) {
+			// Can only parse a date at the end of a string?
+			// TODO: Make this fail
+		}
+	}
+
+	@Test
+	public void testgetTextFields() {
+		try {
+			List<String> TestString = slackMessageService
+					.getTextFields(getSlackJSONBuilder("Test Channel", "Test Text", new ArrayList<Attachment>()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			fail();
+		}
 	}
 
 }
