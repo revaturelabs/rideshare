@@ -42,14 +42,22 @@
 						</tr>
 						<tr>
 							<td>Admin:</td>
-							<td><input type="checkbox"
-							ng-checked="u.admin" id="isAdmin"></td>
+							<td> 
+								<select id ="isAdmin">
+								  <option  value="false">User</option>
+								  <option  ng-selected="u.admin" value="true">Admin</option>
+								</select> 
+							</td>
+						<tr>
+							<td>Ban:</td>
+							<td> 
+								<select id ="isBanned">
+									<option  value="false">Not Banned</option>
+								  <option  ng-selected="u.banned" value="true">Banned</option>
+								</select> 
+							</td>
 						</tr>
-						<!-- <tr>
-							<td>Banned:</td>
-							<td><input type="checkbox"
-							ng-checked="u.banned" id="isBanned"></td>
-						</tr> -->
+						</tr>
 					</table>
 				</div>
 				<div class="row btn-container">
@@ -61,3 +69,5 @@
 		</div>
 	</div>
 </div>
+
+
