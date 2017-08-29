@@ -189,24 +189,42 @@ export let driverController = function($scope, $http, $state){
 
 	// accept open requests
 	$scope.acceptReq = function(id){
-
+		console.log("ACCEPT REQUEST CLICKED");
 		$http.get("/ride/request/accept/"+id)
 		.then(function(response) {
 			setTimeout(function(){$state.reload();}, 500);
 		});
 	}
 	
+	$scope.ignoreReq = function() {
+		console.log("ignore request test");
+	}
+	
 	//ignore open requests
-	$scope.ignoreReq = function(id) {
+/*	$scope.ignoreReq3 = function(id) {
 		//set up this endpoint
+		console.log("Ignore Request Clicked!");
 		$http.get("/ride/request/ignore/"+id)
-		.then(function(response) {
-			//setTimeout(function(){$state.reload();}, 500);
-			//console.log("Ignore Request!")
-			//$scope.openRequest = response.data;
+		.then(function(response) => {
+			console.log("Ignore Request Response!")
+			$scope.openRequest = response.data;
 			setTimeout(function(){$state.reload();}, 500);
 		});
 	}
+	*/
+	$scope.ignoreReqParam = function(rideId) {
+		$http.get('/ride/request/ignore/' + rideId).then(
+			(response) => {
+				for(let i = 0; i < $scope.openRequest.length; i++){
+					if($scope.openRequest[i].requestId == rideId) {
+						$scope.openRequest.splice(i, 1);
+						$scope.$apply;
+					}
+				}
+				setTimeout(function(){$state.reload();}, 500);
+			}
+		);
+	};
 
 	function compare(a,b) {
 		if (a.availRide.availRideId < b.availRide.availRideId)

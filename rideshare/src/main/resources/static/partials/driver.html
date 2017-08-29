@@ -9,8 +9,14 @@
 
 	<!-- Button trigger modal -->
 	<div class="btn-container" style="position:absolute;width:100%;left:0;bottom:-1.5em;z-index:100;">
-		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal"
-			data-target="#myModal">Make Offer</button>
+		<div ng-show="offer.car">
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal"
+				data-target="#myModal">Make Offer</button>
+		</div>
+		<div ng-show="!offer.car">
+			Please enter car information on profile in order to make an offer to drive.
+		</div>
+			
 	</div>
 
 </div>
@@ -74,14 +80,12 @@
 						
 					<!-- Beginning of expanded portion -->
 					<em>Note:</em> {{req.notes}} <span ng-show=" req.notes == null"> N/A </span>
-
+					
 					<div class="btn-container">
-					<!-- ng-if the endpoint returns false, not greyed out, if it returns true the whole thing
-					gets grayed out -->
-					<button type="button" class="btn btn-primary"
-							ng-click="ignoreReq(req.requestId)">Ignore Request</button>
-						<button type="button" class="btn btn-primary"
-							ng-click="acceptReq(req.requestId)">Accept Request</button>
+					<button type="button" class="btn btn-primary" ng-click="acceptReq(req.requestId)">Accept Request</button>
+					<button type="button" class="btn btn-primary" ng-click="ignoreReq()">Ignore Request</button>
+					<button type="button" class="btn btn-primary" ng-click="ignoreReqParam(req.requestId)">Ignore Request TEST</button>
+					
 					</div>
 					<!-- End of expanded portion -->
 						
@@ -314,3 +318,30 @@
 		</div>
 	</div>
 </div>
+
+<!-- Footer -->
+		<footer>
+		<div class="container">
+			<div class="row">
+				<div class="footer-margin">
+					<div class="col-sm-4">
+						<img class="img-responsive footer-img" src="images/rev-footer.png"
+							alt="revature" height="175" width="175" />
+					</div>
+					<div class="col-sm-3 col-sm-offset-5 contact-info">
+						<span class="glyphicon glyphicon-home"></span> <span>&nbsp;11730
+							Plaza America Drive<br>Reston, VA 20190
+						</span><br> <span class="glyphicon glyphicon-earphone"></span> <a
+							href="tel:(703) 570-8282">&nbsp;(703) 570-8282</a><br> <span
+							class="glyphicon glyphicon-envelope"></span> <a
+							href="mailto:info@revature.com">&nbsp;info@revature.com</a><br>
+						<span class="glyphicon glyphicon-link"></span> <a target="_blank"
+							href="http://revature.com">&nbsp;revature.com</a><br> <span
+							class="copyright"> <i class="fa fa-copyright"
+							aria-hidden="true"></i>2017 Revature
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>

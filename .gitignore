@@ -9,3 +9,4 @@ rideshare/.project/
 rideshare/.settings
 rideshare/RideShare.log
 rideshare/target
+rideshare/node_modules
