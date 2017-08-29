@@ -223,13 +223,13 @@ public class Action {
 		if (otherAction == null) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getName(), getName())) {
+		if (!EquivalenceUtilities.SafeCompare(otherAction.getName(), getName())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getType(), getType())) {
+		if (!EquivalenceUtilities.SafeCompare(otherAction.getType(), getType())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getText(), getText())) {
+		if (!EquivalenceUtilities.SafeCompare(otherAction.getText(), getText())) {
 			return false;
 		}
 		if (!EquivalenceUtilities.SafeCompare(getOptions(), otherAction.getOptions()))

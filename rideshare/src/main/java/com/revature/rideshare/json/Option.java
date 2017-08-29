@@ -84,11 +84,11 @@ public class Option {
 		{
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(getText(), otherOption.getText()))
+		if (!EquivalenceUtilities.SafeCompare(getText(), otherOption.getText()))
 		{
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(getValue(), otherOption.getValue()))
+		if (!EquivalenceUtilities.SafeCompare(getValue(), otherOption.getValue()))
 		{
 			return false;
 		}
