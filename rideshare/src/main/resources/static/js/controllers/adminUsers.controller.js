@@ -14,9 +14,6 @@ export let adminUsersController = function($scope, $http, $state) {
         $scope.user = $scope.users[index];
         $scope.isAdmin = document.getElementById("isAdmin").value;
         $scope.isBanned = document.getElementById("isBanned").value;
-        
-        console.log($scope.isAdmin);
-        console.log($scope.isBanned);
 
         if ($scope.isAdmin === undefined)   
             $scope.isAdmin = false; 
@@ -24,11 +21,10 @@ export let adminUsersController = function($scope, $http, $state) {
         if ($scope.isBanned === undefined)   
             $scope.isBanned = false; 
         
-        var url = "admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin + "/" + $scope.isBanned; 
+        var url = "/admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin + "/" + $scope.isBanned; 
         
         $http.post(url, $scope.user)
         .then((formResponse) => {
-        	console.log(formResponse.data)
             $state.reload('main.adminUsers');
         },
         (failedResponse) => {
