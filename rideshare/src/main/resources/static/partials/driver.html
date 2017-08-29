@@ -1,5 +1,5 @@
 <div id="wrapper">
-   <div id="map" style="height: 250px; width: 100%;"></div>
+   <div id="map" style="height: 450px; width: 100%;"></div>
 
    <div id="over_map">
 		<button ng-click="clearMapMarkers()" class="btn btn-primary" >Clear Map</button>
@@ -71,7 +71,7 @@
 					{{req.pickupLocation.poiName}}
 					<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
 					{{req.dropOffLocation.poiName}}
-						
+					
 						</a>
 					</h4>
 				</div>
@@ -82,8 +82,11 @@
 					<em>Note:</em> {{req.notes}} <span ng-show=" req.notes == null"> N/A </span>
 
 					<div class="btn-container">
-						<button type="button" class="btn btn-primary"
-							ng-click="acceptReq(req.requestId)">Accept Request</button>
+					<button type="button" class="btn btn-primary" ng-click="ignoreReq1(req.requestId)">Ignore Request 1</button>
+					<button type="button" class="btn btn-primary" ng-click="ignoreReq2(req.requestId)">Ignore Request 2</button>
+					<button type="button" class="btn btn-primary" ng-click="ignoreReq3(req.requestId)">Ignore Request 3</button>
+					<button type="button" class="btn btn-primary" ng-click="ignoreReq4(req.requestId)">Ignore Request 4</button>
+					<button type="button" class="btn btn-primary" ng-click="acceptReq(req.requestId)">Accept Request</button>
 					</div>
 					<!-- End of expanded portion -->
 						

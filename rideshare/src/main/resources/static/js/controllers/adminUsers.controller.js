@@ -12,12 +12,16 @@ export let adminUsersController = function($scope, $http, $state) {
     // changes a User's status to admin or not from the checkbox
     $scope.changeAdmin = function(index){
         $scope.user = $scope.users[index];
-        $scope.isAdmin = document.getElementById("isAdmin").value; 
+        $scope.isAdmin = document.getElementById("isAdmin").value;
+        //$scope.isBanned = document.getElementById("isBanned").value;;
 
         if ($scope.isAdmin === undefined)   
             $scope.isAdmin = false; 
         
-        var url = "/admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin; 
+       /* if ($scope.isBanned === undefined)   
+            $scope.isBanned = false; */
+        
+        var url = "/admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin;
         
         $http.post(url, $scope.user)
         .then((formResponse) => {

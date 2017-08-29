@@ -14,6 +14,7 @@ import com.revature.rideshare.domain.Car;
 import com.revature.rideshare.domain.PointOfInterest;
 import com.revature.rideshare.domain.Ride;
 import com.revature.rideshare.domain.User;
+import com.revature.rideshare.service.AdminService;
 import com.revature.rideshare.service.CarService;
 import com.revature.rideshare.service.PointOfInterestService;
 import com.revature.rideshare.service.RideService;
@@ -31,10 +32,14 @@ public class AdminController {
 
 	@Autowired
 	private CarService carService;
+	
+	@Autowired
+	private AdminService adminService;
 
 	@Autowired
 	private PointOfInterestService poiService;
 
+	
 	/**
 	 * Retrieve all Cars. 
 	 * 
@@ -46,26 +51,18 @@ public class AdminController {
 	}
 
 	/**
-	 * Retrieve all Users.  
-	 * 
-	 * @return List of all User objects
-	 */
-	@GetMapping("/users")
-	public List<User> getAllUsers() {
-		return userService.getAll();
-	}
-
-	/**
 	 * Takes the User's ID and a boolean value representing the user's Admin status, and changes the
 	 * User's Admin status accordingly. 
-	 * 
+	 * Same Process for bans
 	 * @param id - number value representing each User
 	 * @param isAdmin - true if user is Admin, false otherwise 
 	 */
+	//@PathVariable(value = "isBanned") boolean isBanned
 	@PostMapping("/updateStatus/{id}/{isAdmin}")
-	public void updateStatus(@PathVariable(value = "id") long id, @PathVariable(value = "isAdmin") boolean isAdmin) {
+	public void updateStatus(@PathVariable(value = "id") long id,@PathVariable(value = "isAdmin") boolean isAdmin) {
 		User user = userService.getUser(id);
 		user.setAdmin(isAdmin);
+		//user.setBanned(isBanned);
 		userService.updateUser(user);
 	}
 
@@ -123,4 +120,15 @@ public class AdminController {
 	public List<Ride> getAllInactiveRides() {
 		return rideService.getAllInactiveRides();
 	}
+	
+	/**
+	 * Gets list of all Users in the system
+	 * Will return user regardless of banned status
+	 * @return List of all users in system
+	 */
+	@GetMapping("/users")
+	public List<User> getAllUsers() {
+		return adminService.getAll();
+	}
+	
 }
