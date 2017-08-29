@@ -61,6 +61,6 @@ export let authFactory = function($window, $log, jwtHelper) {
 				}
 			}
 			return result;
-		}
-*/	};
+		}*/
+	};
 };
