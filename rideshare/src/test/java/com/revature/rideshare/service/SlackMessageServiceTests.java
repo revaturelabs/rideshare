@@ -316,6 +316,7 @@ public class SlackMessageServiceTests {
 		try {
 			TestString = slackMessageService.getTextFields(getSlackJsonNode("Test Channel", "Test 8/29", attachments));
 		} catch (IOException e) {
+			//Fails if an exception is thrown.
 			fail();
 		}
 		List<String> comparisonString = new ArrayList<String>();
@@ -327,9 +328,12 @@ public class SlackMessageServiceTests {
 
 		comparisonString.add(dummyAction.getText());
 
+		//Fails if the wrong number of results is found.
+		
 		assert (TestString.size() == comparisonString.size());
 
 		for (int i = 0; i < comparisonString.size(); i++) {
+			//Fails if any result does not match the expected result.
 			assert (TestString.get(i).equals(comparisonString.get(i)));
 		}
 
