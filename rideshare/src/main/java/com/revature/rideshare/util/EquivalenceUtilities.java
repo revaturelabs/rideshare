@@ -54,10 +54,14 @@ public class EquivalenceUtilities {
 	 * Safely compares two lists that may or may not be null.
 	 * 
 	 * Checks if both lists are the same size, then creates a hash code from
-	 * each using ListHash<T>. If both hash codes are the same, the lists are
-	 * considered to be equal.
+	 * each using {@link #ListHash(List) ListHash<T> function}. If both hash codes are the
+	 * same, the lists are considered to be equal.
 	 * 
-	 * Basically free if both lists are of a different size, but must process every item in each list if both lists are of equal size.
+	 * Will return true even if the objects in both lists are in a different
+	 * order from one another.
+	 * 
+	 * Basically free if both lists are of a different size, but must process
+	 * every item in each list if both lists are of equal size.
 	 * 
 	 * @param A
 	 * @param B
@@ -82,20 +86,23 @@ public class EquivalenceUtilities {
 	}
 
 	/**
-	 * Compounds the hashCode of every object in the list.
+	 * Compounds the hashCode of every object in the list. This will return the
+	 * same hashcode for two lists containing the same objects(As measured by
+	 * their {@link java.lang.Object#hashCode() Hash Code} ) in different orders.
 	 * 
 	 * @param list
 	 * @return compound hashCode for the list.
 	 */
 
 	public static <T> int ListHash(List<T> list) {
-		StringBuilder stringBuilder = new StringBuilder();
+
+		Long numToHash = 0l;
 
 		for (int i = 0; i < list.size(); i++) {
-			stringBuilder.append(list.get(i).hashCode());
+			numToHash += list.get(i).hashCode();
 		}
 
-		return stringBuilder.toString().hashCode();
+		return numToHash.toString().hashCode();
 
 	}
 
