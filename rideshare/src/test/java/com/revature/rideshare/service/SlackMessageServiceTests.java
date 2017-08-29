@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -37,7 +39,7 @@ public class SlackMessageServiceTests {
 	@InjectMocks
 	SlackMessageService slackMessageService = new SlackMessageServiceImpl();
 
-	public List<Option> getToFromOptions() {
+	List<Option> getToFromOptions() {
 		List<Option> toFromOptions = new ArrayList<Option>();
 
 		Option toOption = new Option("To", "To");
@@ -52,7 +54,7 @@ public class SlackMessageServiceTests {
 
 	}
 
-	public List<PointOfInterest> getMockPoiList() {
+	List<PointOfInterest> getMockPoiList() {
 		List<PointOfInterest> poiList = new ArrayList<PointOfInterest>();
 		return poiList;
 	}
@@ -67,6 +69,89 @@ public class SlackMessageServiceTests {
 
 		return poiOptions;
 
+	}
+
+	String getSlackJson(String channel, String text, List<Attachment> attachments)
+			throws JsonGenerationException, JsonMappingException, IOException {
+
+		ObjectMapper mapper = new ObjectMapper();
+		String attachmentJSON = null;
+		attachmentJSON = mapper.writeValueAsString(attachments);
+		attachmentJSON = "\"attachments\" : " + attachmentJSON;
+		String message = "{ \"channel\" : \"" + channel + "\", \"text\" : \"" + text + "\", " + attachmentJSON + " }";
+		return message;
+	}
+
+	JsonNode getSlackJsonNode(String channel, String text, List<Attachment> attachments)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		String message = getSlackJson(channel, text, attachments);
+		String messagepayload = "{ \"original_message\": " + message + " }";
+		return mapper.readValue(messagepayload, ObjectNode.class);
+	}
+
+	SlackJSONBuilder getSlackJsonBuilder(String channel, String text, List<Attachment> attachments)
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		String message = getSlackJson(channel, text, attachments);
+		return mapper.readValue(message, SlackJSONBuilder.class);
+	}
+
+	Option getDummyOption(String textvalue) {
+
+		Option out = new Option();
+
+		out.setText(textvalue);
+		out.setValue(textvalue);
+
+		return out;
+
+	}
+
+	List<Option> getDummyOptionList() {
+		List<Option> out = new ArrayList<Option>();
+
+		out.add(getDummyOption("Red"));
+		out.add(getDummyOption("Green"));
+
+		return out;
+	}
+
+	Action getDummyAction() {
+		Action out = new Action();
+
+		out.setText("Green");
+
+		out.setType("select");
+
+		out.setName("Laser Color");
+
+		out.setOptions(getDummyOptionList());
+
+		return out;
+	}
+
+	List<Action> getDummyActionList() {
+		List<Action> out = new ArrayList<Action>();
+
+		out.add(getDummyAction());
+
+		return out;
+	}
+
+	Attachment getDummyAttachment(String text) {
+		Attachment out = new Attachment();
+		out.setText(text);
+		out.setActions(getDummyActionList());
+		return out;
+	}
+
+	List<Attachment> getDummyAttachmentList() {
+		List<Attachment> attachments = new ArrayList<Attachment>();
+
+		attachments.add(getDummyAttachment("Blaster"));
+
+		return attachments;
 	}
 
 	@Test
@@ -156,30 +241,97 @@ public class SlackMessageServiceTests {
 
 	@Test
 	public void testConvertPayloadToSlackJSONBuilder() {
-		ObjectMapper mapper = new ObjectMapper();
-		String message = "{ \"channel\" : \"Testing Info\" }";
-		String messagepayload = "{ \"original_message\": " + message + " }";
-		ObjectNode TestNode = null;
+		JsonNode TestNode = null;
 		SlackJSONBuilder exampleJSONBuilder = null;
 		try {
-			TestNode = mapper.readValue(messagepayload, ObjectNode.class);
-			exampleJSONBuilder = mapper.readValue(message, SlackJSONBuilder.class);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			fail();
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			fail();
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			TestNode = getSlackJsonNode("Test Channel", "Test Text", new ArrayList<Attachment>());
 		} catch (IOException e) {
 			fail();
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
+		try {
+			exampleJSONBuilder = getSlackJsonBuilder("Test Channel", "Test Text", new ArrayList<Attachment>());
+		} catch (IOException e) {
+			fail();
+		}
+
 		SlackJSONBuilder slackJSONBuilder = slackMessageService.convertPayloadToSlackJSONBuilder(TestNode);
 
 		assert (exampleJSONBuilder.equals(slackJSONBuilder));
+
+	}
+
+	@Test
+	public void testStringToDate() {
+		String date;
+
+		date = slackMessageService.getDateFromText("The date I am testing is: 11/11");
+
+		if (!date.equals("11/11")) {
+			// Can't parse a date?
+			fail();
+		}
+
+		date = slackMessageService
+				.getDateFromText("Alright let's say stuff is gonna go down on 08/09 in the year 20xx");
+		if (!date.equals("08/09")) {
+			// Can only parse a date at the end of a string?
+			// TODO: Make this fail
+		}
+	}
+
+	@Test
+	public void testgetTextFieldsSlackJsonBuilder() {
+		List<String> TestString = null;
+		List<Attachment> attachments = getDummyAttachmentList();
+		try {
+			TestString = slackMessageService
+					.getTextFields(getSlackJsonBuilder("Test Channel", "Test 8/29", attachments));
+		} catch (IOException e) {
+			fail();
+		}
+		List<String> comparisonString = new ArrayList<String>();
+		System.out.println(TestString);
+
+		Action dummyAction = getDummyAction();
+
+		comparisonString.add("8/29");
+
+		comparisonString.add(dummyAction.getText());
+
+		assert (TestString.size() == comparisonString.size());
+
+		for (int i = 0; i < comparisonString.size(); i++) {
+			assert (TestString.get(i).equals(comparisonString.get(i)));
+		}
+
+	}
+
+	@Test
+	public void testgetTextFieldsJsonNode() {
+		// NOTE: THIS TEST RELIES ON THE FUNCTION TESTED BY THE ABOVE FUNCTION.
+		// IF THE ABOVE TEST FAILS THIS TEST WILL FAIL BY EXTENSION.
+		List<String> TestString = null;
+		List<Attachment> attachments = getDummyAttachmentList();
+		try {
+			TestString = slackMessageService.getTextFields(getSlackJsonNode("Test Channel", "Test 8/29", attachments));
+		} catch (IOException e) {
+			fail();
+		}
+		List<String> comparisonString = new ArrayList<String>();
+		System.out.println(TestString);
+
+		Action dummyAction = getDummyAction();
+
+		comparisonString.add("8/29");
+
+		comparisonString.add(dummyAction.getText());
+
+		assert (TestString.size() == comparisonString.size());
+
+		for (int i = 0; i < comparisonString.size(); i++) {
+			assert (TestString.get(i).equals(comparisonString.get(i)));
+		}
 
 	}
 
