@@ -57,12 +57,12 @@ public class AdminController {
 	 * @param id - number value representing each User
 	 * @param isAdmin - true if user is Admin, false otherwise 
 	 */
-	//@PathVariable(value = "isBanned") boolean isBanned
-	@PostMapping("/updateStatus/{id}/{isAdmin}")
-	public void updateStatus(@PathVariable(value = "id") long id,@PathVariable(value = "isAdmin") boolean isAdmin) {
+	@PostMapping("/updateStatus/{id}/{isAdmin}/{isBanned}")
+	public void updateStatus(@PathVariable(value = "id") long id,@PathVariable(value = "isAdmin") String isAdmin,
+			@PathVariable(value = "isBanned") String isBanned) {
 		User user = userService.getUser(id);
-		user.setAdmin(isAdmin);
-		//user.setBanned(isBanned);
+		user.setAdmin(Boolean.valueOf(isAdmin));
+		user.setBanned(Boolean.valueOf(isBanned));
 		userService.updateUser(user);
 	}
 
