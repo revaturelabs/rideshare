@@ -122,9 +122,10 @@ public class RideServiceImpl implements RideService {
 		// TODO Auto-generated method stub
 		
 		List<RideRequest> allReqs = rideReqRepo.findByStatus(RequestStatus.OPEN);
-		List<RideRequest> temp = new ArrayList<RideRequest>();
+		//List<RideRequest> temp = new ArrayList<RideRequest>();
+		RideRequest rq = rideReqRepo.getOne(id);
 
-		for (RideRequest r : allReqs) {
+/*		for (RideRequest r : allReqs) {
 			if (r.getStatus() == RequestStatus.OPEN) {
 				//dont add ignored request
 				if(r.getRequestId() == id){
@@ -137,9 +138,10 @@ public class RideServiceImpl implements RideService {
 			} else {
 				logger.debug("NOT ADDED\n\n");
 			}
-		}
+		}*/
+		allReqs.remove(rq);
 		
-		return temp;
+		return allReqs;
 	}
 
 	/* (non-Javadoc)
