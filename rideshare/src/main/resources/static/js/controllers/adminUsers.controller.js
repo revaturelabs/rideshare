@@ -13,15 +13,13 @@ export let adminUsersController = function($scope, $http, $state) {
     $scope.changeAdmin = function(index){
         $scope.user = $scope.users[index];
         $scope.isAdmin = document.getElementById("isAdmin").value;
-        var isBanned = document.getElementById("isBanned").value;
+        //var isBanned = document.getElementById("isBanned").value;
 
         if ($scope.isAdmin === undefined)   
             $scope.isAdmin = false;
         
-        if ($scope.isBanned === undefined)   
-            $scope.isBanned = false;
-        
-        var url = "/admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin + "/" + isBanned;
+        var url = "/admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin + "/" + 
+        document.getElementById("isBanned").value;
         
         $http.post(url, $scope.user)
         .then((formResponse) => {
