@@ -1,0 +1,48 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'build' ]
+2 info using npm@3.10.10
+3 info using node@v6.11.2
+4 verbose run-script [ 'prebuild', 'build', 'postbuild' ]
+5 info lifecycle rideshare@0.0.1~prebuild: rideshare@0.0.1
+6 silly lifecycle rideshare@0.0.1~prebuild: no script for prebuild, continuing
+7 info lifecycle rideshare@0.0.1~build: rideshare@0.0.1
+8 verbose lifecycle rideshare@0.0.1~build: unsafe-perm in lifecycle true
+9 verbose lifecycle rideshare@0.0.1~build: PATH: C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\The Best\RideShareRepo\rideshare\rideshare\node_modules\.bin;C:\Users\The Best\bin;C:\Program Files (x86)\Git\mingw32\bin;C:\Program Files (x86)\Git\usr\local\bin;C:\Program Files (x86)\Git\usr\bin;C:\Program Files (x86)\Git\usr\bin;C:\Program Files (x86)\Git\mingw32\bin;C:\Program Files (x86)\Git\usr\bin;C:\Users\The Best\bin;C:\Users\The Best\AppData\Roaming\npm;C:\Program Files\nodejs;C:\Program Files\Java\jdk1.8.0_131\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\Hewlett-Packard\SimplePass;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Git\cmd;C:\Program Files (x86)\PuTTY;C:\Program Files\nodejs;C:\Users\The Best\AppData\Local\Microsoft\WindowsApps;C:\Users\The Best\AppData\Roaming\npm;C:\Program Files (x86)\Git\usr\bin\vendor_perl;C:\Program Files (x86)\Git\usr\bin\core_perl
+10 verbose lifecycle rideshare@0.0.1~build: CWD: C:\Users\The Best\RideShareRepo\rideshare\rideshare
+11 silly lifecycle rideshare@0.0.1~build: Args: [ '/d /s /c', 'npm run build:prod' ]
+12 silly lifecycle rideshare@0.0.1~build: Returned: code: 1  signal: null
+13 info lifecycle rideshare@0.0.1~build: Failed to exec build script
+14 verbose stack Error: rideshare@0.0.1 build: `npm run build:prod`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (C:\Program Files\nodejs\node_modules\npm\lib\utils\lifecycle.js:255:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (C:\Program Files\nodejs\node_modules\npm\lib\utils\spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:891:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+15 verbose pkgid rideshare@0.0.1
+16 verbose cwd C:\Users\The Best\RideShareRepo\rideshare\rideshare
+17 error Windows_NT 10.0.15063
+18 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "build"
+19 error node v6.11.2
+20 error npm  v3.10.10
+21 error code ELIFECYCLE
+22 error rideshare@0.0.1 build: `npm run build:prod`
+22 error Exit status 1
+23 error Failed at the rideshare@0.0.1 build script 'npm run build:prod'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the rideshare package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     npm run build:prod
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs rideshare
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls rideshare
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]
