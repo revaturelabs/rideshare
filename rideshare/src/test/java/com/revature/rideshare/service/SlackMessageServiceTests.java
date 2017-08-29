@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,6 +16,8 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.revature.rideshare.domain.PointOfInterest;
 import com.revature.rideshare.json.Action;
 import com.revature.rideshare.json.Attachment;
@@ -157,13 +157,9 @@ public class SlackMessageServiceTests {
 	public void testConvertPayloadToSlackJSONBuilder() {
 		ObjectMapper mapper = new ObjectMapper();
 		String message = "{ \"original_message\":\"Testing Info\" }";
-		JsonNode TestNode = null;
-		try {
-			TestNode = mapper.readValue(message, JsonNode.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-//		slackMessageService.convertPayloadToSlackJSONBuilder(TestNode);
+		ObjectNode TestNode = JsonNodeFactory.instance.objectNode();
+		TestNode.set("original_message", "Testing Info");
+		slackMessageService.convertPayloadToSlackJSONBuilder(TestNode);
 	}
 
 }
