@@ -255,36 +255,41 @@ export let driverController = function($scope, $http, $state){
 	// method to add offer through http post
 	$scope.addOffer = function(pickup,dropoff,notes,time,seats) {
 
-		$scope.offer.car = $scope.car;
-//		$scope.offer.pickupPOI = pickup;
-//		$scope.offer.dropoffPOI = dropoff;
-		
-		// get the current drop down options id
-		let select1 = document.getElementById("fromPOI");
-		let start = $scope.allMainPOI[select1.options[select1.selectedIndex].id];
-		
-		let select2 = document.getElementById("toPOI");
-		let destination = $scope.allMainPOI[select2.options[select2.selectedIndex].id];
-		
-		$scope.offer.pickupPOI = start;
-		$scope.offer.dropoffPOI = destination;
-
-		if(notes == undefined || notes == "") {
-			notes = "N/A";
-		}
-
-		$scope.offer.notes = notes;
-		$scope.offer.time = new Date(time);
-		$scope.offer.seatsAvailable = seats;
-
-		$http.post('/ride/offer/add', $scope.offer).then(
-			(formResponse) => {
-				setTimeout(function(){$state.reload();}, 500);
-			},
-			(failedResponse) => {
-				alert('Failure');
+		if ($scope.car) {
+			
+			$scope.offer.car = $scope.car;
+	//		$scope.offer.pickupPOI = pickup;
+	//		$scope.offer.dropoffPOI = dropoff;
+			
+			// get the current drop down options id
+			let select1 = document.getElementById("fromPOI");
+			let start = $scope.allMainPOI[select1.options[select1.selectedIndex].id];
+			
+			let select2 = document.getElementById("toPOI");
+			let destination = $scope.allMainPOI[select2.options[select2.selectedIndex].id];
+			
+			$scope.offer.pickupPOI = start;
+			$scope.offer.dropoffPOI = destination;
+	
+			if(notes == undefined || notes == "") {
+				notes = "N/A";
 			}
-		)
+	
+			$scope.offer.notes = notes;
+			$scope.offer.time = new Date(time);
+			$scope.offer.seatsAvailable = seats;
+	
+			$http.post('/ride/offer/add', $scope.offer).then(
+				(formResponse) => {
+					setTimeout(function(){$state.reload();}, 500);
+				},
+				(failedResponse) => {
+					alert('Failure');
+				}
+			)
+		} else {
+			console.log("driver has no car ...")
+		}
 	};
 
 	$scope.offerCancel = function(activeRideId) {
