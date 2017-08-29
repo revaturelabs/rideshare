@@ -170,6 +170,18 @@ public interface RideService {
 	boolean acceptOffer(long id, User u);
 
 	/**
+	 * Takes in an AvailableRide id and removes the selected ride from the available rides.
+	 * Sets the RequestStatus of ALL RideRequest objects associated to 'OPEN'
+	 * and deletes the AvailableRide object.
+	 *
+	 * @param long  id The id of the Ride to cancel.
+	 * @param User 	u the active user.
+	 * 
+	 * @return a new list of requests without the selected request.
+	 */
+	List<RideRequest> ignoreRequest(long id, User u);
+
+	/**
 	 * Takes in an AvailableRide id and deletes ALL Rides associated with it.
 	 * Sets the RequestStatus of ALL RideRequest objects associated to 'OPEN'
 	 * and deletes the AvailableRide object.
@@ -258,12 +270,12 @@ public interface RideService {
 
 	List<AvailableRide> getOpenOffersByDestination(int poiId);
 
-	ArrayList<AvailableRide> getAvailableRidesByTime(Date starttime, Date endtime);
+	List<AvailableRide> getAvailableRidesByTime(Date starttime, Date endtime);
 
-	ArrayList<AvailableRide> filterAvailableRidesByDropoffPoi(ArrayList<AvailableRide> rides,
+	List<AvailableRide> filterAvailableRidesByDropoffPoi(List<AvailableRide> rides,
 			PointOfInterest dropoffPoi);
 
-	ArrayList<AvailableRide> filterAvailableRidesByPickupPoi(ArrayList<AvailableRide> rides, PointOfInterest pickupPoi);
+	List<AvailableRide> filterAvailableRidesByPickupPoi(List<AvailableRide> rides, PointOfInterest pickupPoi);
 
 	AvailableRide getRideById(long availableRideId);
 

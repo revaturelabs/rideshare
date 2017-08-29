@@ -1,5 +1,5 @@
 <div id="wrapper">
-   <div id="map" style="height: 250px; width: 100%;"></div>
+   <div id="map" style="height: 450px; width: 100%;"></div>
 
    <div id="over_map">
 		<button ng-click="clearMapMarkers()" class="btn btn-primary" >Clear Map</button>
@@ -17,6 +17,8 @@
 <p id="display"></p>
 
 <script src="../js/googleMapAPI/markerclusterer.js"></script>
+<script src="../js/paginate/dirPagination.js"></script>
+
 
 <!-- Tabs that display active rides and ride history for a user -->
 <div>
@@ -93,6 +95,7 @@
 			</ul>
 						
 			<div class="panel-group" id="accordionActive">
+
 			<div class="panel panel-default" dir-paginate="req in activeRequests | itemsPerPage: 10" style="border:none;">
 				<div class="panel panel-default" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseA{{req.requestId}}" style = "background-color: #fafafa;">
@@ -299,3 +302,30 @@
 		</div>
 	</div>
 </div>
+
+<!-- Footer -->
+		<footer>
+		<div class="container">
+			<div class="row">
+				<div class="footer-margin">
+					<div class="col-sm-4">
+						<img class="img-responsive footer-img" src="images/rev-footer.png"
+							alt="revature" height="175" width="175" />
+					</div>
+					<div class="col-sm-3 col-sm-offset-5 contact-info">
+						<span class="glyphicon glyphicon-home"></span> <span>&nbsp;11730
+							Plaza America Drive<br>Reston, VA 20190
+						</span><br> <span class="glyphicon glyphicon-earphone"></span> <a
+							href="tel:(703) 570-8282">&nbsp;(703) 570-8282</a><br> <span
+							class="glyphicon glyphicon-envelope"></span> <a
+							href="mailto:info@revature.com">&nbsp;info@revature.com</a><br>
+						<span class="glyphicon glyphicon-link"></span> <a target="_blank"
+							href="http://revature.com">&nbsp;revature.com</a><br> <span
+							class="copyright"> <i class="fa fa-copyright"
+							aria-hidden="true"></i>2017 Revature
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
