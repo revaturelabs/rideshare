@@ -95,7 +95,7 @@
 			</ul>
 						
 			<div class="panel-group" id="accordionActive">
-			<div class="panel panel-default" dir-paginate="req in activeRequests|itemsPerPage:1" style="border:none;">
+			<div class="panel panel-default" ng-repeat="req in activeRequests" style="border:none;">
 				<div class="panel panel-default" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseA{{req.requestId}}" style = "background-color: #fafafa;">
 					<h4 class="panel-title">
@@ -291,10 +291,10 @@
 
 			</div>
 			
-			<dir-pagination-controls></dir-pagination-controls>
 			
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary"
+					ng-if="dropoff.poiId!=pickup.poiId!"
 					ng-click="addRequest(pickup,dropoff,notes,time)"
 					data-dismiss="modal">Submit</button>
 			</div>
