@@ -9,11 +9,11 @@ import com.revature.rideshare.util.EquivalenceUtilities;
  * {@link com.revature.rideshare.json.Attachment Attachment}<br>
  * <br>
  * <b>Notable Fields:</b><br>
- * {@link name}<br>
- * {@link text}<br>
- * {@link type}<br>
- * {@link value}<br>
- * {@link options}<br>
+ * {@link #name}<br>
+ * {@link #text}<br>
+ * {@link #type}<br>
+ * {@link #value}<br>
+ * {@link #options}<br>
  * <br>
  * <b>Primary Constructors:</b><br>
  * {@link Action#Action(String, String, String, List) Action(String name, String text, String type, List options)}<br>
