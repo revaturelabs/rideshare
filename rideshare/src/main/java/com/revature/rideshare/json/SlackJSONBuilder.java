@@ -207,18 +207,24 @@ public class SlackJSONBuilder {
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return new String(channel + text + type).hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object other) {
 		SlackJSONBuilder otherJSONBuilder = (SlackJSONBuilder) other;
 		if (otherJSONBuilder == null) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherJSONBuilder.getChannel(), getChannel())) {
+		if (!EquivalenceUtilities.SafeCompare(otherJSONBuilder.getChannel(), getChannel())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherJSONBuilder.getText(), getText())) {
+		if (!EquivalenceUtilities.SafeCompare(otherJSONBuilder.getText(), getText())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherJSONBuilder.getType(), getType())) {
+		if (!EquivalenceUtilities.SafeCompare(otherJSONBuilder.getType(), getType())) {
 			return false;
 		}
 		return true;

@@ -212,18 +212,28 @@ public class Action {
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return new String(name + text + value + type + EquivalenceUtilities.ListHash(options)).hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object other) {
 		Action otherAction = (Action) other;
 		if (otherAction == null) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getName(), getName())) {
+		if (!EquivalenceUtilities.SafeCompare(otherAction.getName(), getName())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getType(), getType())) {
+		if (!EquivalenceUtilities.SafeCompare(otherAction.getType(), getType())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getText(), getText())) {
+		if (!EquivalenceUtilities.SafeCompare(otherAction.getText(), getText())) {
+			return false;
+		}
+		if (!EquivalenceUtilities.SafeCompare(getOptions(), otherAction.getOptions()))
+		{
 			return false;
 		}
 		return true;
