@@ -42,7 +42,8 @@ export let authFactory = function($window, $log, jwtHelper) {
 				try {
 					let payload = jwtHelper.decodeToken(token);
 					let user = JSON.parse(payload.user);
-					console.log("User is: " + user);
+					console.log("User is: ");
+					console.log(user);
 					console.log("User is: " + user.admin);
 					result = user.admin;
 				} catch (err) {
