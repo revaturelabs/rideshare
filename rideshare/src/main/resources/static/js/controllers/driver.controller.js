@@ -224,6 +224,7 @@ export let driverController = function($scope, $http, $state){
 					}
 				}
 				$scope.ignoreReqVar = response.data;
+				$scope.openRequest= response.data;
 				setTimeout(function(){$state.reload();}, 500);
 			}
 		);

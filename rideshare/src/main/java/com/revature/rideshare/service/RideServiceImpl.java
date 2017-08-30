@@ -139,9 +139,9 @@ public class RideServiceImpl implements RideService {
 				logger.debug("NOT ADDED\n\n");
 			}
 		}
-		allReqs.remove(rq);
+		temp.remove(rq);
 		
-		return allReqs;
+		return temp;
 	}
 
 
