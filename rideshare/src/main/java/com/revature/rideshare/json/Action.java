@@ -9,17 +9,15 @@ import com.revature.rideshare.util.EquivalenceUtilities;
  * {@link com.revature.rideshare.json.Attachment Attachment}<br>
  * <br>
  * <b>Notable Fields:</b><br>
- * {@link #name}<br>
- * {@link #text}<br>
- * {@link #type}<br>
- * {@link #value}<br>
- * {@link #options}<br>
+ * {@link name}<br>
+ * {@link text}<br>
+ * {@link type}<br>
+ * {@link value}<br>
+ * {@link options}<br>
  * <br>
  * <b>Primary Constructors:</b><br>
- * {@link Action#Action(String, String, String, List) Action(String name, String
- * text, String type, List options)}<br>
- * {@link Action#Action(String, String, String, String) Action(String name,
- * String text, String type, String value)}<br>
+ * {@link Action#Action(String, String, String, List) Action(String name, String text, String type, List options)}<br>
+ * {@link Action#Action(String, String, String, String) Action(String name, String text, String type, String value)}<br>
  */
 public class Action {
 
@@ -64,7 +62,7 @@ public class Action {
 
 	/**
 	 * Used only with message menus. The individual options to appear in this
-	 * menu, provided as a list of {@link Option option} fields.
+	 * menu, provided as an array of option fields.
 	 */
 	private List<Option> options;
 
@@ -242,10 +240,11 @@ public class Action {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return new String(name + text + value + type + EquivalenceUtilities.ListHash(options)).hashCode();
 	}
-
+	
 	@Override
 	public boolean equals(Object other) {
 		Action otherAction = (Action) other;
@@ -261,7 +260,8 @@ public class Action {
 		if (!EquivalenceUtilities.SafeCompare(otherAction.getText(), getText())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompare(getOptions(), otherAction.getOptions())) {
+		if (!EquivalenceUtilities.SafeCompare(getOptions(), otherAction.getOptions()))
+		{
 			return false;
 		}
 		return true;
