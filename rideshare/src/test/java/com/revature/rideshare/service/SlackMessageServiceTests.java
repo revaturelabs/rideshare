@@ -503,19 +503,81 @@ public class SlackMessageServiceTests {
 		String CallbackID = "Please Confirm!";
 
 		Attachment confirmAttachment = slackMessageService.createConfirmationButtonsAttachment(CallbackID);
-		
-		System.out.println(confirmAttachment);
-		
-		assert(confirmAttachment.getCallback_id().equals(CallbackID));
 
-		assert(confirmAttachment.getActions().get(0).getName().equals("OKAY"));
-		
-		assert(confirmAttachment.getActions().get(0).getType().equals("button"));
-		
-		assert(confirmAttachment.getActions().get(1).getName().equals("cancel"));
-		
-		assert(confirmAttachment.getActions().get(1).getType().equals("button"));
-		
+		assert (confirmAttachment.getCallback_id().equals(CallbackID));
+
+		assert (confirmAttachment.getActions().get(0).getName().equals("OKAY"));
+
+		assert (confirmAttachment.getActions().get(0).getType().equals("button"));
+
+		assert (confirmAttachment.getActions().get(1).getName().equals("cancel"));
+
+		assert (confirmAttachment.getActions().get(1).getType().equals("button"));
+
+	}
+
+	@Test
+	public void testCreatePOIAttachment() {
+
+		String callbackID = "eight six seven five three oh nine";
+
+		String text = "gimme da pois";
+
+		List<PointOfInterest> poiList = getMockPoiList();
+
+		when(poiService.getAll()).thenReturn(poiList);
+
+		Attachment poiAttachment = slackMessageService.createPOIAttachment(text, callbackID);
+
+		assert (poiAttachment.getText().equals(text));
+
+		// TODO: Make this assert active.
+
+		// assert (poiAttachment.getCallback_id().equals(callbackID));
+
+		assert (poiAttachment.getActions().get(0).getOptions().size() == poiList.size());
+
+		verify(poiService, atLeastOnce()).getAll();
+
+	}
+
+	@Test
+	public void testGetUserID() {
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode testnode = null;
+		try {
+			testnode = mapper.readValue("{ \"user\" : { \"id\" : \"0\" } } ", ObjectNode.class);
+		} catch (IOException e) {
+			fail();
+		}
+		String response = slackMessageService.getUserId(testnode);
+		assert (response.equals("0"));
+	}
+
+	@Test
+	public void testGetMessageURL() {
+
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode testnode = null;
+		try {
+			testnode = mapper.readValue("{ \"response_url\" : \"some_url\" } ", ObjectNode.class);
+		} catch (IOException e) {
+			fail();
+		}
+		String response = slackMessageService.getMessageUrl(testnode);
+		assert (response.equals("some_url"));
+
+	}
+
+	@Test
+	public void testCreateRideData() {
+
+	}
+
+	public void testTemplateCanBeBuiltFromPayload() {
+		assert (!slackMessageService.templateCanBeBuiltFromPayload("failme"));
+		assert (slackMessageService.templateCanBeBuiltFromPayload("foundRidesByMessage"));
+		assert (slackMessageService.templateCanBeBuiltFromPayload("foundRequestsByMessage"));
 	}
 
 }
