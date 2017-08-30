@@ -340,38 +340,51 @@ public class SlackMessageServiceTests {
 
 	}
 
-	Attachment createDummyAttachment(Date starttime, Date endtime, String filter, String poiName, String callbackID)
-	{
+	Attachment createDummyAttachment(String callbackID) {
 		Attachment comparisonAttachment = new Attachment();
 
 		comparisonAttachment.setText("Available Rides");
-		
+
 		comparisonAttachment.setFallback("Unable to display available rides");
-		
-		comparisonAttachment.setCallback_id("Call Me Back Please");
-		
+
+		comparisonAttachment.setCallback_id(callbackID);
+
 		comparisonAttachment.setColor("#3AA3E3");
-		
+
 		comparisonAttachment.setAttachment_type("default");
-		
+
 		Action comparisonAction = new Action();
+
+		comparisonAction.setName("AvailableRides");
+
+		comparisonAction.setText("Select from the following rides");
+
+		comparisonAction.setType("select");
+
+		comparisonAction.setValue(null);
+
+		Option comparisonOption = new Option();
+
+		comparisonOption.setText("10:45AM > ID:0");
+
+		comparisonOption.setValue("10:45AM > ID:0");
 
 		List<Action> comparisonActionList = new ArrayList<Action>();
 
-		List<Option> comparisonOptionList = new ArrayList<Option>();	
-		
+		List<Option> comparisonOptionList = new ArrayList<Option>();
+
 		comparisonActionList.add(comparisonAction);
+
+		comparisonOptionList.add(comparisonOption);
 
 		comparisonAttachment.setActions(comparisonActionList);
 
 		comparisonAction.setOptions(comparisonOptionList);
 
-		
-		
 		return comparisonAttachment;
-		
+
 	}
-	
+
 	@Test
 	@SuppressWarnings("deprecation")
 	public void testCreateAvailableRidesAttachment() {
@@ -411,11 +424,14 @@ public class SlackMessageServiceTests {
 
 		assert (Output != null);
 
+		Attachment comparisonAttachment = createDummyAttachment(callbackId);
 
-
-
-		System.out.println(Output);
-
+		assert(Output.equals(comparisonAttachment));
+		
+		comparisonAttachment = createDummyAttachment("This is not the Callback ID");
+		
+		assert(!Output.equals(comparisonAttachment));
+		
 	}
 
 }
