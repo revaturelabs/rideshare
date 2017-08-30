@@ -1,5 +1,7 @@
 package com.revature.rideshare.json;
 
+import com.revature.rideshare.util.EquivalenceUtilities;
+
 /**
  * This class is used to create a Option that an Action can contain
  */
@@ -66,5 +68,30 @@ public class Option {
 	@Override
 	public String toString() {
 		return "Option [text=" + text + ", value=" + value + "]";
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return new String(text + value).hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		Option otherOption = (Option) other;
+		if (otherOption == null)
+		{
+			return false;
+		}
+		if (!EquivalenceUtilities.SafeCompare(getText(), otherOption.getText()))
+		{
+			return false;
+		}
+		if (!EquivalenceUtilities.SafeCompare(getValue(), otherOption.getValue()))
+		{
+			return false;
+		}
+		return true;
 	}
 }
