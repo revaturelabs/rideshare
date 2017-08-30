@@ -39,12 +39,10 @@ export let authFactory = function($window, $log, jwtHelper) {
 			let token = $window.localStorage.getItem('RideShare_auth_token');
 			console.log("isAdmin token not found");
 			if (token) {
-				console.log("isAdmin if, token found")
+        console.log("isAdmin token found");
 				try {
 					let payload = jwtHelper.decodeToken(token);
 					let user = JSON.parse(payload.user);
-					console.log("In try, user = " + user);
-					console.log("In try user.admin = " + user.admin);
 					result = user.admin;
 				} catch (err) {
 					$log.error('Failed to determine if the current user is an admin: ' + err);
