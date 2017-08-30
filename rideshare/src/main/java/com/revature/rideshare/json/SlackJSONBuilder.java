@@ -209,7 +209,7 @@ public class SlackJSONBuilder {
 	@Override
 	public int hashCode()
 	{
-		return new String(channel + text + type).hashCode();
+		return new String(channel + text + type + EquivalenceUtilities.ListHash(getAttachments())).hashCode();
 	}
 	
 	@Override
@@ -225,6 +225,10 @@ public class SlackJSONBuilder {
 			return false;
 		}
 		if (!EquivalenceUtilities.SafeCompare(otherJSONBuilder.getType(), getType())) {
+			return false;
+		}
+		if (!EquivalenceUtilities.SafeCompare(otherJSONBuilder.getAttachments(), getAttachments()))
+		{
 			return false;
 		}
 		return true;
