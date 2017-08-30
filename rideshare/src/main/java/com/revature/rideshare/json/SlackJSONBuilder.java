@@ -14,22 +14,35 @@ import com.revature.rideshare.util.EquivalenceUtilities;
  * then attach these to an actions array, then attach the actions array to an
  * attachment. You can then add that attachment to a SlackJSONBuilder object
  * which can be converted into String format and sent to a user as a slack
- * message.
+ * message.<br>
+ * <br>
+ * <b>Notable Fields:</b><br>
+ * {@link channel channel}<br>
+ * {@link #text}<br>
+ * {@link #response_type}<br>
+ * {@link #attachments}<br>
+ * <br>
+ * <b>Primary Constructor:</b><br>
+ * {@link #SlackJSONBuilder(String, String, String, List) SlackJSONBuilder(String channel, String text, String response_type, List attachments)}
  */
 public class SlackJSONBuilder {
 
-	// Name of the channel, @username, or user_id
+	/**
+	 * Name of the channel, username, or user_id
+	 */
 	private String channel;
 
-	// The basic text of the message. Only required if the message contains zero
-	// attachments.
+	/**
+	 * The basic text of the message. Only required if the message contains zero
+	 * attachments.
+	 */
 	private String text;
 
-	/*
+	/**
 	 * This field cannot be specified for a brand new message and must be used
 	 * only in response to the execution of message button action or a slash
-	 * command response.
-	 * 
+	 * command response.<br>
+	 * <br>
 	 * Expects one of two values: - in_channel — display the message to all
 	 * users in the channel where a message button was clicked. Messages sent in
 	 * response to invoked button actions are set to in_channel by default. -
@@ -43,9 +56,11 @@ public class SlackJSONBuilder {
 	private String subtype;
 	private String ts;
 
-	// Provide a JSON array of attachment objects. Adds additional components to
-	// the message.
-	// Messages should contain no more than 20 attachments.
+	/**
+	 * Provide a JSON array of {@link Attachment } objects. Adds additional
+	 * components to the message. Messages should contain no more than 20
+	 * attachments.
+	 */
 	private List<Attachment> attachments;
 
 	/**
