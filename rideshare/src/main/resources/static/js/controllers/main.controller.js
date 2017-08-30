@@ -19,13 +19,14 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 	$http.get("/car/myCar", $scope.car)
 		.then((response) => {
 			$scope.car = response.data;
+			console.log($scope.car);
 			$scope.carCopy = angular.copy($scope.car);
 			
 			if ($scope.car === '') {
-				$scope.buttonText = 'Add Car';
+				$scope.showHide = false;
 			}
 			else {
-				$scope.buttonText = 'Edit Car';
+				$scope.showHide = true;
 			}
 		},
 		(failedResponse) => {

@@ -11,6 +11,7 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			$scope.openRequest = response.data;	
+		
 		});
 	}
 
@@ -212,15 +213,17 @@ export let driverController = function($scope, $http, $state){
 		});
 	}
 	*/
-	$scope.ignoreReqParam = function(rideId) {
-		$http.get('/ride/request/ignore/' + rideId).then(
+	$scope.ignoreReq = function(reqId) {
+		$http.get('/ride/request/ignore/' + reqId).then(
 			(response) => {
 				for(let i = 0; i < $scope.openRequest.length; i++){
 					if($scope.openRequest[i].requestId == rideId) {
 						$scope.openRequest.splice(i, 1);
+						console.log(openReques[i]);
 						$scope.$apply;
 					}
 				}
+				$scope.ignoreReqVar = response.data;
 				setTimeout(function(){$state.reload();}, 500);
 			}
 		);
