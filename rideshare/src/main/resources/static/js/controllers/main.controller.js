@@ -15,5 +15,21 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 		});
 	};
 
-	
+	// retrieve the user's current car
+	$http.get("/car/myCar", $scope.car)
+		.then((response) => {
+			$scope.car = response.data;
+			console.log($scope.car);
+			$scope.carCopy = angular.copy($scope.car);
+			
+			if ($scope.car === '') {
+				$scope.showHide = false;
+			}
+			else {
+				$scope.showHide = true;
+			}
+		},
+		(failedResponse) => {
+			alert('failure');
+		})
 }
