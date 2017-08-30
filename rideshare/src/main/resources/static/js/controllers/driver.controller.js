@@ -219,7 +219,7 @@ export let driverController = function($scope, $http, $state){
 				for(let i = 0; i < $scope.openRequest.length; i++){
 					if($scope.openRequest[i].requestId == reqId) {
 						$scope.openRequest.splice(i, 1);
-						console.log(openReques[i]);
+						console.log(openRequest[i]);
 						$scope.$apply;
 					}
 				}
