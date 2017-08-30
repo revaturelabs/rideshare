@@ -17,7 +17,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
 @Table(name = "RIDE_REQUEST")
 public class RideRequest implements Serializable, Comparable<RideRequest> {
@@ -50,10 +49,18 @@ public class RideRequest implements Serializable, Comparable<RideRequest> {
 	@Column(name = "STATUS", nullable = false)
 	private RequestStatus status;
 
+	/**
+	 * Contains various request statuses for rides.<br>
+	 * <b>Possible Values:</b><br>
+	 * <b>OPEN</b> User is currently looking for a ride.<br>
+	 * <b>SATISFIED</b> User has found a ride.<br>
+	 * <b>STALE</b> User has not found a ride in a reasonable amount of
+	 * time.<br>
+	 */
 	public enum RequestStatus {
-		OPEN, // User currently looking for ride
-		SATISFIED, // User has found a ride
-		STALE // User has not found a ride in a reasonable amount of time
+		OPEN,
+		SATISFIED,
+		STALE
 	}
 
 	public RideRequest() {
