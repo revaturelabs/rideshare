@@ -1,13 +1,19 @@
 package com.revature.rideshare.service;
 
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 
 import com.revature.rideshare.dao.AvailableRideRepository;
 import com.revature.rideshare.dao.CarRepository;
 import com.revature.rideshare.dao.RideRepository;
 import com.revature.rideshare.dao.RideRequestRepository;
+import com.revature.rideshare.domain.RideRequest;
 
 public class RideServiceTest {
 	
@@ -15,7 +21,7 @@ public class RideServiceTest {
 	RideRepository rideRepository;
 
 	@Mock
-	RideRequestRepository rideRequestRepository;
+	RideRequestRepository rideReqRepo;
 
 	@Mock
 	AvailableRideRepository availableRideRepository;
@@ -31,7 +37,13 @@ public class RideServiceTest {
 	
 	@Test
 	public void testAddRequest() {
+		RideRequest mockRequest = new RideRequest();
 		
+		when(rideReqRepo.saveAndFlush(Matchers.same(mockRequest))).thenReturn(mockRequest);
+		
+		rideService.addRequest(mockRequest);
+		
+		verify(rideReqRepo, atLeastOnce()).saveAndFlush(Matchers.same(mockRequest));
 	}
 	
 	@Test
