@@ -11,6 +11,7 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			$scope.openRequest = response.data;	
+		
 		});
 	}
 
@@ -189,15 +190,44 @@ export let driverController = function($scope, $http, $state){
 
 	// accept open requests
 	$scope.acceptReq = function(id){
-
-
+		console.log("ACCEPT REQUEST CLICKED");
 		$http.get("/ride/request/accept/"+id)
 		.then(function(response) {
 			setTimeout(function(){$state.reload();}, 500);
 		});
-
 	}
-
+	
+	$scope.ignoreReq = function() {
+		console.log("ignore request test");
+	}
+	
+	//ignore open requests
+/*	$scope.ignoreReq3 = function(id) {
+		//set up this endpoint
+		console.log("Ignore Request Clicked!");
+		$http.get("/ride/request/ignore/"+id)
+		.then(function(response) => {
+			console.log("Ignore Request Response!")
+			$scope.openRequest = response.data;
+			setTimeout(function(){$state.reload();}, 500);
+		});
+	}
+	*/
+	$scope.ignoreReq = function(reqId) {
+		$http.get('/ride/request/ignore/' + reqId).then(
+			(response) => {
+				for(let i = 0; i < $scope.openRequest.length; i++){
+					if($scope.openRequest[i].requestId == rideId) {
+						$scope.openRequest.splice(i, 1);
+						console.log(openReques[i]);
+						$scope.$apply;
+					}
+				}
+				$scope.ignoreReqVar = response.data;
+				setTimeout(function(){$state.reload();}, 500);
+			}
+		);
+	};
 
 	function compare(a,b) {
 		if (a.availRide.availRideId < b.availRide.availRideId)
@@ -228,36 +258,41 @@ export let driverController = function($scope, $http, $state){
 	// method to add offer through http post
 	$scope.addOffer = function(pickup,dropoff,notes,time,seats) {
 
-		$scope.offer.car = $scope.car;
-//		$scope.offer.pickupPOI = pickup;
-//		$scope.offer.dropoffPOI = dropoff;
-		
-		// get the current drop down options id
-		let select1 = document.getElementById("fromPOI");
-		let start = $scope.allMainPOI[select1.options[select1.selectedIndex].id];
-		
-		let select2 = document.getElementById("toPOI");
-		let destination = $scope.allMainPOI[select2.options[select2.selectedIndex].id];
-		
-		$scope.offer.pickupPOI = start;
-		$scope.offer.dropoffPOI = destination;
-
-		if(notes == undefined || notes == "") {
-			notes = "N/A";
-		}
-
-		$scope.offer.notes = notes;
-		$scope.offer.time = new Date(time);
-		$scope.offer.seatsAvailable = seats;
-
-		$http.post('/ride/offer/add', $scope.offer).then(
-			(formResponse) => {
-				setTimeout(function(){$state.reload();}, 500);
-			},
-			(failedResponse) => {
-				alert('Failure');
+		if ($scope.car) {
+			
+			$scope.offer.car = $scope.car;
+	//		$scope.offer.pickupPOI = pickup;
+	//		$scope.offer.dropoffPOI = dropoff;
+			
+			// get the current drop down options id
+			let select1 = document.getElementById("fromPOI");
+			let start = $scope.allMainPOI[select1.options[select1.selectedIndex].id];
+			
+			let select2 = document.getElementById("toPOI");
+			let destination = $scope.allMainPOI[select2.options[select2.selectedIndex].id];
+			
+			$scope.offer.pickupPOI = start;
+			$scope.offer.dropoffPOI = destination;
+	
+			if(notes == undefined || notes == "") {
+				notes = "N/A";
 			}
-		)
+	
+			$scope.offer.notes = notes;
+			$scope.offer.time = new Date(time);
+			$scope.offer.seatsAvailable = seats;
+	
+			$http.post('/ride/offer/add', $scope.offer).then(
+				(formResponse) => {
+					setTimeout(function(){$state.reload();}, 500);
+				},
+				(failedResponse) => {
+					alert('Failure');
+				}
+			)
+		} else {
+			console.log("driver has no car ...")
+		}
 	};
 
 	$scope.offerCancel = function(activeRideId) {
