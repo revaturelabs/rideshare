@@ -5,7 +5,10 @@ import java.util.List;
 import com.revature.rideshare.util.EquivalenceUtilities;
 
 /**
- * This class is used to create an Action this can be in an Attachment
+ * This class is used to create an Action, primarily used in {@link com.revature.rideshare.json.Attachment Attachment}
+ * 
+ * 
+ * 
  */
 public class Action {
 
