@@ -40,7 +40,7 @@ export let authFactory = function($window, $log, jwtHelper) {
 			console.log("isAdmin token not found");
 			if (token) {
 				console.log("isAdmin if, token found")
-				try {}
+				try {
 					let payload = jwtHelper.decodeToken(token);
 					let user = JSON.parse(payload.user);
 					console.log("In try, user = " + user);
