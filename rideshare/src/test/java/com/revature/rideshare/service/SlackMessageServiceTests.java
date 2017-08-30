@@ -486,13 +486,36 @@ public class SlackMessageServiceTests {
 
 		Attachment timeAttachment = slackMessageService.createTimeAttachment(CallbackID);
 
-		//First option should be hours, twelve options..
+		// First option should be hours, twelve options..
 		assert (timeAttachment.getActions().get(0).getOptions().size() == 12);
-		//Second option should be minudes in divisions of 15, so four options.
+		// Second option should be minudes in divisions of 15, so four options.
 		assert (timeAttachment.getActions().get(1).getOptions().size() == 4);
-		//Third option should be AM/PM, two options.
+		// Third option should be AM/PM, two options.
 		assert (timeAttachment.getActions().get(2).getOptions().size() == 2);
 
+		assert (timeAttachment.getCallback_id().equals(CallbackID));
+
+	}
+
+	@Test
+	public void testCreateConfirmationButtonsAttachment() {
+
+		String CallbackID = "Please Confirm!";
+
+		Attachment confirmAttachment = slackMessageService.createConfirmationButtonsAttachment(CallbackID);
+		
+		System.out.println(confirmAttachment);
+		
+		assert(confirmAttachment.getCallback_id().equals(CallbackID));
+
+		assert(confirmAttachment.getActions().get(0).getName().equals("OKAY"));
+		
+		assert(confirmAttachment.getActions().get(0).getType().equals("button"));
+		
+		assert(confirmAttachment.getActions().get(1).getName().equals("cancel"));
+		
+		assert(confirmAttachment.getActions().get(1).getType().equals("button"));
+		
 	}
 
 }
