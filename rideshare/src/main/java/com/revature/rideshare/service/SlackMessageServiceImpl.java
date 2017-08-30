@@ -29,9 +29,9 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	public static final Integer MAX_NUMBER_SEATS = 4;
 
 	public static final Integer NUMBER_OF_HOURS = 12;
-
+	
 	public static final Integer MAX_MINUTES = 45;
-
+	
 	public static final Integer MINUTES_INCREMENT = 15;
 
 	@Autowired
