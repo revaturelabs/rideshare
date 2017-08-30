@@ -41,10 +41,10 @@
 		</div>
 		
 		
-		<div id="secondary-nav" class="row">
+		<div id="secondary-nav" class="row" ng-controller="driverTabController">
 			<ul class="nav navbar-nav">
 				<li><a ui-sref="main.passenger" ui-sref-active="navbar-active">Passenger</a></li>
-				<li><a ui-sref="main.driver" ui-sref-active="navbar-active" >Driver</a></li>
+				<li><a ui-sref="main.driver" ui-sref-active="navbar-active" ng-show="showHide">Driver</a></li>
 			</ul>
 		</div>
 		
