@@ -33838,6 +33838,7 @@ Object.defineProperty(exports, "__esModule", {
 var mainController = exports.mainController = function mainController($scope, $http, $state, $location, authFactory) {
 	// view that is the parent of all the main views
 	$scope.isAdmin = authFactory.isAdmin();
+	//$scope.isBanned = authFactory.isBanned();
 
 	$scope.logout = function () {
 		localStorage.removeItem('RideShare_auth_token');
@@ -34409,7 +34410,7 @@ var driverController = exports.driverController = function driverController($sco
 
 	// accept open requests
 	$scope.acceptReq = function (id) {
-
+		console.log("ACCEPT REQUEST CLICKED");
 		$http.get("/ride/request/accept/" + id).then(function (response) {
 			setTimeout(function () {
 				$state.reload();
@@ -34417,13 +34418,30 @@ var driverController = exports.driverController = function driverController($sco
 		});
 	};
 
+	$scope.ignoreReq = function () {
+		console.log("ignore request test");
+	};
+
 	//ignore open requests
-	$scope.ignoreReq = function (id) {
-		//set up this endpoint
-		$http.get("/ride/request/ignore/" + id).then(function (response) {
-			//setTimeout(function(){$state.reload();}, 500);
-			//console.log("Ignore Request!")
-			//$scope.openRequest = response.data;
+	/*	$scope.ignoreReq3 = function(id) {
+ 		//set up this endpoint
+ 		console.log("Ignore Request Clicked!");
+ 		$http.get("/ride/request/ignore/"+id)
+ 		.then(function(response) => {
+ 			console.log("Ignore Request Response!")
+ 			$scope.openRequest = response.data;
+ 			setTimeout(function(){$state.reload();}, 500);
+ 		});
+ 	}
+ 	*/
+	$scope.ignoreReqParam = function (rideId) {
+		$http.get('/ride/request/ignore/' + rideId).then(function (response) {
+			for (var i = 0; i < $scope.openRequest.length; i++) {
+				if ($scope.openRequest[i].requestId == rideId) {
+					$scope.openRequest.splice(i, 1);
+					$scope.$apply;
+				}
+			}
 			setTimeout(function () {
 				$state.reload();
 			}, 500);
@@ -34711,10 +34729,13 @@ var adminUsersController = exports.adminUsersController = function adminUsersCon
     $scope.changeAdmin = function (index) {
         $scope.user = $scope.users[index];
         $scope.isAdmin = document.getElementById("isAdmin").value;
+        var isBanned = document.getElementById("isBanned").value;
 
         if ($scope.isAdmin === undefined) $scope.isAdmin = false;
 
-        var url = "/admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin;
+        var url = "/admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin + "/" + isBanned;
+
+        console.log("URL IS " + url);
 
         $http.post(url, $scope.user).then(function (formResponse) {
             $state.reload('main.adminUsers');
@@ -35027,6 +35048,20 @@ var authFactory = exports.authFactory = function authFactory($window, $log, jwtH
 			}
 			return result;
 		}
+		/*isBanned: function() {
+  	let result = false;
+  	let token = $window.localStorage.getItem('RideShare_auth_token');
+  	if (token) {
+  		try {
+  			let payload = jwtHelper.decodeToken(token);
+  			let user = JSON.parse(payload.user);
+  			result = user.banned;
+  		} catch (err) {
+  			$log.error('Failed to determine if the current user is an banned: ' + err);
+  		}
+  	}
+  	return result;
+  }*/
 	};
 };
 
