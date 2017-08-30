@@ -569,9 +569,20 @@ public class SlackMessageServiceTests {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testCreateRideData() {
 
+		Date testDate = slackMessageService.createRideDate("08/09", "11", "45", "AM");
+
+		assert (testDate.getDate() == 9);
+
+		// The month is offset by 1 because January is 0
+		assert (testDate.getMonth() == 7);
+		
+		assert (testDate.getHours() == 11);
+
+		assert (testDate.getMinutes() == 45);
 	}
 
 	public void testTemplateCanBeBuiltFromPayload() {
