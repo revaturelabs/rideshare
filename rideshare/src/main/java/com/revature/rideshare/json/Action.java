@@ -21,8 +21,17 @@ import com.revature.rideshare.util.EquivalenceUtilities;
  */
 public class Action {
 
+	/**
+	 * <b>Appears Unused</b>
+	 */
 	private String id;
+	/**
+	 * <b>Appears Unused</b>
+	 */
 	private String data_source;
+	/**
+	 * <b>Appears Unused</b>
+	 */
 	private String style;
 
 	/**
