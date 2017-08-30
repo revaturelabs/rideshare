@@ -9,7 +9,7 @@ export let adminUsersController = function($scope, $http, $state) {
         $scope.users = response.data;
     })  
     
-    //  changes a User's status to admin or not from the checkbox
+    // changes a User's status to admin or not from the checkbox
     $scope.changeAdmin = function(index){
         $scope.user = $scope.users[index];
         $scope.isAdmin = document.getElementById("isAdmin").value;
