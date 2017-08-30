@@ -57,6 +57,7 @@ public class Car implements Serializable {
 
 	/**
 	 * The car's make or brand.
+	 * Examples such as Honda, Ford, Mitsubishi, BMW, 
 	 */
 
 	@Column(name = "CAR_BRAND", nullable = false)
