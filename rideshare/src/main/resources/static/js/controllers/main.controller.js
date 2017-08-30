@@ -23,10 +23,10 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 			$scope.carCopy = angular.copy($scope.car);
 			
 			if ($scope.car === '') {
-				$scope.buttonText = 'Add Car';
+				$scope.showHide = false;
 			}
 			else {
-				$scope.buttonText = 'Edit Car';
+				$scope.showHide = true;
 			}
 		},
 		(failedResponse) => {

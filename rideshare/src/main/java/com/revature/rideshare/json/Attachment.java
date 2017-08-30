@@ -7,21 +7,41 @@ import com.revature.rideshare.util.EquivalenceUtilities;
 
 /**
  * This class is used to create the Attachments that a RideRequestJSON object
- * contains
+ * contains. Primarily used with {@link SlackJSONBuilder}<br>
+ * <br>
+ * <b>Notable Fields:</b><br>
+ * {@link #id}<br>
+ * {@link #text}<br>
+ * {@link #callback_id}<br>
+ * {@link #attachment_type}<br>
+ * {@link #actions}<br>
+ * <br>
+ * <b>Primary Constructor:<b><br>
+ * {@link Attachment#Attachment(String, String, String, String, String, List)
+ * Attachment(String text, String fallback, String callback_id, String color,
+ * String attachment_type, List actions)}
  */
 public class Attachment {
-
+	/**
+	 * A unique ID identifying the attachment.<br>
+	 * <b>NOTE: APPEARS UNUSED</b>
+	 */
 	private String id;
 
-	// The basic text of the message. Only required if the message contains zero
-	// attachments.
+	/**
+	 * The basic text of the message. Only required if the message contains zero
+	 * attachments.
+	 */
 	private String text;
 
-	// The basic text of the message. Only required if the message contains zero
-	// attachments.
+	/**
+	 * <b>Unknown</b><br>
+	 * <br>
+	 * appears to offer error information if there was an error.
+	 */
 	private String fallback;
 
-	/*
+	/**
 	 * The provided string will act as a unique identifier for the collection of
 	 * buttons within the attachment. It will be sent back to your message
 	 * button action URL with each invoked action. This field is required when
@@ -30,17 +50,24 @@ public class Attachment {
 	 */
 	private String callback_id;
 
-	// Used to visually distinguish an attachment from other messages. Accepts
-	// hex values and a few named colors.
+	/**
+	 * Used to visually distinguish an attachment from other messages. Accepts
+	 * hex values and a few named colors.
+	 */
 	private String color;
 
-	// Even for message menus, remains the default value default.
+	/**
+	 * Used to determine the type of the attachment.<br>
+	 * <br>
+	 * <b> Potentially Unused</b>
+	 * 
+	 */
 	private String attachment_type;
 
 	/**
-	 * A collection of actions (buttons or menus) to include in the attachment.
-	 * Required when using message buttons or message menus. A maximum of 5
-	 * actions per attachment may be provided.
+	 * A collection of {@link Action actions} (buttons or menus) to include in
+	 * the attachment. Required when using message buttons or message menus. A
+	 * maximum of 5 actions per attachment may be provided.
 	 */
 	private List<Action> actions;
 
