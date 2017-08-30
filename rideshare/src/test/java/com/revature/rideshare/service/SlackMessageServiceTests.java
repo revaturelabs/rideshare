@@ -66,7 +66,7 @@ public class SlackMessageServiceTests {
 		List<PointOfInterest> pois = getMockPoiList();
 		List<Option> poiOptions = new ArrayList<Option>();
 		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPOIName(), poi.getPOIName());
+			Option o = new Option(poi.getPoiName(), poi.getPoiName());
 			poiOptions.add(o);
 		}
 
@@ -402,9 +402,7 @@ public class SlackMessageServiceTests {
 
 		AvailableRide testRide = new AvailableRide();
 
-		
-		testPoi.setPOIName(poiName);
-
+		testPoi.setPoiName(poiName);
 
 		testRide.setDropoffPOI(testPoi);
 

@@ -81,7 +81,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 		toFromOptions.add(fromOption);
 		List<PointOfInterest> pois = poiService.getAll();
 		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPOIName(), poi.getPOIName());
+			Option o = new Option(poi.getPoiName(), poi.getPoiName());
 			poiOptions.add(o);
 		}
 		Action toFromAction = new Action("To/From", "To/From", "select", toFromOptions);
@@ -229,17 +229,17 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 		List<AvailableRide> rides = rideService.getAvailableRidesByTime(starttime, endtime);
 		if (filter.equals("To")) {
 			rides = rideService.filterAvailableRidesByDropoffPoi(rides, poi);
-			destinationText = poi.getPOIName();
+			destinationText = poi.getPoiName();
 		} else if (filter.equals("From")) {
 			rides = rideService.filterAvailableRidesByPickupPoi(rides, poi);
-			destinationText = poi.getPOIName();
+			destinationText = poi.getPoiName();
 		}
 		for (AvailableRide ride : rides) {
 			if (ride.isOpen()) {
 				if (filter.equals("To")) {
-					alternateDestinationText = ride.getPickupPOI().getPOIName();
+					alternateDestinationText = ride.getPickupPOI().getPoiName();
 				} else if (filter.equals("From")) {
-					alternateDestinationText = ride.getDropoffPOI().getPOIName();
+					alternateDestinationText = ride.getDropoffPOI().getPoiName();
 				}
 				Date time = ride.getTime();
 				String hours = "" + time.getHours();
@@ -349,7 +349,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 
 		List<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
 		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPOIName(), poi.getPOIName());
+			Option o = new Option(poi.getPoiName(), poi.getPoiName());
 			poiOptions.add(o);
 		}
 
