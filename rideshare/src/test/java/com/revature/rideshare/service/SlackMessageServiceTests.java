@@ -294,7 +294,6 @@ public class SlackMessageServiceTests {
 			fail();
 		}
 		List<String> comparisonString = new ArrayList<String>();
-		System.out.println(TestString);
 
 		Action dummyAction = getDummyAction();
 
@@ -319,11 +318,10 @@ public class SlackMessageServiceTests {
 		try {
 			TestString = slackMessageService.getTextFields(getSlackJsonNode("Test Channel", "Test 8/29", attachments));
 		} catch (IOException e) {
-			//Fails if an exception is thrown.
+			// Fails if an exception is thrown.
 			fail();
 		}
 		List<String> comparisonString = new ArrayList<String>();
-		System.out.println(TestString);
 
 		Action dummyAction = getDummyAction();
 
@@ -331,22 +329,53 @@ public class SlackMessageServiceTests {
 
 		comparisonString.add(dummyAction.getText());
 
-		//Fails if the wrong number of results is found.
-		
+		// Fails if the wrong number of results is found.
+
 		assert (TestString.size() == comparisonString.size());
 
 		for (int i = 0; i < comparisonString.size(); i++) {
-			//Fails if any result does not match the expected result.
+			// Fails if any result does not match the expected result.
 			assert (TestString.get(i).equals(comparisonString.get(i)));
 		}
 
 	}
 
+	Attachment createDummyAttachment(Date starttime, Date endtime, String filter, String poiName, String callbackID)
+	{
+		Attachment comparisonAttachment = new Attachment();
+
+		comparisonAttachment.setText("Available Rides");
+		
+		comparisonAttachment.setFallback("Unable to display available rides");
+		
+		comparisonAttachment.setCallback_id("Call Me Back Please");
+		
+		comparisonAttachment.setColor("#3AA3E3");
+		
+		comparisonAttachment.setAttachment_type("default");
+		
+		Action comparisonAction = new Action();
+
+		List<Action> comparisonActionList = new ArrayList<Action>();
+
+		List<Option> comparisonOptionList = new ArrayList<Option>();	
+		
+		comparisonActionList.add(comparisonAction);
+
+		comparisonAttachment.setActions(comparisonActionList);
+
+		comparisonAction.setOptions(comparisonOptionList);
+
+		
+		
+		return comparisonAttachment;
+		
+	}
+	
 	@Test
 	@SuppressWarnings("deprecation")
-	public void testCreateAvailableRidesAttachment()
-	{
-		
+	public void testCreateAvailableRidesAttachment() {
+
 		Date starttime = new Date(11, 11, 11, 10, 45);
 		Date endtime = new Date(11, 11, 11, 11, 30);
 
@@ -357,34 +386,36 @@ public class SlackMessageServiceTests {
 		String callbackId = "Call Me Back Please";
 
 		PointOfInterest testPoi = new PointOfInterest();
-		
+
 		AvailableRide testRide = new AvailableRide();
-		
+
 		testPoi.setPoiName(poiName);
 
 		testRide.setDropoffPOI(testPoi);
-		
+
 		testRide.setOpen(true);
-		
+
 		testRide.setTime(starttime);
-		
+
 		List<AvailableRide> testRides = new ArrayList<AvailableRide>();
-		
+
 		testRides.add(testRide);
-		
+
 		when(poiService.getPoi(Matchers.matches(poiName))).thenReturn(testPoi);
-		
-		when(rideService.getAvailableRidesByTime(Matchers.same(starttime), Matchers.same(endtime))).thenReturn(testRides);
-		
-		Attachment Output = slackMessageService.createAvailableRidesAttachment(starttime, endtime, filter, poiName, callbackId);
-		
-		assert(Output != null);
-		
-		System.out.println(Output.getText());
-		System.out.println(Output.getActions());
-		
-		
-		
+
+		when(rideService.getAvailableRidesByTime(Matchers.same(starttime), Matchers.same(endtime)))
+				.thenReturn(testRides);
+
+		Attachment Output = slackMessageService.createAvailableRidesAttachment(starttime, endtime, filter, poiName,
+				callbackId);
+
+		assert (Output != null);
+
+
+
+
+		System.out.println(Output);
+
 	}
-	
+
 }
