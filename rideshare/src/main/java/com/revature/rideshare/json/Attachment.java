@@ -1,6 +1,7 @@
 package com.revature.rideshare.json;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is used to create the Attachments that a RideRequestJSON object contains
@@ -33,14 +34,14 @@ public class Attachment {
 	 * Required when using message buttons or message menus. 
 	 * A maximum of 5 actions per attachment may be provided.
 	 */
-	private ArrayList<Action> actions;
+	private List<Action> actions;
 	
 	/**
 	 * no-arg constructor
 	 */
 	public Attachment() {}
 	
-	public Attachment(String id, String text, String fallback, String callback_id, String color, String attachment_type, ArrayList<Action> actions) {
+	public Attachment(String id, String text, String fallback, String callback_id, String color, String attachment_type, List<Action> actions) {
 		this.id = id;
 		this.text = text;
 		this.fallback = fallback;
@@ -59,7 +60,7 @@ public class Attachment {
 	 * @param attachment_type
 	 * @param actions
 	 */
-	public Attachment(String text, String fallback, String callback_id, String color, String attachment_type, ArrayList<Action> actions) {
+	public Attachment(String text, String fallback, String callback_id, String color, String attachment_type, List<Action> actions) {
 		this.text = text;
 		this.fallback = fallback;
 		this.callback_id = callback_id;
@@ -68,7 +69,7 @@ public class Attachment {
 		this.actions = actions;
 	}
 	
-	public Attachment(String fallback, String callback_id, String color, String attachment_type, ArrayList<Action> actions) {
+	public Attachment(String fallback, String callback_id, String color, String attachment_type, List<Action> actions) {
 		this.fallback = fallback;
 		this.callback_id = callback_id;
 		this.color = color;
@@ -160,7 +161,7 @@ public class Attachment {
 	 * Get the list of actions that this attachment contains
 	 * @return list of actions
 	 */
-	public ArrayList<Action> getActions() {
+	public List<Action> getActions() {
 		return actions;
 	}
 
@@ -168,7 +169,7 @@ public class Attachment {
 	 * Set the list of actions that this attachment contains
 	 * @param actions
 	 */
-	public void setActions(ArrayList<Action> actions) {
+	public void setActions(List<Action> actions) {
 		this.actions = actions;
 	}
 	
