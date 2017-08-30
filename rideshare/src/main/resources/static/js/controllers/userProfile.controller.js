@@ -80,7 +80,7 @@ export let userProfileController = function ($scope, $http, $state) {
 	}
 	
 	//Function updates the firstname, lastname, and email fields
-	$scope.setPois = function () {
+	$scope.updateUserInfo = function () {
 		$scope.user.firstname = $scope.newFirstName;
 		$scope.user.lastname = $scope.newLastName;
 
