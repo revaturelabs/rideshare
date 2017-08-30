@@ -130,8 +130,7 @@ public class RideServiceImpl implements RideService {
 				//dont add ignored request
 				if(r.getRequestId() == id){
 					RideRequest req = rideReqRepo.getOne(id);
-					req.setStatus(RequestStatus.STALE)
-					rideReqRepo.saveAndFlush(req);
+					req.setStatus(RideRequest.RequestStatus.STALE);
 				} else {
 					temp.add(r);
 				}
