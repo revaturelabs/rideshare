@@ -340,7 +340,7 @@ public class SlackMessageServiceTests {
 
 	}
 
-	Attachment createDummyAttachment(String callbackID) {
+	Attachment createDummyAvailableRidesAttachment(String callbackID) {
 		Attachment comparisonAttachment = new Attachment();
 
 		comparisonAttachment.setText("Available Rides");
@@ -424,14 +424,75 @@ public class SlackMessageServiceTests {
 
 		assert (Output != null);
 
-		Attachment comparisonAttachment = createDummyAttachment(callbackId);
+		Attachment comparisonAttachment = createDummyAvailableRidesAttachment(callbackId);
 
-		assert(Output.equals(comparisonAttachment));
-		
-		comparisonAttachment = createDummyAttachment("This is not the Callback ID");
-		
-		assert(!Output.equals(comparisonAttachment));
-		
+		assert (Output.equals(comparisonAttachment));
+
+		comparisonAttachment = createDummyAvailableRidesAttachment("This is not the Callback ID");
+
+		assert (!Output.equals(comparisonAttachment));
+
+	}
+
+	Attachment createDummyTimeAttachment(String callbackID) {
+		Attachment comparisonAttachment = new Attachment();
+
+		comparisonAttachment.setText("Available Rides");
+
+		comparisonAttachment.setFallback("Unable to display available rides");
+
+		comparisonAttachment.setCallback_id(callbackID);
+
+		comparisonAttachment.setColor("#3AA3E3");
+
+		comparisonAttachment.setAttachment_type("default");
+
+		Action comparisonAction = new Action();
+
+		comparisonAction.setName("AvailableRides");
+
+		comparisonAction.setText("Select from the following rides");
+
+		comparisonAction.setType("select");
+
+		comparisonAction.setValue(null);
+
+		Option comparisonOption = new Option();
+
+		comparisonOption.setText("10:45AM > ID:0");
+
+		comparisonOption.setValue("10:45AM > ID:0");
+
+		List<Action> comparisonActionList = new ArrayList<Action>();
+
+		List<Option> comparisonOptionList = new ArrayList<Option>();
+
+		comparisonActionList.add(comparisonAction);
+
+		comparisonOptionList.add(comparisonOption);
+
+		comparisonAttachment.setActions(comparisonActionList);
+
+		comparisonAction.setOptions(comparisonOptionList);
+
+		return comparisonAttachment;
+
+	}
+
+	@Test
+	public void testCreateTimeAttachment() {
+
+		String CallbackID = "Ring Ring Ring Ring...";
+
+		Attachment timeAttachment = slackMessageService.createTimeAttachment(CallbackID);
+
+		//First option should be hours, twelve options..
+		assert (timeAttachment.getActions().get(0).getOptions().size() == 12);
+		//Second option should be minudes in divisions of 15, so four options.
+		assert (timeAttachment.getActions().get(1).getOptions().size() == 4);
+		//Third option should be AM/PM, two options.
+		assert (timeAttachment.getActions().get(2).getOptions().size() == 2);
+
 	}
 
 }
