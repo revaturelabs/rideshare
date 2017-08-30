@@ -28,16 +28,17 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.filter.CompositeFilter;
 
 /**
- *
  * @author Eric Christie
  * @created July 9, 2017
  * 
+ *          {WebSecurityConfigurerAdapter} provides a convenient base class for
+ *          creating a {WebSecurityConfigurer} instance.
  * 
- * {WebSecurityConfigurerAdapter} provides a convenient base class for creating a {WebSecurityConfigurer} instance.
+ *          {WebSecurityConfig} represents RideShare's implementation of the
+ *          WebSecurityConfigurer interface.
  * 
- * {WebSecurityConfig} represents RideShare's implementation of the WebSecurityConfigurer interface.
- * 
- * Within {WebSecurityConfig} you will find overridden methods which make RideShare's Slack login possible.
+ *          Within {WebSecurityConfig} you will find overridden methods which
+ *          make RideShare's mode of user authentication possible.
  */
 @Configuration
 @EnableWebSecurity
