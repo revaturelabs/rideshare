@@ -17,6 +17,7 @@
 <p id="display"></p>
 
 <script src="../js/googleMapAPI/markerclusterer.js"></script>
+<script src="../js/paginate/dirPagination.js"></script>
 
 
 <!-- Tabs that display active rides and ride history for a user -->
@@ -94,7 +95,7 @@
 			</ul>
 						
 			<div class="panel-group" id="accordionActive">
-			<div class="panel panel-default" dir-paginate="req in activeRequests| itemsPerPage: 10" style="border:none;">
+			<div class="panel panel-default" ng-repeat="req in activeRequests" style="border:none;">
 				<div class="panel panel-default" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseA{{req.requestId}}" style = "background-color: #fafafa;">
 					<h4 class="panel-title">
@@ -290,7 +291,6 @@
 
 			</div>
 			
-			<dir-pagination-controls ></dir-pagination-controls>
 			
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary"
