@@ -129,9 +129,8 @@ public class RideServiceImpl implements RideService {
 			if (r.getStatus() == RequestStatus.OPEN && r.getPickupLocation() == rq.getPickupLocation()) {
 				//dont add ignored request
 				if(r.getRequestId() == id){
-					/*do not add
 					RideRequest req = rideReqRepo.getOne(id);
-					req.setStatus(RideRequest.RequestStatus.STALE);*/
+					req.setStatus(RideRequest.RequestStatus.STALE);
 				} else {
 					temp.add(r);
 				}
