@@ -39,6 +39,7 @@ import org.springframework.web.filter.CompositeFilter;
  * 
  *          Within {WebSecurityConfig} you will find overridden methods which
  *          make RideShare's mode of user authentication possible.
+ *          
  */
 @Configuration
 @EnableWebSecurity
