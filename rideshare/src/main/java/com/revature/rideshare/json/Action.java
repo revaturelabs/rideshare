@@ -7,8 +7,9 @@ import com.revature.rideshare.service.SlackService;
 import com.revature.rideshare.util.EquivalenceUtilities;
 
 /**
- * This class is used to create an Action, primarily used in
- * {@link com.revature.rideshare.json.Attachment Attachment}
+ * This class is used to create an Action.
+ * <p>
+ * primarily used in {@link com.revature.rideshare.json.Attachment Attachment}.
  * <p>
  * <b>Notable Fields:</b><br>
  * {@link #name}<br>
