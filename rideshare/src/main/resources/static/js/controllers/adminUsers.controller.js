@@ -14,14 +14,9 @@ export let adminUsersController = function($scope, $http, $state) {
         $scope.user = $scope.users[index];
         $scope.isAdmin = document.getElementById("isAdmin").value;
         var isBanned = document.getElementById("isBanned").value;
-
         if ($scope.isAdmin === undefined)   
             $scope.isAdmin = false;
-        
         var url = "/admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin + "/" + isBanned;
-        
-        console.log("URL IS " + url);
-        
         $http.post(url, $scope.user)
         .then((formResponse) => {
             $state.reload('main.adminUsers');
