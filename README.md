@@ -1,4 +1,4 @@
-![Revature logo](https://github.com/genesisb17/RideShare/raw/master/rideshare/src/main/webapp/static/images/rev-brand.png)
+![Revature logo](https://github.com/rideshare1707/rideshare/blob/5524c2c8a960bd00cf48119762b1e3890a258004/rideshare/src/main/webapp/static/images/rev-brand.png)
 
 
 # Traing Wheels : Ride sharing app
@@ -9,4 +9,4 @@ Administrators can view a list of all rides that have occurred, add and remove p
 
 A Slack integration is available that allows power users to create offers and requests from within Slack.
 
-[More information...](https://github.com/genesisb17/RideShare/wiki)
+[More information...](https://github.com/rideshare1707/rideshare/wiki)
