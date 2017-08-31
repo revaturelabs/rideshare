@@ -54,10 +54,8 @@ public interface SlackService {
 	 * Attachment 4: contains a drop down menu for number of seats.<br>
 	 * Attachment 5: contains two buttons: OKAY and CANCEL<br>
 	 * 
-	 * @param String
-	 *            userId
-	 * @param String
-	 *            text
+	 * @param userId
+	 * @param text
 	 * @return a JSON string that contains the interactive message for a new
 	 *         ride
 	 */
@@ -76,10 +74,8 @@ public interface SlackService {
 	 * Attachment 3: contains a drop down menu for destination POI.<br>
 	 * Attachment 4: contains two buttons: OKAY and CANCEL<br>
 	 * 
-	 * @param String
-	 *            userId
-	 * @param String
-	 *            text
+	 * @param userId
+	 * @param text
 	 * @return String New slack message.
 	 */
 	String newRequestMessage(String userId, String text);
@@ -107,10 +103,8 @@ public interface SlackService {
 	 * </ul>
 	 * Attachment 4: contains two buttons: OKAY and CANCEL<br>
 	 * 
-	 * @param String
-	 *            userId
-	 * @param String
-	 *            text
+	 * @param userId
+	 * @param text
 	 * @return String New slack message.
 	 */
 	String findRidesMessage(String userId, String text);
@@ -120,10 +114,8 @@ public interface SlackService {
 	 * iterations.-- <br>
 	 * Lets a driver find request matching their parameters.
 	 * 
-	 * @param String
-	 *            userId
-	 * @param String
-	 *            date
+	 * @param userId
+	 * @param date
 	 * @return String New slack message.
 	 */
 	String findRequestsMessage(String userId, String date);
@@ -132,8 +124,7 @@ public interface SlackService {
 	 * Creates a ride in the database using the values that that the user
 	 * inputted from slack
 	 * 
-	 * @param JsonNode
-	 *            payload
+	 * @param payload
 	 * @return String Confirmation message.
 	 */
 	String createRideByMessage(JsonNode payload);
@@ -142,8 +133,7 @@ public interface SlackService {
 	 * Creates a request confirmation message that contains the values that the
 	 * user selected and creates a ride request in the application.
 	 * 
-	 * @param JsonNode
-	 *            payload
+	 * @param payload
 	 * @return String Confirmation message.
 	 */
 	String createRequestByMessage(JsonNode payload);
@@ -153,8 +143,7 @@ public interface SlackService {
 	 * method to determine if the fields of the message have been filled by the
 	 * user.
 	 * 
-	 * @param String
-	 *            message
+	 * @param message
 	 * @return boolean Determines if all fields have been filled.
 	 */
 	boolean foundRidesByMessage(String message);
@@ -162,8 +151,7 @@ public interface SlackService {
 	/**
 	 * Returns a message which lets a user select rides matching their criteria.
 	 * 
-	 * @param JsonNode
-	 *            payload
+	 * @param payload
 	 * @return String Confirmation message to be propagated as a message to
 	 *         slack user.
 	 */
@@ -193,8 +181,7 @@ public interface SlackService {
 	/**
 	 * Process the values that the user submitted in the interactive message
 	 * 
-	 * @param JsonNode
-	 *            payload
+	 * @param payload
 	 * @return String Confirmation message to be propagated as a message to
 	 *         slack user.
 	 */
@@ -208,8 +195,7 @@ public interface SlackService {
 	 * If not, the message must have a method matching its name, but the
 	 * argument must be the current message in String format.
 	 * 
-	 * @param JsonNode
-	 *            payload
+	 * @param payload
 	 * @return boolean True if all fields in the message are filled, false
 	 *         otherwise.
 	 */
@@ -219,10 +205,8 @@ public interface SlackService {
 	 * Compares the user's message with the original message template to see if
 	 * all fields have been filled.
 	 * 
-	 * @param String
-	 *            currentMessage
-	 * @param String
-	 *            template
+	 * @param currentMessage
+	 * @param template
 	 * @return boolean True if all fields filled, false otherwise
 	 */
 	boolean compareMessages(String currentMessage, String template);
@@ -231,8 +215,7 @@ public interface SlackService {
 	 * Checks to see if a message is at the end of its message chain for
 	 * propagating confirmation messages to slack user.
 	 * 
-	 * @param String
-	 *            callbackId
+	 * @param callbackId
 	 * @return boolean True if message is able to send a confirmation message
 	 *         back to slack user.
 	 */
