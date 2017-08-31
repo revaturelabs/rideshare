@@ -12,27 +12,57 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * Appears to be a record of a ride that is either in progress or has already
+ * taken place from a rider's perspective.<br>
+ * <br>
+ * <b>Notable Fields:</b><br>
+ * {@link #rideId}<br>
+ * {@link #availRide}<br>
+ * {@link #request}<br>
+ * {@link #wasSuccessful}<br>
+ * {@link #complaint}<br>
+ *
+ */
 @Entity
 @Table(name = "Rides")
 public class Ride implements Serializable {
 
 	private static final long serialVersionUID = -2957865032918745458L;
 
+	/**
+	 * the Unique ID representing this ride in the database
+	 */
 	@Id
 	@Column(name = "RIDE_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "R_ID_SEQUENCE")
 	@SequenceGenerator(name = "R_ID_SEQUENCE", sequenceName = "R_ID_SEQUENCE")
 	private long rideId;
 
+	/**
+	 * The {@link AvailableRide Available Ride} offered by another user that the
+	 * user placing the {@link #request} accepted.
+	 */
 	@OneToOne(fetch = FetchType.LAZY)
 	private AvailableRide availRide;
 
+	/**
+	 * The {@link RideRequest Ride Request} that was paired with the
+	 * {@link availRide Available Ride} this Ride is a long-term record of.
+	 */
 	@OneToOne(fetch = FetchType.LAZY)
 	private RideRequest request;
 
+	/**
+	 * A boolean representing if this ride was successfully finished or not.}
+	 */
 	@Column(name = "WAS_SUCCESSFUL")
 	private Boolean wasSuccessful;
 
+	/**
+	 * A String containing any and all complaints made by the rider against the driver.
+	 */
+	
 	@Column(name = "COMPLAINT")
 	private String complaint;
 

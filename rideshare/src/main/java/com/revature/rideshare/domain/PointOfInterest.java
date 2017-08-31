@@ -13,41 +13,98 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * 
+ * A location representing a Point of Interest that users can travel to or
+ * from.<br>
+ * <br>
+ * <b>Notable Fields:</b><br>
+ * {@link #poiId}<br>
+ * {@link #poiName}<br>
+ * {@link #addressLine1}<br>
+ * {@link #addressLine2}<br>
+ * {@link #city}<br>
+ * {@link #state}<br>
+ * {@link #zipCode}<br>
+ * {@link #latitude}<br>
+ * {@link #longitude}<br>
+ * {@link #type}<br>
+ */
 @Entity
 @Table(name = "POINTS_OF_INTEREST")
 public class PointOfInterest implements Serializable {
 
 	private static final long serialVersionUID = 1610039859397834102L;
-
+	/**
+	 * This Point of Interest's unique ID in the database.
+	 */
 	@Id
 	@Column(name = "POI_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POI_ID_SEQUENCE")
 	@SequenceGenerator(name = "POI_ID_SEQUENCE", sequenceName = "POI_ID_SEQUENCE")
 	private int poiId;
 
+	/**
+	 * The name of this POI
+	 */
 	@Column(name = "NAME", nullable = false)
 	private String poiName;
+
+	/**
+	 * The first line of this Point Of Interests's address.<br>
+	 * Most likely the street address.
+	 */
 
 	@Column(name = "ADDRESS_1", nullable = false)
 	private String addressLine1;
 
+	/**
+	 * The second line of this Point Of Interests's address.<br>
+	 * Most likely a building or unit number.
+	 */
+
 	@Column(name = "ADDRESS_2")
 	private String addressLine2;
+
+	/**
+	 * The city in which this Point of Interest is located
+	 */
 
 	@Column(name = "CITY", nullable = false)
 	private String city;
 
+	/**
+	 * The state in which this Point of Interest is located
+	 */
+
 	@Column(name = "STATE", nullable = false)
 	private String state;
+
+	/**
+	 * The Zip code associated with the area in which this Point of Interest is
+	 * located
+	 */
 
 	@Column(name = "ZIP", nullable = false)
 	private String zipCode;
 
+	/**
+	 * The Latitude at which this Point Of Interest can be found.
+	 */
+
 	@Column(name = "LATITUDE", nullable = false, scale = 6)
 	private double latitude;
 
+	/**
+	 * The Longitude at which this point of interest can be found.
+	 */
+
 	@Column(name = "LONGITUDE", nullable = false, scale = 6)
 	private double longitude;
+
+	/**
+	 * The {@link PointOfInterestType type} of this Point of Interest.
+	 */
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private PointOfInterestType type;
