@@ -26,6 +26,9 @@ import org.codehaus.jackson.JsonNode;
  * {@link #isMessageActionable(JsonNode)}<br>
  * {@link #compareMessages(String, String)}<br>
  * {@link #isMessageEndOfBranch(String)}<br>
+ * <p>
+ * <b>Known Implementations</b><br>
+ * {@link com.revature.rideshare.service.SlackServiceImpl SlackServiceImpl} Default implementation used by RideShare.
  */
 
 public interface SlackService {
