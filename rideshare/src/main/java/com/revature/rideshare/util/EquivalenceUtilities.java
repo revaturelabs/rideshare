@@ -10,8 +10,8 @@ public class EquivalenceUtilities {
 
 	/**
 	 * This method has been deprecated. Use {@link #SafeCompare(Object, Object)
-	 * SafeCompare(Object A, Object B) } instead
-	 *
+	 * SafeCompare(Object A, Object B) } instead. <br>
+	 * <br>
 	 * Safely compares two strings that may or may not be null.
 	 * 
 	 * @param A
@@ -26,8 +26,8 @@ public class EquivalenceUtilities {
 
 	/**
 	 * This method has been deprecated. Use {@link #SafeCompare(Object, Object)
-	 * SafeCompare(Object A, Object B) } instead
-	 * 
+	 * SafeCompare(Object A, Object B) } instead<br>
+	 * <br>
 	 * Safely compares two options that may or may not be null.
 	 * 
 	 * @param A
@@ -60,17 +60,18 @@ public class EquivalenceUtilities {
 
 	/**
 	 * 
-	 * Safely compares two lists that may or may not be null.
-	 * 
+	 * Safely compares two lists that may or may not be null.<br>
+	 * <br>
 	 * Checks if both lists are the same size, then creates a hash code from
 	 * each using {@link #ListHash(List) ListHash<T> function}. If both hash
-	 * codes are the same, the lists are considered to be equal.
-	 * 
+	 * codes are the same, the lists are considered to be equal.<br>
+	 * <br>
 	 * Will return true even if the objects in both lists are in a different
-	 * order from one another.
-	 * 
+	 * order from one another.<br>
+	 * <br>
 	 * Basically free if both lists are of a different size, but must process
-	 * every item in each list if both lists are of equal size.
+	 * every item in each list if both lists are of equal size.<br>
+	 * <br>
 	 * 
 	 * @param A
 	 * @param B
@@ -97,7 +98,7 @@ public class EquivalenceUtilities {
 	/**
 	 * Compounds the hashCode of every object in the list. This will return the
 	 * same hashcode for two lists containing the same objects(As measured by
-	 * their {@link java.lang.Object#hashCode() Hash Code} ) in different
+	 * their {@link java.lang.Object#hashCode() Hash Code} ) even if they are in different
 	 * orders.
 	 * 
 	 * @param list
