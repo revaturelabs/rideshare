@@ -1,0 +1,73 @@
+<!--click button to see populated table of all Users-->
+<div class="panel-group" id="userAccordion" style="padding-top: 1em">
+	<div class="panel panel-default" ng-repeat="u in users"
+		style="border: none">
+		<div class="panel-heading" data-toggle="collapse"
+			data-target="#collapse{{u.userId}}">
+			<h4 class="panel-title">
+				<a class="accordion-toggle collapsed" data-toggle="collapse"
+					data-parent="#userAccordioin" href="#collapse{{u.userId}}"
+					target="_self" style="text-decoration: none"> {{u.fullName}} </a>
+			</h4>
+		</div>
+		<div id="collapse{{u.userId}}" class="panel-collapse collapse" >
+			<div class="panel-body" style="padding: 2em">
+				<!-- Expanded Information Section -->
+				<div class="row">
+					<table>
+						<tr>
+							<td>Full Name:</td>
+							<td>{{u.fullName}}</td>
+						</tr>
+						<!-- Slack doesn't store first and last names of users -->
+						<!-- <tr>
+							<td>First Name:</td>
+							<td>{{u.firstName}}</td>
+						</tr>
+						<tr>
+							<td>Last Name:</td>
+							<td>{{u.lastName}}</td>
+						</tr> -->
+						<tr>
+							<td>Email:</td>
+							<td>{{u.email}}</td>
+						</tr>
+						<tr>
+							<td>Main Point of Interest:</td>
+							<td>{{u.mainPOI.poiName}}</td>
+						</tr>
+						<tr>
+							<td>Work Point of Interest:</td>
+							<td>{{u.workPOI.poiName}}</td>
+						</tr>
+						<tr>
+							<td>Admin:</td>
+							<td> 
+								<select id ="isAdmin">
+								  <option  value="false">User</option>
+								  <option  ng-selected="u.admin" value="true">Admin</option>
+								</select> 
+							</td>
+						<tr>
+							<td>Ban:</td>
+							<td> 
+								<select id ="isBanned">
+									<option  value="false">Not Banned</option>
+								  <option  ng-selected="u.banned" value="true">Banned</option>
+								</select> 
+							</td>
+						</tr>
+						</tr>
+					</table>
+				</div>
+				<div class="row btn-container">
+					<button class="btn btn-primary" ng-click="changeAdmin($index)">Save
+						Changes</button>
+				</div>
+				<!-- End of Expanded Section -->
+			</div>
+		</div>
+	</div>
+</div>
+
+
