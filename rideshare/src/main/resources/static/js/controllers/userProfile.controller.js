@@ -78,6 +78,20 @@ export let userProfileController = function ($scope, $http, $state) {
 				alert('failure in setPois');
 			})
 	}
+	
+	//Function updates the firstname, lastname, and email fields
+	$scope.setPois = function () {
+		$scope.user.firstname = $scope.newFirstName;
+		$scope.user.lastname = $scope.newLastName;
+
+		$http.post("/user/updateCurrentUser", $scope.user)
+			.then((formResponse) => {
+				$state.go('main.userProfile');
+			},
+			(failedResponse) => {
+				alert('failure in update user');
+			})
+	}
 
 	$scope.addCar = function () {
 		$http.post('/car', $scope.carCopy).then(

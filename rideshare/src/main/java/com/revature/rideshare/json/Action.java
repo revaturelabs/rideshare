@@ -5,37 +5,67 @@ import java.util.List;
 import com.revature.rideshare.util.EquivalenceUtilities;
 
 /**
- * This class is used to create an Action this can be in an Attachment
+ * This class is used to create an Action, primarily used in
+ * {@link com.revature.rideshare.json.Attachment Attachment}<br>
+ * <br>
+ * <b>Notable Fields:</b><br>
+ * {@link #name}<br>
+ * {@link #text}<br>
+ * {@link #type}<br>
+ * {@link #value}<br>
+ * {@link #options}<br>
+ * <br>
+ * <b>Primary Constructors:</b><br>
+ * {@link Action#Action(String, String, String, List) Action(String name, String
+ * text, String type, List options)}<br>
+ * {@link Action#Action(String, String, String, String) Action(String name,
+ * String text, String type, String value)}<br>
  */
 public class Action {
 
+	/**
+	 * <b>Appears Unused</b>
+	 */
 	private String id;
+	/**
+	 * <b>Appears Unused</b>
+	 */
 	private String data_source;
+	/**
+	 * <b>Appears Unused</b>
+	 */
 	private String style;
 
-	/*
+	/**
 	 * Provide a string to give this specific action a name. The name will be
 	 * returned to your Action URL along with the message's callback_id when
 	 * this action is invoked.
 	 */
 	private String name;
 
-	// The user-facing label for the message button or menu representing this
-	// action.
+	/**
+	 * The user-facing label for the message button or menu representing this
+	 * action.
+	 */
 	private String text;
 
-	// Provide 'button' when this action is a message button or provide 'select'
-	// when the action is a message menu.
+	/**
+	 * Provide 'button' when this action is a message button or provide 'select'
+	 * when the action is a message menu.
+	 * 
+	 */
 	private String type;
 
-	// Provide a string identifying this specific action.
-	// It will be sent to your Action URL along with the name and attachment's
-	// callback_id.
+	/**
+	 * Provide a string identifying this specific action. It will be sent to
+	 * your Action URL along with the name and attachment's callback_id.
+	 */
 	private String value;
 
-	// Used only with message menus.
-	// The individual options to appear in this menu, provided as an array of
-	// option fields.
+	/**
+	 * Used only with message menus. The individual options to appear in this
+	 * menu, provided as a list of {@link Option option} fields.
+	 */
 	private List<Option> options;
 
 	/**
@@ -212,18 +242,26 @@ public class Action {
 	}
 
 	@Override
+	public int hashCode() {
+		return new String(name + text + value + type + EquivalenceUtilities.ListHash(options)).hashCode();
+	}
+
+	@Override
 	public boolean equals(Object other) {
 		Action otherAction = (Action) other;
 		if (otherAction == null) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getName(), getName())) {
+		if (!EquivalenceUtilities.SafeCompare(otherAction.getName(), getName())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getType(), getType())) {
+		if (!EquivalenceUtilities.SafeCompare(otherAction.getType(), getType())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompareStrings(otherAction.getText(), getText())) {
+		if (!EquivalenceUtilities.SafeCompare(otherAction.getText(), getText())) {
+			return false;
+		}
+		if (!EquivalenceUtilities.SafeCompare(getOptions(), otherAction.getOptions())) {
 			return false;
 		}
 		return true;

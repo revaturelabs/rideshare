@@ -217,13 +217,14 @@ export let driverController = function($scope, $http, $state){
 		$http.get('/ride/request/ignore/' + reqId).then(
 			(response) => {
 				for(let i = 0; i < $scope.openRequest.length; i++){
-					if($scope.openRequest[i].requestId == rideId) {
+					if($scope.openRequest[i].requestId == reqId) {
 						$scope.openRequest.splice(i, 1);
-						console.log(openReques[i]);
+						console.log(openRequest[i]);
 						$scope.$apply;
 					}
 				}
 				$scope.ignoreReqVar = response.data;
+				$scope.openRequest= response.data;
 				setTimeout(function(){$state.reload();}, 500);
 			}
 		);
