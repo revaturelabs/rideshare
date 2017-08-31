@@ -29,9 +29,9 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	public static final Integer MAX_NUMBER_SEATS = 4;
 
 	public static final Integer NUMBER_OF_HOURS = 12;
-	
+
 	public static final Integer MAX_MINUTES = 45;
-	
+
 	public static final Integer MINUTES_INCREMENT = 15;
 
 	@Autowired
@@ -39,6 +39,9 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 
 	@Autowired
 	RideService rideService;
+
+	@Autowired
+	SlackActionService slackActionService;
 
 	/*
 	 * (non-Javadoc)
@@ -64,6 +67,11 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 		this.poiService = poiService;
 	}
 
+	@Override
+	public void setSlackActionService(SlackActionService slackActionService) {
+		this.slackActionService = slackActionService;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -86,8 +94,8 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 		}
 		Action toFromAction = new Action("To/From", "To/From", "select", toFromOptions);
 		Action poiAction = new Action("POI", "Pick a destination", "select", poiOptions);
-		actions.add(toFromAction);
-		actions.add(poiAction);
+		actions.add(slackActionService.getToFromAction());
+		actions.add(slackActionService.getPOIListAction(pois));
 		Attachment attachment = new Attachment("Select a destination or origin", "Unable to view destinations",
 				callbackId, "#3AA3E3", "default", actions);
 		return attachment;

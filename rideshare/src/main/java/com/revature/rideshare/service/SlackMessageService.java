@@ -15,6 +15,8 @@ public interface SlackMessageService {
 
 	void setPoiService(PointOfInterestService poiService);
 
+	void setSlackActionService(SlackActionService slackActionService);
+
 	/**
 	 * Creates attachment for POI selection.
 	 * 

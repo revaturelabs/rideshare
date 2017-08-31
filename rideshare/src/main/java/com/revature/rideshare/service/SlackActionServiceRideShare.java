@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.revature.rideshare.domain.AvailableRide;
 import com.revature.rideshare.domain.PointOfInterest;
 import com.revature.rideshare.json.Action;
 import com.revature.rideshare.json.Option;
 
-@Service("slackActionService")
+@Component("slackActionService")
+@Transactional
 public class SlackActionServiceRideShare implements SlackActionService {
 
 	private static final Integer MAX_NUMBER_SEATS = 4;

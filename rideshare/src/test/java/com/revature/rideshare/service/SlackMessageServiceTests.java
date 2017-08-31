@@ -16,6 +16,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -38,6 +39,9 @@ public class SlackMessageServiceTests {
 
 	@Mock
 	RideService rideService;
+
+	@Mock
+	SlackActionServiceRideShare slackActionService;
 
 	@InjectMocks
 	SlackMessageService slackMessageService = new SlackMessageServiceImpl();
@@ -164,6 +168,10 @@ public class SlackMessageServiceTests {
 		String callbackID = "SomeCallbackID";
 
 		List<PointOfInterest> poiList = getMockPoiList();
+
+		when(slackActionService.getPOIListAction(Matchers.any())).thenCallRealMethod();
+
+		when(slackActionService.getToFromAction()).thenCallRealMethod();
 
 		when(poiService.getAll()).thenReturn(poiList);
 
@@ -319,7 +327,7 @@ public class SlackMessageServiceTests {
 		try {
 			TestString = slackMessageService.getTextFields(getSlackJsonNode("Test Channel", "Test 8/29", attachments));
 		} catch (IOException e) {
-			//Fails if an exception is thrown.
+			// Fails if an exception is thrown.
 			fail();
 		}
 		List<String> comparisonString = new ArrayList<String>();
@@ -331,12 +339,12 @@ public class SlackMessageServiceTests {
 
 		comparisonString.add(dummyAction.getText());
 
-		//Fails if the wrong number of results is found.
-		
+		// Fails if the wrong number of results is found.
+
 		assert (TestString.size() == comparisonString.size());
 
 		for (int i = 0; i < comparisonString.size(); i++) {
-			//Fails if any result does not match the expected result.
+			// Fails if any result does not match the expected result.
 			assert (TestString.get(i).equals(comparisonString.get(i)));
 		}
 
@@ -344,9 +352,8 @@ public class SlackMessageServiceTests {
 
 	@Test
 	@SuppressWarnings("deprecation")
-	public void testCreateAvailableRidesAttachment()
-	{
-		
+	public void testCreateAvailableRidesAttachment() {
+
 		Date starttime = new Date(11, 11, 11, 10, 45);
 		Date endtime = new Date(11, 11, 11, 11, 30);
 
@@ -357,34 +364,34 @@ public class SlackMessageServiceTests {
 		String callbackId = "Call Me Back Please";
 
 		PointOfInterest testPoi = new PointOfInterest();
-		
+
 		AvailableRide testRide = new AvailableRide();
-		
+
 		testPoi.setPoiName(poiName);
 
 		testRide.setDropoffPOI(testPoi);
-		
+
 		testRide.setOpen(true);
-		
+
 		testRide.setTime(starttime);
-		
+
 		List<AvailableRide> testRides = new ArrayList<AvailableRide>();
-		
+
 		testRides.add(testRide);
-		
+
 		when(poiService.getPoi(Matchers.matches(poiName))).thenReturn(testPoi);
-		
-		when(rideService.getAvailableRidesByTime(Matchers.same(starttime), Matchers.same(endtime))).thenReturn(testRides);
-		
-		Attachment Output = slackMessageService.createAvailableRidesAttachment(starttime, endtime, filter, poiName, callbackId);
-		
-		assert(Output != null);
-		
+
+		when(rideService.getAvailableRidesByTime(Matchers.same(starttime), Matchers.same(endtime)))
+				.thenReturn(testRides);
+
+		Attachment Output = slackMessageService.createAvailableRidesAttachment(starttime, endtime, filter, poiName,
+				callbackId);
+
+		assert (Output != null);
+
 		System.out.println(Output.getText());
 		System.out.println(Output.getActions());
-		
-		
-		
+
 	}
-	
+
 }
