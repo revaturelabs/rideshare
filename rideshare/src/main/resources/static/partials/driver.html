@@ -82,8 +82,7 @@
 					
 					<div class="btn-container">
 					<button type="button" class="btn btn-primary" ng-click="acceptReq(req.requestId)">Accept Request</button>
-					<button type="button" class="btn btn-primary" ng-click="ignoreReq()">Ignore Request</button>
-					<button type="button" class="btn btn-primary" ng-click="ignoreReqParam(req.requestId)">Ignore Request TEST</button>
+					<button type="button" class="btn btn-primary" ng-click="ignoreReq(req.requestId)">Ignore Request</button>
 					
 					</div>
 					<!-- End of expanded portion -->
@@ -311,7 +310,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary"
-					ng-if="dropoff.poiId!=pickup.poiId!"
+					ng-if="dropoff.poiId!=pickup.poiId"
 					ng-click="addOffer(pickup,dropoff,notes,time,seats)"
 					data-dismiss="modal">Submit</button>
 			</div>

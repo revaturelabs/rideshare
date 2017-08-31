@@ -122,27 +122,28 @@ public class RideServiceImpl implements RideService {
 		// TODO Auto-generated method stub
 		
 		List<RideRequest> allReqs = rideReqRepo.findByStatus(RequestStatus.OPEN);
-		//List<RideRequest> temp = new ArrayList<RideRequest>();
+		List<RideRequest> temp = new ArrayList<RideRequest>();
 		RideRequest rq = rideReqRepo.getOne(id);
-
-/*		for (RideRequest r : allReqs) {
-			if (r.getStatus() == RequestStatus.OPEN) {
+		
+		for (RideRequest r : allReqs) {
+			if (r.getStatus() == RequestStatus.OPEN && r.getPickupLocation() == rq.getPickupLocation()) {
 				//dont add ignored request
 				if(r.getRequestId() == id){
-					//do not add
+					/*do not add
 					RideRequest req = rideReqRepo.getOne(id);
-					req.setStatus(RideRequest.RequestStatus.STALE);
+					req.setStatus(RideRequest.RequestStatus.STALE);*/
 				} else {
 					temp.add(r);
 				}
 			} else {
 				logger.debug("NOT ADDED\n\n");
 			}
-		}*/
+		}
 		allReqs.remove(rq);
 		
 		return allReqs;
 	}
+
 
 	/* (non-Javadoc)
 	 * @see com.revature.rideshare.service.RideService#cancelRequest(long, com.revature.rideshare.domain.User)
