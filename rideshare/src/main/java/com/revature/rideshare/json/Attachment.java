@@ -7,16 +7,18 @@ import com.revature.rideshare.util.EquivalenceUtilities;
 
 /**
  * This class is used to create the Attachments that a RideRequestJSON object
- * contains. Primarily used with {@link SlackJSONBuilder}<br>
- * <br>
+ * contains.
+ * <p>
+ * Primarily used with {@link SlackJSONBuilder}.
+ * <p>
  * <b>Notable Fields:</b><br>
  * {@link #id}<br>
  * {@link #text}<br>
  * {@link #callback_id}<br>
  * {@link #attachment_type}<br>
  * {@link #actions}<br>
- * <br>
  * <b>Primary Constructor:<b><br>
+ * <p>
  * {@link Attachment#Attachment(String, String, String, String, String, List)
  * Attachment(String text, String fallback, String callback_id, String color,
  * String attachment_type, List actions)}
@@ -265,12 +267,11 @@ public class Attachment {
 		if (!EquivalenceUtilities.SafeCompare(getAttachment_type(), otherAttachment.getAttachment_type())) {
 			return false;
 		}
-		
-		if (!EquivalenceUtilities.SafeCompare(getActions(), otherAttachment.getActions()))
-		{
+
+		if (!EquivalenceUtilities.SafeCompare(getActions(), otherAttachment.getActions())) {
 			return false;
 		}
-		
+
 		return true;
 	}
 }
