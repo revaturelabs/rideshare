@@ -17,34 +17,71 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Represents a User's request for a ride.<br>
+ * <br>
+ * <b>Notable Fields:</b><br>
+ * {@link #requestId}<br>
+ * {@link #user}<br>
+ * {@link #pickupLocation}<br>
+ * {@link #dropOffLocation}<br>
+ * {@link #time}<br>
+ * {@link #notes}<br>
+ * {@link #status}<br>
+ */
 @Entity
 @Table(name = "RIDE_REQUEST")
 public class RideRequest implements Serializable, Comparable<RideRequest> {
 
 	private static final long serialVersionUID = 7337880503973485600L;
-
+	/**
+	 * The unique ID identifying this ride request in the database.
+	 */
 	@Id
 	@Column(name = "RIDE_REQUEST_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RR_ID_SEQUENCE")
 	@SequenceGenerator(name = "RR_ID_SEQUENCE", sequenceName = "RR_ID_SEQUENCE")
 	private long requestId;
 
+	/**
+	 * The user making the request.
+	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 
+	/**
+	 * The {@link PointOfInterest Point of Interest} at which the user is
+	 * requesting the ride begin from.
+	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	private PointOfInterest pickupLocation;
 
+	/**
+	 * The {@link PointOfInterest Point of Interest} at which the user is
+	 * requesting the ride begin from.
+	 */
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	private PointOfInterest dropOffLocation;
+
+	/**
+	 * The {@link Date Date/Time} at which the user would like the ride to
+	 * commence.
+	 */
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "TIME", nullable = false)
 	private Date time;
 
+	/**
+	 * Notes the user left for potential drivers looking to accept this ride.
+	 */
 	@Column(name = "NOTES")
 	private String notes;
-
+	/**
+	 * The {@link RequestStatus status code} of the user's ride request.<br>
+	 * <br>
+	 */
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "STATUS", nullable = false)
 	private RequestStatus status;
@@ -58,9 +95,7 @@ public class RideRequest implements Serializable, Comparable<RideRequest> {
 	 * time.<br>
 	 */
 	public enum RequestStatus {
-		OPEN,
-		SATISFIED,
-		STALE
+		OPEN, SATISFIED, STALE
 	}
 
 	public RideRequest() {
