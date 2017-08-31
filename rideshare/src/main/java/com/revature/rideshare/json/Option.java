@@ -3,12 +3,14 @@ package com.revature.rideshare.json;
 import com.revature.rideshare.util.EquivalenceUtilities;
 
 /**
- * This class is used to create a Option. Primarily used by {@link Action}<br>
- * <br>
+ * This class is used to create a Option.
+ * <p>
+ * Primarily used by {@link Action}
+ * <p>
  * <b>Notable Fields:</b><br>
  * {@link #text}<br>
  * {@link #value}<br>
- * <br>
+ * <p>
  * <b>Primary Constructor:</b><br>
  * {@link #Option(String, String) Option(String text, String value)}
  */
