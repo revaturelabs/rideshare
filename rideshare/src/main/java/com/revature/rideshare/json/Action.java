@@ -2,19 +2,21 @@ package com.revature.rideshare.json;
 
 import java.util.List;
 
+import com.revature.rideshare.service.SlackMessageService;
+import com.revature.rideshare.service.SlackService;
 import com.revature.rideshare.util.EquivalenceUtilities;
 
 /**
  * This class is used to create an Action, primarily used in
- * {@link com.revature.rideshare.json.Attachment Attachment}<br>
- * <br>
+ * {@link com.revature.rideshare.json.Attachment Attachment}
+ * <p>
  * <b>Notable Fields:</b><br>
  * {@link #name}<br>
  * {@link #text}<br>
  * {@link #type}<br>
  * {@link #value}<br>
  * {@link #options}<br>
- * <br>
+ * <p>
  * <b>Primary Constructors:</b><br>
  * {@link Action#Action(String, String, String, List) Action(String name, String
  * text, String type, List options)}<br>
@@ -50,9 +52,14 @@ public class Action {
 	private String text;
 
 	/**
-	 * Provide 'button' when this action is a message button or provide 'select'
-	 * when the action is a message menu.
+	 * A string representing the type of action being provided.
 	 * 
+	 * <p>
+	 * <b>Common Values:</b>
+	 * <ul>
+	 * <li><b><i>button</i></b> when this action is a single button</li>
+	 * <lI><b><i>select</i></b> when the action is a menu.</li>
+	 * </ul>
 	 */
 	private String type;
 
