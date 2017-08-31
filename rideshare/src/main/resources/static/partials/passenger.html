@@ -295,6 +295,7 @@
 			
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary"
+					ng-if="dropoff.poiId!=pickup.poiId"
 					ng-click="addRequest(pickup,dropoff,notes,time)"
 					data-dismiss="modal">Submit</button>
 			</div>
