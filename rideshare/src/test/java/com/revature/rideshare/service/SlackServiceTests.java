@@ -1,5 +1,6 @@
 package com.revature.rideshare.service;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,5 +26,10 @@ public class SlackServiceTests {
 
 	@InjectMocks
 	private SlackService slackService = new SlackServiceImpl();
-	
+
+	@Test
+	public void test() {
+
+	}
+
 }
