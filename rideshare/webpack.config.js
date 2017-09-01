@@ -51,7 +51,8 @@ module.exports = (env = {}) => {
           { from: `${source}/partials`, to: `${output}/partials` },
           { from: `${source}/js/googleMapAPI`, to: `${output}/js/googleMapAPI` },
           { from: `${source}/js/moment.js`, to: `${output}/js/moment.js` },
-          { from: `${source}/index.html`, to: `${output}/index.html` },
+          { from: `${source}/js/paginate/dirPagination.js`, to: `${output}/js/dirPagination.js` },
+          { from: `${source}/index.html`, to: `${output}/index.html` }
         ]
       ),
       new webpack.NoEmitOnErrorsPlugin()
