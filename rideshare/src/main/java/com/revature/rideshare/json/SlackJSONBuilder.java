@@ -3,27 +3,40 @@ package com.revature.rideshare.json;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.rideshare.service.SlackMessageService;
+import com.revature.rideshare.service.SlackService;
 import com.revature.rideshare.util.EquivalenceUtilities;
 
 /**
+ * <p>
  * This class is used to create a JSON object for passing messages to the user
  * by creating Java objects which have the hierarchical structure of a slack
- * message. <br>
- * <br>
+ * message.
+ * 
+ * <p>
  * To create an interactive message, first create a set of options or buttons,
  * then attach these to an actions array, then attach the actions array to an
  * attachment. You can then add that attachment to a SlackJSONBuilder object
  * which can be converted into String format and sent to a user as a slack
- * message.<br>
- * <br>
+ * message.
+ * 
+ * <p>
+ * This class is primarily generated and consumed by {@link SlackService} and
+ * {@link SlackMessageService}.
+ * 
+ * <p>
  * <b>Notable Fields:</b><br>
  * {@link channel channel}<br>
  * {@link #text}<br>
  * {@link #response_type}<br>
  * {@link #attachments}<br>
- * <br>
+ * 
+ * <p>
  * <b>Primary Constructor:</b><br>
- * {@link #SlackJSONBuilder(String, String, String, List) SlackJSONBuilder(String channel, String text, String response_type, List attachments)}
+ * {@link #SlackJSONBuilder(String, String, String, List)
+ * SlackJSONBuilder(String channel, String text, String response_type, List
+ * attachments)}
+ * 
  */
 public class SlackJSONBuilder {
 
@@ -222,11 +235,10 @@ public class SlackJSONBuilder {
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return new String(channel + text + type + EquivalenceUtilities.ListHash(getAttachments())).hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
 		SlackJSONBuilder otherJSONBuilder = (SlackJSONBuilder) other;
@@ -242,8 +254,7 @@ public class SlackJSONBuilder {
 		if (!EquivalenceUtilities.SafeCompare(otherJSONBuilder.getType(), getType())) {
 			return false;
 		}
-		if (!EquivalenceUtilities.SafeCompare(otherJSONBuilder.getAttachments(), getAttachments()))
-		{
+		if (!EquivalenceUtilities.SafeCompare(otherJSONBuilder.getAttachments(), getAttachments())) {
 			return false;
 		}
 		return true;
