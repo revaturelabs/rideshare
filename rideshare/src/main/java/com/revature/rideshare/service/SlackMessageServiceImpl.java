@@ -81,19 +81,7 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	@Override
 	public Attachment createPoiSelectDestinationAttachment(String callbackId) {
 		List<Action> actions = new ArrayList<Action>();
-		List<Option> poiOptions = new ArrayList<Option>();
-		List<Option> toFromOptions = new ArrayList<Option>();
-		Option toOption = new Option("To", "To");
-		Option fromOption = new Option("From", "From");
-		toFromOptions.add(toOption);
-		toFromOptions.add(fromOption);
 		List<PointOfInterest> pois = poiService.getAll();
-		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPoiName(), poi.getPoiName());
-			poiOptions.add(o);
-		}
-		Action toFromAction = new Action("To/From", "To/From", "select", toFromOptions);
-		Action poiAction = new Action("POI", "Pick a destination", "select", poiOptions);
 		actions.add(slackActionService.getToFromAction());
 		actions.add(slackActionService.getPOIListAction(pois));
 		Attachment attachment = new Attachment("Select a destination or origin", "Unable to view destinations",
@@ -110,14 +98,8 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createSeatsAttachment(String callbackId) {
-		List<Option> seatOptions = new ArrayList<Option>();
 		List<Action> actions = new ArrayList<Action>();
-		for (int i = 1; i <= MAX_NUMBER_SEATS; i++) {
-			Option o = new Option(Integer.toString(i), Integer.toString(i));
-			seatOptions.add(o);
-		}
-		Action seatsAction = new Action("Seats", "# of seats", "select", seatOptions);
-		actions.add(seatsAction);
+		actions.add(slackActionService.getCreateSeatsAction());
 		Attachment seatsAttachment = new Attachment("Select # of Seats", "Unable to decide", callbackId, "#3AA3E3",
 				"default", actions);
 		return seatsAttachment;
@@ -232,45 +214,13 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 		List<Action> actions = new ArrayList<Action>();
 		List<Option> options = new ArrayList<Option>();
 		PointOfInterest poi = poiService.getPoi(poiName);
-		String destinationText = "";
-		String alternateDestinationText = "";
 		List<AvailableRide> rides = rideService.getAvailableRidesByTime(starttime, endtime);
 		if (filter.equals("To")) {
 			rides = rideService.filterAvailableRidesByDropoffPoi(rides, poi);
-			destinationText = poi.getPoiName();
 		} else if (filter.equals("From")) {
 			rides = rideService.filterAvailableRidesByPickupPoi(rides, poi);
-			destinationText = poi.getPoiName();
 		}
-		for (AvailableRide ride : rides) {
-			if (ride.isOpen()) {
-				if (filter.equals("To")) {
-					alternateDestinationText = ride.getPickupPOI().getPoiName();
-				} else if (filter.equals("From")) {
-					alternateDestinationText = ride.getDropoffPOI().getPoiName();
-				}
-				Date time = ride.getTime();
-				String hours = "" + time.getHours();
-				String minutes = "" + time.getMinutes();
-				String meridian = "AM";
-				if (minutes.equals("0")) {
-					minutes = minutes + "0";
-				}
-				if (time.getHours() >= NUMBER_OF_HOURS) {
-					meridian = "PM";
-					if (time.getHours() > NUMBER_OF_HOURS) {
-						hours = "" + (time.getHours() - NUMBER_OF_HOURS);
-					}
-				}
-				String timeText = hours + ":" + minutes + meridian;
-				String text = timeText + " " + destinationText + ">" + alternateDestinationText + " ID:"
-						+ ride.getAvailRideId();
-				Option o = new Option(text, text);
-				options.add(o);
-			}
-		}
-		Action action = new Action("AvailableRides", "Select from the following rides", "select", options);
-		actions.add(action);
+		actions.add(slackActionService.getCreateAvailableRidesAction(rides));
 		Attachment availableRidesAttachment = new Attachment("AvailableRides", "Available Rides",
 				"Unable to display available rides", callbackId, "#3AA3E3", "default", actions);
 		return availableRidesAttachment;
@@ -285,36 +235,11 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	 */
 	@Override
 	public Attachment createTimeAttachment(String callbackId) {
-		List<Option> hourOptions = new ArrayList<Option>();
-		List<Option> minuteOptions = new ArrayList<Option>();
-		List<Option> meridians = new ArrayList<Option>();
 		List<Action> actions = new ArrayList<Action>();
 
-		for (int i = 1; i <= NUMBER_OF_HOURS; i++) {
-			Option o = new Option(Integer.toString(i), Integer.toString(i));
-			hourOptions.add(o);
-		}
-
-		for (int i = 0; i <= MAX_MINUTES; i = i + MINUTES_INCREMENT) {
-			Option o;
-			if (i == 0)
-				o = new Option(Integer.toString(i) + "0", Integer.toString(i) + "0");
-			else
-				o = new Option(Integer.toString(i), Integer.toString(i));
-			minuteOptions.add(o);
-		}
-
-		Option am = new Option("AM", "AM");
-		Option pm = new Option("PM", "PM");
-		meridians.add(am);
-		meridians.add(pm);
-
-		Action hourAction = new Action("Hour", "hour", "select", hourOptions);
-		Action minuteAction = new Action("Minute", "minute", "select", minuteOptions);
-		Action meridianAction = new Action("Meridian", "AM/PM", "select", meridians);
-		actions.add(hourAction);
-		actions.add(minuteAction);
-		actions.add(meridianAction);
+		actions.add(slackActionService.getCreateHoursAction());
+		actions.add(slackActionService.getCreateMinutesAction());
+		actions.add(slackActionService.getCreateMeridianAction());
 
 		Attachment timeAttachment = new Attachment("Select a Time", "Unable to decide", callbackId, "#3AA3E3",
 				"default", actions);

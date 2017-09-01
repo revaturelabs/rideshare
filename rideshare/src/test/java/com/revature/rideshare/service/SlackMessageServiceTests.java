@@ -212,6 +212,8 @@ public class SlackMessageServiceTests {
 
 		String callbackId = "SomeOtherCallbackID";
 
+		when(slackActionService.getCreateSeatsAction()).thenCallRealMethod();
+
 		Attachment testAttachment = slackMessageService.createSeatsAttachment(callbackId);
 
 		// Fails if the attachment's callbackID is not properly set based off of
@@ -371,6 +373,8 @@ public class SlackMessageServiceTests {
 
 		testRide.setDropoffPOI(testPoi);
 
+		testRide.setPickupPOI(testPoi);
+
 		testRide.setOpen(true);
 
 		testRide.setTime(starttime);
@@ -384,13 +388,12 @@ public class SlackMessageServiceTests {
 		when(rideService.getAvailableRidesByTime(Matchers.same(starttime), Matchers.same(endtime)))
 				.thenReturn(testRides);
 
+		when(slackActionService.getCreateAvailableRidesAction(Matchers.anyList())).thenCallRealMethod();
+
 		Attachment Output = slackMessageService.createAvailableRidesAttachment(starttime, endtime, filter, poiName,
 				callbackId);
 
 		assert (Output != null);
-
-		System.out.println(Output.getText());
-		System.out.println(Output.getActions());
 
 	}
 
