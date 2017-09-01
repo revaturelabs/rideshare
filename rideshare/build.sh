@@ -2,6 +2,6 @@
 # This is a shell script for executing the entired build process for the Revature RideShare project.
 
 # Install all JavaScript dependencies
-npm install
+(cd {ABSOLUTEPATHOFWORKSPACE} && npm install)
 # Run webpack
-npm run build
+(cd {ABSOLUTEPATHOFWORKSPACE} && npm run build)
