@@ -16,6 +16,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -38,6 +39,9 @@ public class SlackMessageServiceTests {
 
 	@Mock
 	RideService rideService;
+
+	@Mock
+	SlackActionServiceRideShare slackActionService;
 
 	@InjectMocks
 	SlackMessageService slackMessageService = new SlackMessageServiceImpl();
@@ -165,6 +169,10 @@ public class SlackMessageServiceTests {
 
 		List<PointOfInterest> poiList = getMockPoiList();
 
+		when(slackActionService.getPOIListAction(Matchers.any())).thenCallRealMethod();
+
+		when(slackActionService.getToFromAction()).thenCallRealMethod();
+
 		when(poiService.getAll()).thenReturn(poiList);
 
 		Attachment testAttachment = slackMessageService.createPoiSelectDestinationAttachment(callbackID);
@@ -203,6 +211,8 @@ public class SlackMessageServiceTests {
 	public void testCreateSeatsAttachment() {
 
 		String callbackId = "SomeOtherCallbackID";
+
+		when(slackActionService.getCreateSeatsAction()).thenCallRealMethod();
 
 		Attachment testAttachment = slackMessageService.createSeatsAttachment(callbackId);
 
@@ -365,9 +375,9 @@ public class SlackMessageServiceTests {
 
 		Option comparisonOption = new Option();
 
-		comparisonOption.setText("10:45AM > ID:0");
+		comparisonOption.setText("10:45AM Ivory Tower>Ivory Tower ID:0");
 
-		comparisonOption.setValue("10:45AM > ID:0");
+		comparisonOption.setValue("10:45AM Ivory Tower>Ivory Tower ID:0");
 
 		List<Action> comparisonActionList = new ArrayList<Action>();
 
@@ -406,6 +416,8 @@ public class SlackMessageServiceTests {
 
 		testRide.setDropoffPOI(testPoi);
 
+		testRide.setPickupPOI(testPoi);
+
 		testRide.setOpen(true);
 
 		testRide.setTime(starttime);
@@ -419,12 +431,16 @@ public class SlackMessageServiceTests {
 		when(rideService.getAvailableRidesByTime(Matchers.same(starttime), Matchers.same(endtime)))
 				.thenReturn(testRides);
 
+		when(slackActionService.getCreateAvailableRidesAction(Matchers.anyList())).thenCallRealMethod();
+
 		Attachment Output = slackMessageService.createAvailableRidesAttachment(starttime, endtime, filter, poiName,
 				callbackId);
 
 		assert (Output != null);
 
 		Attachment comparisonAttachment = createDummyAvailableRidesAttachment(callbackId);
+
+		System.out.println(Output);
 
 		assert (Output.equals(comparisonAttachment));
 
@@ -484,6 +500,12 @@ public class SlackMessageServiceTests {
 
 		String CallbackID = "Ring Ring Ring Ring...";
 
+		when(slackActionService.getCreateHoursAction()).thenCallRealMethod();
+
+		when(slackActionService.getCreateMinutesAction()).thenCallRealMethod();
+
+		when(slackActionService.getCreateMeridianAction()).thenCallRealMethod();
+
 		Attachment timeAttachment = slackMessageService.createTimeAttachment(CallbackID);
 
 		// First option should be hours, twelve options..
@@ -501,6 +523,9 @@ public class SlackMessageServiceTests {
 	public void testCreateConfirmationButtonsAttachment() {
 
 		String CallbackID = "Please Confirm!";
+
+		when(slackActionService.getCreateOKAYAction()).thenCallRealMethod();
+		when(slackActionService.getCreateCancelAction()).thenCallRealMethod();
 
 		Attachment confirmAttachment = slackMessageService.createConfirmationButtonsAttachment(CallbackID);
 
@@ -526,6 +551,7 @@ public class SlackMessageServiceTests {
 		List<PointOfInterest> poiList = getMockPoiList();
 
 		when(poiService.getAll()).thenReturn(poiList);
+		when(slackActionService.getPOIListAction(Matchers.anyList())).thenCallRealMethod();
 
 		Attachment poiAttachment = slackMessageService.createPOIAttachment(text, callbackID);
 
@@ -579,7 +605,7 @@ public class SlackMessageServiceTests {
 
 		// The month is offset by 1 because January is 0
 		assert (testDate.getMonth() == 7);
-		
+
 		assert (testDate.getHours() == 11);
 
 		assert (testDate.getMinutes() == 45);
