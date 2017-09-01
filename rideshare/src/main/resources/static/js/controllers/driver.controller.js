@@ -11,7 +11,7 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			$scope.openRequest = response.data;	
-		
+			console.log($scope.openRequest);
 		});
 	}
 
