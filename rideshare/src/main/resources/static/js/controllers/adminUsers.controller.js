@@ -1,6 +1,6 @@
 export let adminUsersController = function($scope, $http, $state) {
 	$scope.users ={};
-    $scope.user = {}; 
+  $scope.user = {}; 
     
     
     
@@ -8,6 +8,7 @@ export let adminUsersController = function($scope, $http, $state) {
      * Retrieves data for all Users when page loads by calling users method 
      * in AdminController.java
      */
+
     $http.get('admin/users')
     .then((response) => {
         console.log(response);
