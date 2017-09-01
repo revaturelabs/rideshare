@@ -1,6 +1,6 @@
 <!--click button to see populated table of all Users-->
 <div class="panel-group" id="userAccordion" style="padding-top: 1em">
-	<div class="panel panel-default" ng-repeat="u in users" ng-if="getUser.userId != u.userId"
+	<div class="panel panel-default" ng-repeat="u in users" ng-if="authFactory.getUser().userId != u.userId"
 		style="border: none">
 		<div class="panel-heading" data-toggle="collapse"
 			data-target="#collapse{{u.userId}}">
