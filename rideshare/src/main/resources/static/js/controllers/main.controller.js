@@ -1,8 +1,13 @@
 export let mainController = function($scope, $http, $state, $location, authFactory){
-	// view that is the parent of all the main views
-	$scope.isAdmin = authFactory.isAdmin();
+	
+	$scope.isAdmin = authFactory.isAdmin();// View that is the parent of all the main views
 	//$scope.isBanned = authFactory.isBanned();
 
+	
+	/*
+	 * Performs a logout by removing the JWT that was stored locally.
+	 * This ensures that users must perform a login to access their account again 
+	 */
 	$scope.logout = function() {
 		localStorage.removeItem('RideShare_auth_token');
 		$http.post('/logout', {})
@@ -15,7 +20,9 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 		});
 	};
 
-	// retrieve the user's current car
+	/*
+	 *  Retrieve the user's current car by calling the getCar method in CarController.java
+	 */
 	$http.get("/car/myCar", $scope.car)
 		.then((response) => {
 			$scope.car = response.data;
