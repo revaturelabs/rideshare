@@ -68,21 +68,6 @@ public interface RideService {
 	boolean acceptRequest(long id, User u);
 
 	/**
-	 * <b>Unknown why this method takes a user</b><br>
-	 * <br>
-	 * Takes in a {@link Ride#getRideId() Ride ID}. Closes the open
-	 * {@link RideRequest} and deletes the {@link Ride}.
-	 *
-	 * @param id
-	 *            The id of the {@link RideRequest request} to cancel.
-	 * @param u
-	 *            Unknown why this method takes in a {@link User}?
-	 * 
-	 * @return true on success, false on failure.
-	 */
-	boolean cancelRequest(long id, User u);
-
-	/**
 	 * Takes in a RideRequest ID. Deletes the open RideRequest.
 	 *
 	 * @param long
