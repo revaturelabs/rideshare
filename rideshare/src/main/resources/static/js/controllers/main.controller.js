@@ -22,11 +22,12 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 			console.log($scope.car);
 			$scope.carCopy = angular.copy($scope.car);
 			
-			if ($scope.car === '') {
+			if ($scope.car == null) {
 				console.log("no car");
 				$scope.showHide = false;
 			}
 			else {
+				console.log("car")
 				$scope.showHide = true;
 			}
 		},
