@@ -28,9 +28,18 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.filter.CompositeFilter;
 
 /**
- *
  * @author Eric Christie
  * @created July 9, 2017
+ * 
+ *          {WebSecurityConfigurerAdapter} provides a convenient base class for
+ *          creating a {WebSecurityConfigurer} instance.
+ * 
+ *          {WebSecurityConfig} represents RideShare's implementation of the
+ *          WebSecurityConfigurer interface.
+ * 
+ *          Within {WebSecurityConfig} you will find overridden methods which
+ *          make RideShare's mode of user authentication possible.
+ *          
  */
 @Configuration
 @EnableWebSecurity
@@ -52,8 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //		http.requiresChannel().antMatchers("/**").requiresSecure();
 		
 		http.authorizeRequests()
-				.antMatchers("/admin**", "/partials/adminPOI.html", "/partials/adminRides.html",
-						"/partials/adminUsers.html").hasRole("ADMIN")
+				.antMatchers("/admin**", "/partials/adminPOI.html", "/partials/adminRides.html", "/partials/adminUsers.html", 
+						"/adminPoi**", "/adminUsers**", "/adminRides**").hasRole("ADMIN")
 				.antMatchers("/partials/**", "/car**", "/ride**", "/user**", "/poiController**").hasRole("USER")
 				.antMatchers("/login**", "/auth/**").permitAll()
 			.and().logout()
