@@ -126,29 +126,6 @@ public class RideServiceTest {
 	}
 	
 	@Test
-	public void testCancelRequest() {
-		Random rng = new Random();
-		
-		for (int i = 0; i < 3; i++) {
-			long mockId = rng.nextLong();
-			
-			Ride mockRide = new Ride();
-			RideRequest mockRequest = new RideRequest();
-			mockRide.setRequest(mockRequest);
-			
-			when(rideRepository.findOne(Matchers.eq(mockId))).thenReturn(mockRide);
-			
-			rideService.cancelRequest(mockId, null);
-			
-			
-			verify(rideRepository, atLeastOnce()).findOne(Matchers.eq(mockId));
-			// Were the ride record and request deleted?
-			verify(rideRepository, atLeastOnce()).delete(Matchers.same(mockRide));
-			verify(rideRequestRepository, atLeastOnce()).delete(Matchers.same(mockRequest));
-		}
-	}
-	
-	@Test
 	public void testCancelActiveRequest() {
 		Random rng = new Random();
 		
