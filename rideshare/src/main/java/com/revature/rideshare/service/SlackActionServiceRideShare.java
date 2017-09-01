@@ -79,6 +79,7 @@ public class SlackActionServiceRideShare implements SlackActionService {
 			if (ride.isOpen()) {
 				destinationText = ride.getPickupPOI().getPoiName();
 				alternateDestinationText = ride.getDropoffPOI().getPoiName();
+				System.out.println(ride);
 			}
 			Date time = ride.getTime();
 			String hours = "" + time.getHours();
@@ -99,7 +100,7 @@ public class SlackActionServiceRideShare implements SlackActionService {
 			Option o = new Option(text, text);
 			options.add(o);
 		}
-		return null;
+		return new Action(Seats);
 
 	}
 
