@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
 
+import com.revature.rideshare.domain.PointOfInterest;
 import com.revature.rideshare.json.Attachment;
 import com.revature.rideshare.json.SlackJSONBuilder;
 
@@ -14,13 +15,28 @@ public interface SlackMessageService {
 
 	void setPoiService(PointOfInterestService poiService);
 
+	void setSlackActionService(SlackActionService slackActionService);
+
 	/**
 	 * Creates attachment for POI selection.
 	 * 
+	 * <p>
+	 * {@link Attachment} is formatted as follows:
+	 * <ul>
+	 * <li>{@link com.revature.rideshare.json.Action Action}:
+	 * <ul>
+	 * <li>{@link com.revature.rideshare.json.Option Option}: To
+	 * <li>{@link com.revature.rideshare.json.Option Option}: From
+	 * </ul>
+	 * <li>{@link com.revature.rideshare.json.Action Action}: A list of
+	 * {@link PointOfInterest Points Of Interest} that are acceptable
+	 * destinations as {@link com.revature.rideshare.json.Option Options}.
+	 * </ul>
+	 * 
 	 * @param String
 	 *            callbackId
-	 * @return Attachment Which lets user select their destination/origin
-	 *         (to/from option with POI.)
+	 * @return {@link Attachment} Which lets user select their
+	 *         destination/origin (to/from option with POI.)
 	 */
 	Attachment createPoiSelectDestinationAttachment(String callbackId);
 
@@ -66,20 +82,23 @@ public interface SlackMessageService {
 	/**
 	 * Gets the text fields from each drop down menu in the message<br>
 	 * <br>
-	 * Relies on {@link #getTextFields(SlackJSONBuilder) getTextFields(SlackJSONBuilder)}
+	 * Relies on {@link #getTextFields(SlackJSONBuilder)
+	 * getTextFields(SlackJSONBuilder)}
 	 * 
 	 * @param slackMessage
-	 * @return List of strings containing user selection strings(positions 1-end) and
-	 *         selected date(position 0.)
+	 * @return List of strings containing user selection strings(positions
+	 *         1-end) and selected date(position 0.)
 	 */
 	List<String> getTextFields(JsonNode payload);
 
 	/**
 	 * Retrieves message selections a user has made in a message.
 	 * 
-	 * @param slackMessage a {@link com.revature.rideshare.json.SlackJSONBuilder SlackJSONBuilder} containing the slack message.
-	 * @return List of strings containing user selection strings(positions 1-end) and
-	 *         selected date(position 0.)
+	 * @param slackMessage
+	 *            a {@link com.revature.rideshare.json.SlackJSONBuilder
+	 *            SlackJSONBuilder} containing the slack message.
+	 * @return List of strings containing user selection strings(positions
+	 *         1-end) and selected date(position 0.)
 	 */
 	List<String> getTextFields(SlackJSONBuilder slackMessage);
 
@@ -96,8 +115,8 @@ public interface SlackMessageService {
 	 *            poiName
 	 * @param String
 	 *            callbackId
-	 * @return {@link com.revature.rideshare.json.Attachment Attachment}Which lets user select from rides matching their
-	 *         criteria.
+	 * @return {@link com.revature.rideshare.json.Attachment Attachment}Which
+	 *         lets user select from rides matching their criteria.
 	 */
 	Attachment createAvailableRidesAttachment(Date starttime, Date endtime, String filter, String poiName,
 			String callbackId);
@@ -107,7 +126,8 @@ public interface SlackMessageService {
 	 * and meridian
 	 * 
 	 * @param callbackId
-	 * @return {@link com.revature.rideshare.json.Attachment Attachment} Containing time selection drop downs.
+	 * @return {@link com.revature.rideshare.json.Attachment Attachment}
+	 *         Containing time selection drop downs.
 	 */
 	Attachment createTimeAttachment(String callbackId);
 
@@ -116,7 +136,8 @@ public interface SlackMessageService {
 	 * 
 	 * @param String
 	 *            callbackId
-	 * @return {@link com.revature.rideshare.json.Attachment Attachment} containing Confirm/Cancel selections
+	 * @return {@link com.revature.rideshare.json.Attachment Attachment}
+	 *         containing Confirm/Cancel selections
 	 */
 	Attachment createConfirmationButtonsAttachment(String callbackId);
 
@@ -128,14 +149,16 @@ public interface SlackMessageService {
 	 *            text This is displayed above the drop down menu.
 	 * @param String
 	 *            callbackId
-	 * @return {@link com.revature.rideshare.json.Attachment Attachment} Contains POI drop downs.
+	 * @return {@link com.revature.rideshare.json.Attachment Attachment}
+	 *         Contains POI drop downs.
 	 */
 	Attachment createPOIAttachment(String text, String callbackId);
 
 	/**
 	 * Extracts userId from a payload
 	 * 
-	 * @param payload containing { "user" : { "id" : "something" } }
+	 * @param payload
+	 *            containing { "user" : { "id" : "something" } }
 	 * @return String Url for response to a slack message.
 	 */
 	String getUserId(JsonNode payload);
