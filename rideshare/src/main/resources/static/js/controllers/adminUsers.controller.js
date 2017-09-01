@@ -20,8 +20,6 @@ export let adminUsersController = function($scope, $http, $state) {
         
         var url = "/admin/updateStatus/" + $scope.user.userId + "/" + $scope.isAdmin + "/" + isBanned;
         
-        console.log("URL IS " + url);
-        
         $http.post(url, $scope.user)
         .then((formResponse) => {
         	console.log(formResponse.data);

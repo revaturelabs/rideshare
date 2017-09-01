@@ -41,7 +41,6 @@ export let authFactory = function($window, $log, jwtHelper) {
 		 * Parses through the token for find user information
 		 */
 		getUser: function() {
-			console.log("getting user");
 			let result = null;
 			let token = $window.localStorage.getItem('RideShare_auth_token');
 			if (token) {
