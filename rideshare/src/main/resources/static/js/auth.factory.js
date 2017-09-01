@@ -1,6 +1,5 @@
 export let authFactory = function($window, $log, jwtHelper) {
 	return {
-		
 		/*
 		 * Finds the token in local storage.
 		 */
@@ -42,6 +41,7 @@ export let authFactory = function($window, $log, jwtHelper) {
 		 * Parses through the token for find user information
 		 */
 		getUser: function() {
+			console.log("getting user");
 			let result = null;
 			let token = $window.localStorage.getItem('RideShare_auth_token');
 			if (token) {
@@ -73,19 +73,5 @@ export let authFactory = function($window, $log, jwtHelper) {
 			}
 			return result;
 		}
-		/*isBanned: function() {
-			let result = false;
-			let token = $window.localStorage.getItem('RideShare_auth_token');
-			if (token) {
-				try {
-					let payload = jwtHelper.decodeToken(token);
-					let user = JSON.parse(payload.user);
-					result = user.banned;
-				} catch (err) {
-					$log.error('Failed to determine if the current user is an banned: ' + err);
-				}
-			}
-			return result;
-		}*/
 	};
 };
