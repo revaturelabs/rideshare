@@ -83,6 +83,7 @@
 					<div class="btn-container">
 					<button type="button" class="btn btn-primary" ng-click="acceptReq(req.requestId)">Accept Request</button>
 					<button type="button" class="btn btn-primary" ng-click="ignoreReq(req.requestId)">Ignore Request</button>
+					<button type="button" class="btn btn-primary" ng-click="ignoreReqAlert(req.requestId)">Ignore Request</button>
 					
 					</div>
 					<!-- End of expanded portion -->
@@ -109,7 +110,7 @@
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{offer.availRideId}}" target="_self" style="text-decoration:none">
 						
-							<em>@</em> {{offer.time | date: 'h:mm a MMM dd'}}
+							{{req.user.fullName}}<em>@</em> {{offer.time | date: 'h:mm a MMM dd'}}
 							<br/>
 							{{offer.pickupPOI.poiName}}
 							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
@@ -139,7 +140,7 @@
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{ride.availRide.availRideId}}" target="_self" style="text-decoration:none">
 						
-							<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
+							{{req.user.fullName}}<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
 							<br/>
 
 							{{ride.availRide.pickupPOI.poiName}}
@@ -193,7 +194,7 @@
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionPast" href="#collapseP{{ride.availRide.availRideId}}" target="_self" style="text-decoration:none">
 						
-						<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
+						{{req.user.fullName}}<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
 						<br/>
 
 						{{ride.availRide.pickupPOI.poiName}}

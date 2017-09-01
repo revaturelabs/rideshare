@@ -4,6 +4,11 @@ export let driverController = function($scope, $http, $state){
 	 */
 	$scope.isArray = angular.isArray;
 	$scope.rides = {};
+
+	// Setting to empty arrays for correct ng-repeat processing.
+	$scope.openRequest = [];
+	$scope.activeRides = [];
+	$scope.pastRides = [];
 	
 	/*
 	 * Global variables
@@ -19,7 +24,7 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			$scope.openRequest = response.data;	
-		
+			console.log(response.data);
 		});
 	}
 
@@ -296,6 +301,27 @@ export let driverController = function($scope, $http, $state){
 				setTimeout(function(){$state.reload();}, 500);
 			}
 		);
+	};
+	
+	$scope.ignoreReqAlert = function(reqId) {
+	    if (confirm("Are you sure you want to ignore this request?") == true) {
+	    	$http.get('/ride/request/ignore/' + reqId).then(
+	    			(response) => {
+	    				for(let i = 0; i < $scope.openRequest.length; i++){
+	    					if($scope.openRequest[i].requestId == reqId) {
+	    						$scope.openRequest.splice(i, 1);
+	    						console.log(openRequest[i]);
+	    						$scope.$apply;
+	    					}
+	    				}
+	    				$scope.ignoreReqVar = response.data;
+	    				$scope.openRequest= response.data;
+	    				setTimeout(function(){$state.reload();}, 500);
+	    			}
+	    		);
+	    } else {
+	        
+	    }
 	};
 
 	
