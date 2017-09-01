@@ -28,6 +28,7 @@ export let authFactory = function($window, $log, jwtHelper) {
 				try {
 					let payload = jwtHelper.decodeToken(token);
 					result = JSON.parse(payload.user);
+					console.log(result);
 				} catch (err) {
 					$log.error('Failed to retrieve user from JSON web token: ' + err);
 				}
