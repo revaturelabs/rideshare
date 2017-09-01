@@ -10,7 +10,7 @@
 					target="_self" style="text-decoration: none"> {{u.fullName}} </a>
 			</h4>
 		</div>
-		<div id="collapse{{u.userId}}" class="panel-collapse collapse" >
+		<div id="collapse{{u.userId}}" class="panel-collapse collapse" ng-hide="getUser.userId == u.userId">>
 			<div class="panel-body" style="padding: 2em">
 				<!-- Expanded Information Section -->
 				<div class="row">
