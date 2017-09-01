@@ -61,8 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //		http.requiresChannel().antMatchers("/**").requiresSecure();
 		
 		http.authorizeRequests()
-				.antMatchers("/admin**", "/partials/adminPOI.html", "/partials/adminRides.html",
-						"/partials/adminUsers.html").hasRole("ADMIN")
+				.antMatchers("/admin**", "/partials/adminPOI.html", "/partials/adminRides.html", "/partials/adminUsers.html", 
+						"/adminPoi**", "/adminUsers**", "/adminRides**").hasRole("ADMIN")
 				.antMatchers("/partials/**", "/car**", "/ride**", "/user**", "/poiController**").hasRole("USER")
 				.antMatchers("/login**", "/auth/**").permitAll()
 			.and().logout()
