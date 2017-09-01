@@ -229,6 +229,27 @@ export let driverController = function($scope, $http, $state){
 			}
 		);
 	};
+	
+	$scope.ignoreReqAlert = function(reqId) {
+	    if (confirm("Are you sure you want to ignore this request?") == true) {
+	    	$http.get('/ride/request/ignore/' + reqId).then(
+	    			(response) => {
+	    				for(let i = 0; i < $scope.openRequest.length; i++){
+	    					if($scope.openRequest[i].requestId == reqId) {
+	    						$scope.openRequest.splice(i, 1);
+	    						console.log(openRequest[i]);
+	    						$scope.$apply;
+	    					}
+	    				}
+	    				$scope.ignoreReqVar = response.data;
+	    				$scope.openRequest= response.data;
+	    				setTimeout(function(){$state.reload();}, 500);
+	    			}
+	    		);
+	    } else {
+	        
+	    }
+	};
 
 	function compare(a,b) {
 		if (a.availRide.availRideId < b.availRide.availRideId)
