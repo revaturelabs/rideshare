@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,10 +20,8 @@ import com.revature.rideshare.dao.AvailableRideRepository;
 import com.revature.rideshare.dao.CarRepository;
 import com.revature.rideshare.dao.RideRepository;
 import com.revature.rideshare.dao.RideRequestRepository;
-import com.revature.rideshare.domain.AvailableRide;
 import com.revature.rideshare.domain.Ride;
 import com.revature.rideshare.domain.RideRequest;
-import com.revature.rideshare.domain.RideRequest.RequestStatus;
 
 @RunWith(SpringRunner.class)
 public class RideServiceTest {
@@ -33,7 +30,7 @@ public class RideServiceTest {
 	RideRepository rideRepository;
 
 	@Mock
-	RideRequestRepository rideRequestRepository;
+	RideRequestRepository rideReqRepo;
 
 	@Mock
 	AvailableRideRepository availableRideRepository;
@@ -51,11 +48,11 @@ public class RideServiceTest {
 	public void testAddRequest() {
 		RideRequest mockRequest = new RideRequest();
 		
-		when(rideRequestRepository.saveAndFlush(Matchers.same(mockRequest))).thenReturn(mockRequest);
+		when(rideReqRepo.saveAndFlush(Matchers.same(mockRequest))).thenReturn(mockRequest);
 		
 		rideService.addRequest(mockRequest);
 		
-		verify(rideRequestRepository, atLeastOnce()).saveAndFlush(Matchers.same(mockRequest));
+		verify(rideReqRepo, atLeastOnce()).saveAndFlush(Matchers.same(mockRequest));
 	}
 	
 	@Test
@@ -127,71 +124,17 @@ public class RideServiceTest {
 	
 	@Test
 	public void testCancelActiveRequest() {
-		Random rng = new Random();
 		
-		for (int i = 0; i < 3; i++) {
-			long mockId = rng.nextLong();
-			
-			RideRequest mockRequest = new RideRequest();
-			mockRequest.setRequestId(mockId);
-			
-			when(rideRequestRepository.findOne(Matchers.eq(mockId))).thenReturn(mockRequest);
-			
-			rideService.cancelActiveRequest(mockId, null);
-			
-			verify(rideRequestRepository, atLeastOnce()).delete(Matchers.same(mockRequest));
-		}
 	}
 	
 	@Test
 	public void testCancelRideReopenAvailRide() {
-		Random rng = new Random();
 		
-		for (int i = 0; i < 3; i++) {
-			long mockId = rng.nextLong();
-			
-			Ride mockRide = new Ride();
-			RideRequest mockRequest = new RideRequest();
-			mockRide.setRequest(mockRequest);
-			AvailableRide mockARide = new AvailableRide();
-			mockARide.setOpen(false);
-			mockRide.setAvailRide(mockARide);
-			
-			when(rideRepository.findOne(Matchers.eq(mockId))).thenReturn(mockRide);
-			
-			rideService.cancelRideReopenAvailRide(mockId, null);
-			
-			verify(rideRepository, atLeastOnce()).findOne(Matchers.eq(mockId));
-			// Were the ride record and request deleted?
-			verify(rideRepository, atLeastOnce()).delete(Matchers.same(mockRide));
-			verify(rideRequestRepository, atLeastOnce()).delete(Matchers.same(mockRequest));
-			// Was the available ride opened and saved?
-			assertTrue(mockARide.isOpen());
-			verify(availableRideRepository, atLeastOnce()).saveAndFlush(mockARide);
-		}
 	}
 	
 	@Test
 	public void testCompleteRequest() {
-		Random rng = new Random();
 		
-		for (int i = 0; i < 3; i++) {
-			long mockId = rng.nextLong();
-			
-			Ride mockRide = new Ride();
-			RideRequest mockRequest = new RideRequest();
-			mockRide.setRequest(mockRequest);
-			
-			when(rideRepository.findOne(Matchers.eq(mockId))).thenReturn(mockRide);
-			
-			rideService.completeRequest(mockId);
-			
-			verify(rideRepository, atLeastOnce()).findOne(Matchers.eq(mockId));
-			assertTrue(mockRide.getWasSuccessful());
-			assertTrue(mockRequest.getStatus().equals(RequestStatus.SATISFIED));
-			verify(rideRepository, atLeastOnce()).saveAndFlush(Matchers.same(mockRide));
-			verify(rideRequestRepository, atLeastOnce()).saveAndFlush(Matchers.same(mockRequest));
-		}
 	}
 	
 	@Test

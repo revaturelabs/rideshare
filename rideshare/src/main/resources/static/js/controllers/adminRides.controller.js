@@ -4,7 +4,10 @@ export let adminRidesController = function($scope, $http, $state) {
     $scope.ride = {}; 
     
     
-	// retrieve all active Rides to populate accordion table
+	/* 
+	 * Retrieve all active Rides to populate accordion table by calling activeRides method
+	 * in AdminController.java
+	 */
 	$http.get('admin/activeRides')
 	.then((res) => {
 		console.log(res);
@@ -12,7 +15,11 @@ export let adminRidesController = function($scope, $http, $state) {
 	})
 
 	
-	// retrieve all past Rides to populate accordion table
+	
+	/*
+	 * Retrieve all past Rides to populate accordion table by calling rideHistory method 
+	 * in AdminController.java
+	 */
 	$http.get('admin/rideHistory')
 	.then((res) => {
 		console.log(res);

@@ -22,48 +22,103 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * The representation of a User, which could be a rider or a driver.<br>
+ * <br>
+ * Drivers are referenced by {@link Cars}, while riders are referenced by
+ * {@link RideRequest Ride Requests}.<br>
+ * <br>
+ * <b>Notable Fields:</b><br>
+ * {@link #userId}<br>
+ * {@link #fullName}, {@link #firstName}, {@link #lastName}<br>
+ * {@link #mainPoi}, {@link #workPoi}<br>
+ * {@link #email}<br>
+ * {@link #slackId}<br>
+ * {@link #isAdmin}<br>
+ * {@link #isBanned}<br>
+ * {@link #slackUrl}<br>
+ */
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = -2923889374579038772L;
 
+	/**
+	 * The unique ID identifying this user in the database.
+	 */
 	@Id
 	@Column(name = "USER_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_ID_SEQUENCE")
 	@SequenceGenerator(name = "USER_ID_SEQUENCE", sequenceName = "USER_ID_SEQUENCE")
 	private long userId;
 
+	/**
+	 * The user's first name.
+	 */
+
 	@Column(name = "FIRST_NAME")
 	@JsonIgnore
 	private String firstName;
+
+	/**
+	 * The user's last name.
+	 */
 
 	@Column(name = "LAST_NAME")
 	@JsonIgnore
 	private String lastName;
 
+	/**
+	 * The user's full name which should contain their first name and last name.
+	 */
 	@Column(name = "FULL_NAME", nullable = false)
 	private String fullName;
 
+	/**
+	 * The {@link PointOfInterest point of interest} representing the user's
+	 * primary place of residence.
+	 */
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private PointOfInterest mainPOI;
 
+	/**
+	 * The {@link PointOfInterest point of interest} representing the user's
+	 * workplace.
+	 * 
+	 */
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private PointOfInterest workPOI;
 
+	/**
+	 * The user's Email Address
+	 */
 	@Column(name = "EMAIL")
 	private String email;
 
+	/**
+	 * The user's Slack ID
+	 */
 	@Column(name = "SLACK_ID", nullable = false)
 	private String slackId;
 
+	/**
+	 * Flag marking the user as an admin. True if admin, false if not.
+	 */
 	@Column(name = "IS_ADMIN", nullable = false)
 	private boolean isAdmin;
-	
-	@Column(name="IS_BANNED", nullable=false)
+
+	/**
+	 * Flag marking if the user is banned. If true, the user is unable to access
+	 * most features of the application.
+	 */
+	@Column(name = "IS_BANNED", nullable = false)
 	private boolean isBanned;
-	
-	@Column(name="SLACK_URL")
+
+	/**
+	 * The slackUrl at which the user can be reached at.
+	 */
+	@Column(name = "SLACK_URL")
 	private String slackUrl;
 
 	public User() {
@@ -82,7 +137,7 @@ public class User implements Serializable, UserDetails {
 		this.slackId = slackId;
 		this.isAdmin = isAdmin;
 	}
-	
+
 	public User(long userId, String firstName, String lastName, String fullName, PointOfInterest mainPOI,
 			PointOfInterest workPOI, String email, String slackId, boolean isAdmin, boolean isBanned, String slackUrl) {
 		super();
@@ -193,11 +248,12 @@ public class User implements Serializable, UserDetails {
 				+ fullName + ", mainPOI=" + mainPOI + ", workPOI=" + workPOI + ", email=" + email + ", slackId="
 				+ slackId + ", isAdmin=" + isAdmin + ", isBanned=" + isBanned + ", slackUrl=" + slackUrl + "]";
 	}
-	
+
 	// Implementations for the methods of the UserDetails interface
 
 	/*
-	 * All users will have the role of USER. Administrators will additionally have the role of ADMIN
+	 * All users will have the role of USER. Administrators will additionally
+	 * have the role of ADMIN
 	 */
 	@JsonIgnore
 	@Override
@@ -211,8 +267,8 @@ public class User implements Serializable, UserDetails {
 	}
 
 	/*
-	 * UNUSED
-	 * (a.k.a. credentials) This will either be null or the current slack api token for the user
+	 * UNUSED (a.k.a. credentials) This will either be null or the current slack
+	 * api token for the user
 	 */
 	@JsonIgnore
 	@Override
@@ -228,7 +284,7 @@ public class User implements Serializable, UserDetails {
 	public String getUsername() {
 		return slackId;
 	}
-	
+
 	/*
 	 * Accounts will never expire
 	 */
@@ -239,10 +295,10 @@ public class User implements Serializable, UserDetails {
 	}
 
 	/*
-	 * UNUSED
-	 * This is probably meant to be used for preventing multiple simultaneous logins for a single user.
-	 * Taking advantage of this requires the addition of another field in this class, although that field
-	 * may not need to be persisted to the database.
+	 * UNUSED This is probably meant to be used for preventing multiple
+	 * simultaneous logins for a single user. Taking advantage of this requires
+	 * the addition of another field in this class, although that field may not
+	 * need to be persisted to the database.
 	 */
 	@JsonIgnore
 	@Override
@@ -251,8 +307,8 @@ public class User implements Serializable, UserDetails {
 	}
 
 	/*
-	 * Slack API tokens probably do expire eventually, but until the actual expiration date can be determined,
-	 * this will just always return true
+	 * Slack API tokens probably do expire eventually, but until the actual
+	 * expiration date can be determined, this will just always return true
 	 */
 	@JsonIgnore
 	@Override
@@ -268,5 +324,5 @@ public class User implements Serializable, UserDetails {
 	public boolean isEnabled() {
 		return !isBanned;
 	}
-	
+
 }

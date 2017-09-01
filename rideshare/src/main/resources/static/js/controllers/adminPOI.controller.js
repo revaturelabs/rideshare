@@ -4,67 +4,91 @@ export let adminPoiController = function ($scope, $http, $state) {
 	$scope.newPoi = {};
 	$scope.dummyPoi = {};
 
-	// retrieve all pois
+	/*
+	 * Retrieves all Points of Interests(POIs).
+	 */
 	$http.get("/poiController")
 		.then(function (response) {
 			$scope.allpois = response.data;
 		});
 
-	// retrieve the poiType objects
+	
+	
+	/*
+	 *  Retrieves the poiType objects by calling PointOfInterestController.java.
+	 */
 	$scope.types = {};
 	$http.get("/poiController/type")
 		.then(function (response) {
 			$scope.types = response.data;
 		})  // end of poiType retrieval
 
-	// Used to bypass Same Origin Policy
+		
+		
+	/*
+	 *  Used to bypass Same Origin Policy which would prevent pages with different origins 
+	 *  from accessing each others scripts.
+	 */
 	$scope.createCORSRequest = function (method, url) {
 		var xhr = new XMLHttpRequest();
 
 		if ("withCredentials" in xhr) {
-			// XHR for Chrome/Firefox/Opera/Safari.
-			xhr.open(method, url, true);
+			xhr.open(method, url, true);// XHR for Chrome/Firefox/Opera/Safari.
 		}
 		else if (typeof XDomainRequest != "undefined") {
-			// XDomainRequest for IE.
-			xhr = new XDomainRequest();
+			xhr = new XDomainRequest();// XDomainRequest for IE.
 			xhr.open(method, url);
 		}
 		else {
-			// CORS not supported.
-			xhr = null;
+			xhr = null; // CORS not supported.
 		}
-
 		return xhr;
 	}
 
-	// addPoi function()
+	
+	
+	/*
+	 * Calls the addPoi method defined in PointOfInterestController.java.
+	 */
 	$scope.addPoi = function () {
-		// must first get lat/lng THEN sumbit data to backend
-		// prevent undefined response
-		if ($scope.poi.addressLine2 === undefined)
+		
+		/*
+		 * Must first get latitude/longitude THEN submit data to the back-end.
+		 */ 
+		
+		if ($scope.poi.addressLine2 === undefined)//Prevents undefined responses.
 			$scope.poi.addressLine2 = "";
-		// get address and format it for google maps response
+		
+		/*
+		 *  Retrieves address and format it for google maps response.
+		 */
 		var address = "" + $scope.poi.addressLine1 + " "
 			+ $scope.poi.addressLine2 + ", " +
 			$scope.poi.city +
 			", " + $scope.poi.state;
 		address = address.replace(/\s/g, '+'); // replace white space with +
 
-		// store url to retrieve response from google maps api
+		/* 
+		 * Store URL to retrieve response from Google Maps API.
+		 */
 		var url = "https://maps.googleapis.com/maps/api/geocode/" +
 			"json?address=" + address +
 			"&key=AIzaSyB_mhIdxsdRfwiAHVm8qPufCklQ0iMOt6A";
 
 		var xhr = $scope.createCORSRequest('GET', url)
 
-		// extract latitude and longitude with google maps api
+		/*
+		 *  Extract latitude and longitude with Google Maps API.
+		 */
 		xhr.onload = function (response) {
 			var result = JSON.parse(xhr.responseText);
 			if (result.length !== 0) {
+				
 				$scope.poi.latitude = result.results[0].geometry.location.lat;
 				$scope.poi.longitude = result.results[0].geometry.location.lng;
+				
 				$http.post("/poiController/addPoi", $scope.poi)
+				
 					.then((formResponse) => {
 						document.getElementById("addPoi-form").reset();
 						$state.reload();
@@ -72,12 +96,17 @@ export let adminPoiController = function ($scope, $http, $state) {
 					(failedResponse) => {
 						alert('failure');
 					})
+					
 			}
 		}
 		xhr.send();
 	}   // end of addPoi() function
 
-	// removePoi()
+	
+	
+	/*
+	 * Calls the rmovePOI method in the PointOfInterestController.java
+	 */
 	$scope.removePoi = function (index) {
 		// later add modal asks "Are you sure you want to remove this POI?"
 		$http.post("/poiController/removePoi", $scope.allpois[index])
@@ -88,30 +117,45 @@ export let adminPoiController = function ($scope, $http, $state) {
 				alert('failure');
 			})
 	}   // end of removePoi() function
-
+	
+	
+	
+	/*
+	 * Creates a dummyPoi
+	 */
 	$scope.openModal = function (index) {
 		$scope.dummyPoi = $scope.allpois[index];
 		$scope.newPoi = angular.copy($scope.dummyPoi);
 		$scope.newPoi.zipCode = parseInt($scope.dummyPoi.zipCode, 10);
 	}
 
-	// edit/updatePoi()
+	
+	
+	/*
+	 *  Calls the updatePOI method in PointOfInterestController.java
+	 */
 	$scope.updatePoi = function () {
 
 		if ($scope.newPoi.addressLine2 === null)
 			$scope.newPoi.addressLine2 = "";
-		// get address and format it for google maps response
+		
+		/*
+		 * Get address and format it for google maps response
+		 */
 		var address = "" + $scope.newPoi.addressLine1 + " "
 			+ $scope.newPoi.addressLine2 + ", " +
 			$scope.newPoi.city +
 			", " + $scope.newPoi.state;
-		address = address.replace(/\s/g, '+'); // replace white space with +
+		
+		address = address.replace(/\s/g, '+'); // Replace white space with +
 
-		// store url to retrieve response from google maps api
+		/*
+		 *  Store URL to retrieve response from google maps API
+		 */
 		var url = "https://maps.googleapis.com/maps/api/geocode/" +
 			"json?address=" + address +
 			"&key=AIzaSyB_mhIdxsdRfwiAHVm8qPufCklQ0iMOt6A";
-
+		
 		var xhr = $scope.createCORSRequest('GET', url);
 
 		xhr.onload = function (response) {
@@ -121,12 +165,14 @@ export let adminPoiController = function ($scope, $http, $state) {
 			$scope.newPoi.longitude = result.results[0].geometry.location.lng;
 
 			$http.post("/poiController/updatePoi", $scope.newPoi)
+			
 				.then((formResponse) => {
 					$state.reload('main.adminPoi');
 				},
 				(failedResponse) => {
 					alert('failure');
 				})
+				
 		}
 
 		xhr.send();
