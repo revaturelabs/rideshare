@@ -23,6 +23,7 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 			$scope.carCopy = angular.copy($scope.car);
 			
 			if ($scope.car === '') {
+				console.log("no car");
 				$scope.showHide = false;
 			}
 			else {
