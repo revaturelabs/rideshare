@@ -143,6 +143,31 @@ public class RideServiceImpl implements RideService {
 		
 		return temp;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see com.revature.rideshare.service.RideService#cancelRequest(long, com.revature.rideshare.domain.User)
+	 */
+	@Override
+	public boolean cancelRequest(long id, User u) {
+		try {
+			Ride ride = rideRepo.findOne(id);
+			RideRequest req = ride.getRequest();
+
+			AvailableRide availRide = ride.getAvailRide();
+			if (!availRide.isOpen()) {
+				// reopen if closed (because a seat is now available)
+				availRide.setOpen(true);
+			}
+
+			rideRepo.delete(ride);
+			rideReqRepo.delete(req);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 	/* (non-Javadoc)
 	 * @see com.revature.rideshare.service.RideService#cancelActiveRequest(long, com.revature.rideshare.domain.User)
