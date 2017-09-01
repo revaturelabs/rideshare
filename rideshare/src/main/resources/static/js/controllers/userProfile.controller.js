@@ -78,6 +78,8 @@ export let userProfileController = function ($scope, $http, $state) {
 				alert('failure in setPois');
 			})
 	}
+	
+	
 
 	$scope.addCar = function () {
 		$http.post('/car', $scope.carCopy).then(
