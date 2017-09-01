@@ -263,7 +263,6 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/offer/open")
 		.then(function(response){
 			$scope.activeOffers = response.data;
-			console.log(response.data);
 			organizeData(res, "active");
 			});
 		});
