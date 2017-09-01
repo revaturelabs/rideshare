@@ -257,8 +257,8 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	public Attachment createConfirmationButtonsAttachment(String callbackId) {
 		List<Action> actions = new ArrayList<Action>();
 
-		Action okayButton = new Action("OKAY", "OKAY", "button", "okay");
-		Action cancelButton = new Action("cancel", "CANCEL", "button", "cancel");
+		Action okayButton = slackActionService.getCreateOKAYAction();
+		Action cancelButton = slackActionService.getCreateCancelAction();
 		actions.add(okayButton);
 		actions.add(cancelButton);
 
@@ -278,15 +278,10 @@ public class SlackMessageServiceImpl implements SlackMessageService {
 	@Override
 	public Attachment createPOIAttachment(String text, String callbackId) {
 		List<Action> actions = new ArrayList<Action>();
-		List<Option> poiOptions = new ArrayList<Option>();
 
 		List<PointOfInterest> pois = (ArrayList<PointOfInterest>) poiService.getAll();
-		for (PointOfInterest poi : pois) {
-			Option o = new Option(poi.getPoiName(), poi.getPoiName());
-			poiOptions.add(o);
-		}
 
-		Action action = new Action("POI", "Pick a destination", "select", poiOptions);
+		Action action = slackActionService.getPOIListAction(pois);
 		actions.add(action);
 
 		Attachment attachment = new Attachment(text, "Unable to decide", "newRideMessage", "#3AA3E3", "default",

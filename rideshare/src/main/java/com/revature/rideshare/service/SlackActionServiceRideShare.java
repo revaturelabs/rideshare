@@ -100,7 +100,7 @@ public class SlackActionServiceRideShare implements SlackActionService {
 			Option o = new Option(text, text);
 			options.add(o);
 		}
-		return new Action(Seats);
+		return new Action("AvailableRides", "Select from the following rides", "select", options);
 
 	}
 

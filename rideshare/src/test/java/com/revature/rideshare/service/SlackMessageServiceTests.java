@@ -375,9 +375,9 @@ public class SlackMessageServiceTests {
 
 		Option comparisonOption = new Option();
 
-		comparisonOption.setText("10:45AM > ID:0");
+		comparisonOption.setText("10:45AM Ivory Tower>Ivory Tower ID:0");
 
-		comparisonOption.setValue("10:45AM > ID:0");
+		comparisonOption.setValue("10:45AM Ivory Tower>Ivory Tower ID:0");
 
 		List<Action> comparisonActionList = new ArrayList<Action>();
 
@@ -440,7 +440,7 @@ public class SlackMessageServiceTests {
 
 		Attachment comparisonAttachment = createDummyAvailableRidesAttachment(callbackId);
 
-		System.out.println(rideService.getAvailableRidesByTime(starttime, endtime));
+		System.out.println(Output);
 
 		assert (Output.equals(comparisonAttachment));
 
@@ -524,6 +524,9 @@ public class SlackMessageServiceTests {
 
 		String CallbackID = "Please Confirm!";
 
+		when(slackActionService.getCreateOKAYAction()).thenCallRealMethod();
+		when(slackActionService.getCreateCancelAction()).thenCallRealMethod();
+
 		Attachment confirmAttachment = slackMessageService.createConfirmationButtonsAttachment(CallbackID);
 
 		assert (confirmAttachment.getCallback_id().equals(CallbackID));
@@ -548,6 +551,7 @@ public class SlackMessageServiceTests {
 		List<PointOfInterest> poiList = getMockPoiList();
 
 		when(poiService.getAll()).thenReturn(poiList);
+		when(slackActionService.getPOIListAction(Matchers.anyList())).thenCallRealMethod();
 
 		Attachment poiAttachment = slackMessageService.createPOIAttachment(text, callbackID);
 

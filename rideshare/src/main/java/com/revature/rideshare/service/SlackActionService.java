@@ -105,8 +105,8 @@ public interface SlackActionService {
 	 *            options from.
 	 * @return Action
 	 *         <ul>
-	 *         <li>name: "Seats"</li>
-	 *         <li>text: "# of seats"</li>
+	 *         <li>name: "AvailableRides"</li>
+	 *         <li>text: "Select from the following rides"</li>
 	 *         <li>type: "select"</li>
 	 *         <li>options: a list of {@link AvailableRide available rides}</li>
 	 *         </ul>
