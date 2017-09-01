@@ -2,6 +2,11 @@ export let driverController = function($scope, $http, $state){
 	// scope and function used to pass ride data to front end
 	$scope.isArray = angular.isArray;
 	$scope.rides = {};
+
+	// Setting to empty arrays for correct ng-repeat processing.
+	$scope.openRequest = [];
+	$scope.activeRides = [];
+	$scope.pastRides = [];
 	
 	// global variables
 	let user;
@@ -11,7 +16,7 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			$scope.openRequest = response.data;	
-			console.log($scope.openRequest);
+			console.log(response.data);
 		});
 	}
 
@@ -176,11 +181,6 @@ export let driverController = function($scope, $http, $state){
 
 	// Setting mPOI in case a user does not have a mPOI.
 	$scope.poiId = {id : 1};
-
-	// Setting to empty arrays for correct ng-repeat processing.
-	$scope.openRequest = [];
-	$scope.activeRides = [];
-	$scope.pastRides = [];
 
 	// show open requests from a poi
 	$http.get("/ride/request/open/"+$scope.poiId.id)
