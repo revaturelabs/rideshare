@@ -108,7 +108,15 @@ public class EquivalenceUtilities {
 
 		Long numToHash = 0l;
 
+		if (list == null) {
+			return numToHash.toString().hashCode();
+		}
+
 		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i) == null)
+			{
+				continue;
+			}
 			numToHash += list.get(i).hashCode();
 		}
 
