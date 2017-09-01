@@ -1,6 +1,6 @@
 <!--click button to see populated table of all Users-->
 <div class="panel-group" id="userAccordion" style="padding-top: 1em">
-	<div class="panel panel-default" ng-repeat="u in users"
+	<div class="panel panel-default" ng-repeat="u in users" ng-if="getUser.userId != u.userId"
 		style="border: none">
 		<div class="panel-heading" data-toggle="collapse"
 			data-target="#collapse{{u.userId}}">
@@ -10,7 +10,7 @@
 					target="_self" style="text-decoration: none"> {{u.fullName}} </a>
 			</h4>
 		</div>
-		<div id="collapse{{u.userId}}" class="panel-collapse collapse" >
+		<div id="collapse{{u.userId}}" class="panel-collapse collapse">
 			<div class="panel-body" style="padding: 2em">
 				<!-- Expanded Information Section -->
 				<div class="row">
@@ -43,7 +43,7 @@
 						<tr>
 							<td>Admin:</td>
 							<td> 
-								<select id ="isAdmin">
+								<select ng-attr-id ="{{'isAdmin'+$index}}">
 								  <option  value="false">User</option>
 								  <option  ng-selected="u.admin" value="true">Admin</option>
 								</select> 
@@ -51,7 +51,7 @@
 						<tr>
 							<td>Ban:</td>
 							<td> 
-								<select id ="isBanned">
+								<select ng-attr-id ="{{'isBanned'+$index}}">
 									<option  value="false">Not Banned</option>
 								  <option  ng-selected="u.banned" value="true">Banned</option>
 								</select> 

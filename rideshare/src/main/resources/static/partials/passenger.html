@@ -17,7 +17,6 @@
 <p id="display"></p>
 
 <script src="../js/googleMapAPI/markerclusterer.js"></script>
-<script src="../js/paginate/dirPagination.js"></script>
 
 
 <!-- Tabs that display active rides and ride history for a user -->
@@ -294,7 +293,6 @@
 			
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-primary"
-					ng-if="dropoff.poiId!=pickup.poiId"
 					ng-click="addRequest(pickup,dropoff,notes,time)"
 					data-dismiss="modal">Submit</button>
 			</div>
