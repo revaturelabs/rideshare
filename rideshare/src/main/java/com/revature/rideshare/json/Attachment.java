@@ -250,11 +250,14 @@ public class Attachment {
 	}
 
 	@Override
-	public boolean equals(Object other) {
-		Attachment otherAttachment = (Attachment) other;
-		if (otherAttachment == null) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
+		if (obj.getClass() != this.getClass()) {
+			return false;
+		}
+		Attachment otherAttachment = (Attachment) obj;
 
 		if (!EquivalenceUtilities.SafeCompare(getText(), otherAttachment.getText())) {
 			return false;
