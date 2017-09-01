@@ -16,7 +16,6 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			$scope.openRequest = response.data;	
-			console.log(response.data);
 		});
 	}
 
@@ -264,6 +263,7 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/offer/open")
 		.then(function(response){
 			$scope.activeOffers = response.data;
+			console.log(response.data);
 			organizeData(res, "active");
 			});
 		});
