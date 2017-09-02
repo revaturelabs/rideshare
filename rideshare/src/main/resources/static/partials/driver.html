@@ -134,7 +134,7 @@
 					</div>
 				</div>
 			</div>
-
+			<!-- This "ride" in activeRides gets data from the Available Rides Table -->
 			<div class="panel panel-default" ng-repeat="ride in activeRides" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseA{{ride.availRide.availRideId}}" >
 					<h4 class="panel-title">
@@ -189,12 +189,13 @@
 			</ul>
 
 			<div class="panel-group" id="accordionPast">
+				<!-- This "ride" in pastRides gets data from the Rides Table -->
 			<div class="panel panel-default" ng-repeat="ride in pastRides" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseP{{ride.availRide.availRideId}}" >
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionPast" href="#collapseP{{ride.availRide.availRideId}}" target="_self" style="text-decoration:none">
 						
-						{{ride.car.user.fullName}}<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
+						{{ride.availRide.car.user.fullName}}<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
 						<br/>
 
 						{{ride.availRide.pickupPOI.poiName}}
