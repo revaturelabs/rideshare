@@ -100,7 +100,7 @@
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{req.requestId}}" target="_self" style="text-decoration:none">
 						
-							<em>@</em> {{req.time | date: 'h:mm a MMM dd'}}
+							{{req.user.fullName}}<em>@</em> {{req.time | date: 'h:mm a MMM dd'}}
 							<br/>
 							{{req.pickupLocation.poiName}}
 							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
