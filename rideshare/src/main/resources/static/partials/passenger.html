@@ -25,7 +25,7 @@
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="#open"
-			aria-controls="open" role="tab" data-toggle="tab" target="_self">Available</a></li>
+			aria-controls="open" role="tab" data-toggle="tab" target="_self">Available Rides</a></li>
 		<li role="presentation"><a href="#active" aria-controls="active"
 			role="tab" data-toggle="tab" target="_self">In Progress</a></li>
 		<li role="presentation"><a href="#history"
@@ -73,7 +73,7 @@
 
 					<div class="btn-container">
 						<button type="button" class="btn btn-primary"
-							ng-click="acceptOffer(offer.availRideId)">Accept Offer</button>
+							ng-click="acceptOffer(offer.availRideId)" ng-hide="loggedUser.userId == req.user.userId">Accept Offer</button>
 					</div>
 					<!-- End of expanded portion -->
 						
