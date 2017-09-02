@@ -33,7 +33,7 @@
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="#open"
-			aria-controls="open" role="tab" data-toggle="tab" target="_self">Available</a></li>
+			aria-controls="open" role="tab" data-toggle="tab" target="_self">Ride Requests</a></li>
 		<li role="presentation"><a href="#active" aria-controls="active"
 			role="tab" data-toggle="tab" target="_self">In Progress</a></li>
 		<li role="presentation"><a href="#history"
@@ -81,7 +81,7 @@
 					<em>Note:</em> {{req.notes}} <span ng-show=" req.notes == null"> N/A </span>
 					
 					<div class="btn-container">
-					<button type="button" class="btn btn-primary" ng-click="acceptReq(req.requestId)">Accept Request</button>
+					<button type="button" class="btn btn-primary" ng-click="acceptReq(req.requestId)" ng-hide="loggedUser.userId == req.user.userId">Accept Request</button>
 					<button type="button" class="btn btn-primary" ng-click="ignoreReq(req.requestId)">Ignore Request</button>
 					<button type="button" class="btn btn-primary" ng-click="ignoreReqAlert(req.requestId)">Ignore Request</button>
 					
