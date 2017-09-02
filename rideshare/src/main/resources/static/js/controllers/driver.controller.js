@@ -342,8 +342,12 @@ export let driverController = function($scope, $http, $state){
 	 */
 	$http.get("/ride/offer/active")
 	.then(function(res){
+		console.log("the response from /ride/offer/active");
+		console.log(res);
 		$http.get("/ride/offer/open")
 		.then(function(response){
+			console.log("the response from /ride/offer/open");
+			console.log(response.data);
 			$scope.activeOffers = response.data;
 			organizeData(res, "active");
 			});
@@ -356,6 +360,8 @@ export let driverController = function($scope, $http, $state){
 	 */
 	$http.get("/ride/offer/history")
 	.then(function(response){
+		console.log("the response from /ride/offer/history");
+		console.log(response.data);
 		organizeData(response, "history");
 		});
 
