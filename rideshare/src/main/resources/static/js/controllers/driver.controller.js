@@ -23,7 +23,23 @@ export let driverController = function($scope, $http, $state){
 	$scope.updateSort = function (item){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
+			//remove the ignored requests from the response
+			var ignoredRequests =JSON.parse(ignoredRequestsArray);
+			$scope.openRequest = response.data;
+			for(let i = 0; i < $scope.openRequest.length; i++){
+				for(let p=0; p<ignoredRequests.length; p++) {
+					if(response.data[i].requestId == ignoredRequests[p]) {
+						$scope.openRequest.splice(i, 1);
+						console.log(openRequest[i]);
+						$scope.$apply;
+					}
+				}
+			}
+			setTimeout(function(){$state.reload();}, 500);
+			
+
 			$scope.openRequest = response.data;	
+
 		});
 	}
 
