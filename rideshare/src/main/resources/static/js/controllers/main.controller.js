@@ -8,7 +8,7 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 	$scope.isAdmin = authFactory.isAdmin();
 	$scope.loggedUser = authFactory.getUser();
 	console.log($scope.loggedUser);
-
+	$scope.carMain = {};
 
 	
 	/*
@@ -30,13 +30,12 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 	/*
 	 *  Retrieve the user's current car by calling the getCar method in CarController.java
 	 */
-	$http.get("/car/myCar", $scope.car)
+	$http.get("/car/myCar", $scope.carMain)
 		.then((response) => {
-			$scope.car = response.data;
-			console.log($scope.car);
-			$scope.carCopy = angular.copy($scope.car);
+			$scope.carMain = response.data;
+			console.log($scope.carMain);
 			
-			if ($scope.car == null) {
+			if ($scope.carMain == null) {
 				console.log("no car");
 				$scope.showHide = false;
 			}

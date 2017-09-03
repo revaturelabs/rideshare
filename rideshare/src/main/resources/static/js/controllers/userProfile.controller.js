@@ -52,7 +52,7 @@ export let userProfileController = function ($scope, $http, $state) {
 		.then((response) => {
 			$scope.car = response.data;
 			$scope.carCopy = angular.copy($scope.car);
-			
+			$scope.carMain = angular.copy($scope.car);
 			if ($scope.car === '') {
 				$scope.buttonText = 'Add Car';
 			}
@@ -86,7 +86,7 @@ export let userProfileController = function ($scope, $http, $state) {
 			(formResponse) => {
 				$scope.buttonText = 'Edit Car';
 				$scope.car = angular.copy($scope.carCopy);
-				
+				$scope.carMain = angular.copy($scope.carCopy);
 				// Reloading the view stops the user from adding a new car
 				// after deleting a car.
 				$state.reload('main.userProfile');
@@ -117,7 +117,7 @@ export let userProfileController = function ($scope, $http, $state) {
 
 				$scope.car = {};
 				$scope.carCopy = {};
-				
+				$scope.carMain = {};
 				$state.go("main.userProfile");
 			},
 			(failedResponse) => {
