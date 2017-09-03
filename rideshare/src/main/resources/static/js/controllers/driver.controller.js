@@ -28,7 +28,7 @@ export let driverController = function($scope, $http, $state, $cookies){
 			var ignoredRequests =JSON.parse(ignoredRequestsArray);
 			$scope.openRequest = response.data;
 			for(let i = 0; i < $scope.openRequest.length; i++){
-				for(let p=0, p<ignoredRequests.length, p++) {
+				for(let p=0; p<ignoredRequests.length; p++) {
 					if(response.data[i].requestId == ignoredRequests[p]) {
 						$scope.openRequest.splice(i, 1);
 						console.log(openRequest[i]);
