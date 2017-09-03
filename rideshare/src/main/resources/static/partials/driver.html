@@ -140,7 +140,7 @@
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{ride.availRide.availRideId}}" target="_self" style="text-decoration:none">
 						
-							{{ride.car.user.fullName}}<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
+							{{ride.availRide.user.fullName}}<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
 							<br/>
 
 							{{ride.availRide.pickupPOI.poiName}}
@@ -151,18 +151,18 @@
 					</h4>
 				</div>
 				<div id="collapseA{{ride.availRide.availRideId}}" class="panel-collapse collapse">
-					<div ng-repeat="request in ride.request" class="panel-body" data-toggle="collapse" data-target = "#collapseA{{ride.availRide.availRideId}}" >
+					<div class="panel-body" data-toggle="collapse" data-target = "#collapseA{{ride.availRide.availRideId}}" >
 						<em>Note:</em> {{ride.availRide.notes}} <span ng-show="!ride.availRide.notes"> N/A </span>
 						<br/>
 						<em>Available Seats:</em> {{ride.availRide.seatsAvailable}}
 						
-						<div ng-show="isArray(ride.request)">
+						<div ng-show="isArray(ride.request)" ng-repeat="request in ride.request">
 							<em>Passengers:</em>
 							<ul class="passenger-list">
 								<li>
 									{{request.user.fullName}}
 									<span ng-show="request.notes != null"> ( <i>{{request.notes}}</i> )</span>
-									</li>
+								</li>
 							</ul>
 						</div>
 
