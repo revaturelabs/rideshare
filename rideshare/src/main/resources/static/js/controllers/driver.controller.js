@@ -1,4 +1,4 @@
-export let driverController = function($scope, $http, $state){
+export let driverController = function($scope, $http, $state, $cookies){
 	/*
 	 * Scope and function used to pass ride data to front end
 	 */
@@ -9,6 +9,7 @@ export let driverController = function($scope, $http, $state){
 	$scope.openRequest = [];
 	$scope.activeRides = [];
 	$scope.pastRides = [];
+	
 	
 	/*
 	 * Global variables
@@ -23,7 +24,20 @@ export let driverController = function($scope, $http, $state){
 	$scope.updateSort = function (item){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
-			$scope.openRequest = response.data;	
+			//remove the ignored requests from the response
+			var ignoredRequests =JSON.parse(ignoredRequestsArray);
+			$scope.openRequest = response.data;
+			for(let i = 0; i < $scope.openRequest.length; i++){
+				for(let p=0, p<ignoredRequests.length, p++) {
+					if(response.data[i].requestId == ignoredRequests[p]) {
+						$scope.openRequest.splice(i, 1);
+						console.log(openRequest[i]);
+						$scope.$apply;
+					}
+				}
+			}
+			setTimeout(function(){$state.reload();}, 500);
+			
 		});
 	}
 
@@ -259,47 +273,13 @@ export let driverController = function($scope, $http, $state){
 	}
 	
 	/*
-	 * Simply print ignore request when function is called
-	 */
-	$scope.ignoreReq = function() {
-		console.log("ignore request test");
-	}
-	
-	//ignore open requests
-/*	$scope.ignoreReq3 = function(id) {
-		//set up this endpoint
-		console.log("Ignore Request Clicked!");
-		$http.get("/ride/request/ignore/"+id)
-		.then(function(response) => {
-			console.log("Ignore Request Response!")
-			$scope.openRequest = response.data;
-			setTimeout(function(){$state.reload();}, 500);
-		});
-	}
-	*/
-	
-	
-	/*
 	 * Ignore requests by calling the ignoreRequest method in RideController.java 
 	 * with the form "/request/ignore/{id}"
 	 */
 	$scope.ignoreReq = function(reqId) {
-		
-		$http.get('/ride/request/ignore/' + reqId)
-			.then((response) => {
-				for(let i = 0; i < $scope.openRequest.length; i++){
-					if($scope.openRequest[i].requestId == reqId) {
-						$scope.openRequest.splice(i, 1);
-						console.log(openRequest[i]);
-						$scope.$apply;
-					}
-				}
-				
-				$scope.ignoreReqVar = response.data;
-				$scope.openRequest= response.data;
-				setTimeout(function(){$state.reload();}, 500);
-			}
-		);
+		ignoredRequestsArray.put(reqId);
+		$cookie.put('ignoredRequests', JSON.stringify(ignoredRequestsArray));
+		console.log(JSON.stringify(ignoredRequestsArray));
 	};
 	
 	$scope.ignoreReqAlert = function(reqId) {
