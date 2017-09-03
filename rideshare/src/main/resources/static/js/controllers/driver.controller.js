@@ -419,15 +419,18 @@ export let driverController = function($scope, $http, $state){
 			$scope.offer.notes = notes;
 			$scope.offer.time = new Date(time);
 			$scope.offer.seatsAvailable = seats;
-	
-			$http.post('/ride/offer/add', $scope.offer).then(
-				(formResponse) => {
-					setTimeout(function(){$state.reload();}, 500);
-				},
-				(failedResponse) => {
-					alert('Failure');
-				}
-			)
+			if(pickup == dropoff){
+				console.log("You chose the same two points WHYYYY");
+			}else{
+				$http.post('/ride/offer/add', $scope.offer).then(
+					(formResponse) => {
+						setTimeout(function(){$state.reload();}, 500);
+					},
+					(failedResponse) => {
+						alert('Failure');
+					}
+				)
+			}
 //		} else {
 //			console.log("driver has no car ...")
 //		}

@@ -270,15 +270,18 @@ export let passengerController = function($scope, $http, $state, $location){
 		$scope.newRequest.time = new Date(time);
 		$scope.newRequest.status = 'OPEN';
 		$scope.newRequest.user = user;
-
-		$http.post('/ride/request/add', $scope.newRequest).then(
-			(formResponse) => {
-				setTimeout(function(){$state.reload();}, 500);
-			},
-			(failedResponse) => {
-				alert('Failure');
-			}
-		)
+		if(pickup == dropoff){
+			console.log("PASSENGER: You chose the same two points WHYYYY");
+		}else{
+			$http.post('/ride/request/add', $scope.newRequest).then(
+				(formResponse) => {
+					setTimeout(function(){$state.reload();}, 500);
+				},
+				(failedResponse) => {
+					alert('Failure');
+				}
+			)
+		}
 	};
 	
 	
