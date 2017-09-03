@@ -33,7 +33,7 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 	$http.get("/car/myCar", $scope.carMain)
 		.then((response) => {
 			$scope.carMain = response.data;
-			console.log($scope.carMain);
+			console.log(response.data);
 			
 			if ($scope.carMain == null) {
 				console.log("no car");
