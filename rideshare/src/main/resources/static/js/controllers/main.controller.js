@@ -10,6 +10,7 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 	console.log($scope.loggedUser);
 	$scope.carMain = {};
 	$scope.showHide;
+	$scope.sameStartEnd = false;
 	
 	/*
 	 * Performs a logout by removing the JWT that was stored locally.

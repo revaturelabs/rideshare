@@ -420,7 +420,8 @@ export let driverController = function($scope, $http, $state){
 			$scope.offer.time = new Date(time);
 			$scope.offer.seatsAvailable = seats;
 			if(pickup == dropoff){
-				console.log("You chose the same two points WHYYYY");
+				$scope.sameStartEnd = true;
+				console.log("DRIVER: You chose the same two points WHYYYY");
 			}else{
 				$http.post('/ride/offer/add', $scope.offer).then(
 					(formResponse) => {

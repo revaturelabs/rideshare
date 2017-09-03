@@ -271,6 +271,7 @@ export let passengerController = function($scope, $http, $state, $location){
 		$scope.newRequest.status = 'OPEN';
 		$scope.newRequest.user = user;
 		if(pickup == dropoff){
+			$scope.sameStartEnd = true;
 			console.log("PASSENGER: You chose the same two points WHYYYY");
 		}else{
 			$http.post('/ride/request/add', $scope.newRequest).then(
