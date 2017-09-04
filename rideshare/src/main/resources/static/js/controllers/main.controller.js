@@ -48,4 +48,8 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 		(failedResponse) => {
 			alert('failure');
 		})
+
+		$scope.revertAlert = function () {
+			$scope.sameStartEnd = false;
+		}
 }

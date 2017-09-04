@@ -46,7 +46,7 @@
 				<li ng-if="carMain != ''"><a ui-sref="main.driver" ui-sref-active="navbar-active" >Driver</a></li>
 				<li ng-if="carMain === ''"><div class="alert alert-info">You need to add a car to be able to create ride offers and accept ride requests<a class="close" data-dismiss="alert" aria-label="close" title="close">×</a></div></li>
 			</ul>
-			<div class="alert alert-warning" ng-show="sameStartEnd">Your start and end points have to be different.<a class="close" data-dismiss="alert" aria-label="close" title="close">×</a></div>
+			<div class="alert alert-warning" ng-show="sameStartEnd">Your start and end points have to be different.<a class="close" aria-label="close" title="close" ng-click="revertAlert()">×</a></div>
 		</div>
 		
 		
