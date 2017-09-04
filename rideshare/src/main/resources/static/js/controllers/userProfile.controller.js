@@ -129,6 +129,10 @@ export let userProfileController = function ($scope, $http, $state) {
 		
 		$http.post("/removeUser", $scope.user)
 			.then((response) => {
+				
+				if($scope.car){
+					$http.post("/car/removeCar", $scope.car)
+				}
 
 				$http.post('/logout', {})
 				.then(function() {
