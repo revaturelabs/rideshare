@@ -124,5 +124,21 @@ export let userProfileController = function ($scope, $http, $state) {
 				alert('failure');
 			})
 	}
+	
+	$scope.departUser = function () {
+		
+		$http.post("/removeUser", $scope.user)
+			.then((response) => {
+
+				$http.post('/logout', {})
+				.then(function() {
+					$location.path("/");
+				})
+			},
+			(failedResponse) => {
+				alert('failure');
+			})
+	}
+	
 
 }
