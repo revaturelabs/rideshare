@@ -52,15 +52,17 @@
 			
 		<!-- accordion used for display  -->	
 		<div class="panel-group" id="accordionOpen">
-			<div class="panel panel-default"  ng-repeat="offer in openOffer" style = "border: none">
+			<div class="panel panel-default"  ng-repeat="ride in activeRides" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapse{{offer.availRideId}}" >
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionOpen" href="#collapse{{offer.availRideId}}" target="_self" style="text-decoration:none">
 						
-					{{offer.car.user.fullName}} <em>@</em> {{offer.time | date: 'h:mm a MMM dd'}}<br/>
-					{{offer.pickupPOI.poiName}}
-					<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-					{{offer.dropoffPOI.poiName}}
+							{{ride.availRide.car.user.fullName}} <em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
+							<br/>
+
+							{{ride.availRide.pickupPOI.poiName}}
+							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+							{{ride.availRide.dropoffPOI.poiName}}
 						
 						</a>
 					</h4>
@@ -70,7 +72,15 @@
 						
 					<!-- Beginning of expanded portion -->
 					<em>Note:</em> {{offer.notes}} <span ng-show=" offer.notes == null"> N/A </span>
-
+					<div ng-show="isArray(req.request)">
+						<em>Passengers:</em>
+						<ul class="passenger-list">
+							<li ng-repeat="request in ride.request">
+								{{request.user.fullName}}
+								<span ng-show="request.notes != null"> ( <i>{{request.notes}}</i> )</span>
+							</li>
+						</ul>
+					</div>
 					<div class="btn-container">
 						<button type="button" class="btn btn-primary"
 							ng-click="acceptOffer(offer.availRideId)" ng-hide="loggedUser.userId == offer.car.user.userId">Accept Offer</button>
@@ -95,18 +105,17 @@
 						
 			<div class="panel-group" id="accordionActive">
 			<!-- I need to call from the rides table and get this information from req.availride.user.fullname etc and then get the passengers from the main object -->
-			<div class="panel panel-default" ng-repeat="ride in activeRides" style="border:none;">
+			<div class="panel panel-default" ng-repeat="req in activeRequests" style="border:none;">
 				<div class="panel panel-default" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseA{{req.requestId}}" style = "background-color: #fafafa;">
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{req.requestId}}" target="_self" style="text-decoration:none">
 						
-							{{ride.availRide.car.user.fullName}} <em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
+							{{req.user.fullName}}<em>@</em> {{req.time | date: 'h:mm a MMM dd'}}
 							<br/>
-
-							{{ride.availRide.pickupPOI.poiName}}
+							{{req.pickupLocation.poiName}}
 							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-							{{ride.availRide.dropoffPOI.poiName}}
+							{{req.dropOffLocation.poiName}}
 						
 						</a>
 					</h4>
@@ -117,15 +126,6 @@
 						<p>This request has not yet been assigned to a offer.</p>
 						<em>Note:</em> {{req.notes}} <span ng-show="!req.notes"> N/A </span>
 						<br/>
-						<div ng-show="isArray(ride.request)">
-							<em>Passengers:</em>
-							<ul class="passenger-list">
-								<li ng-repeat="request in ride.request">
-									{{request.user.fullName}}
-									<span ng-show="request.notes != null"> ( <i>{{request.notes}}</i> )</span>
-								</li>
-							</ul>
-						</div>
 						<div class="btn-container">
 								<button type="submit" class="btn btn-primary"
 									ng-click="cancelActiveRequest(req.requestId)">Cancel Request</button>
