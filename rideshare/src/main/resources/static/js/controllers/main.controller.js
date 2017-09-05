@@ -6,7 +6,6 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 	// view that is the parent of all the main views
 	$scope.isAdmin = authFactory.isAdmin();
 	$scope.loggedUser = authFactory.getUser();
-	console.log($scope.loggedUser);
 	$scope.carMain = {};
 	$scope.showHide;
 	$scope.sameStartEnd = false;
@@ -22,7 +21,6 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 			$location.path("/");
 		})
 		.catch(function(data) {
-			console.log("Logout failed");
 			self.authenticated = false;
 		});
 	};
@@ -33,14 +31,10 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 	$http.get("/car/myCar", $scope.carMain)
 		.then((response) => {
 			$scope.carMain = response.data;
-			console.log(response.data === '');
-			
 			if ($scope.carMain == null) {
-				console.log("no car");
 				$scope.showHide = false;
 			}
 			else {
-				console.log("car")
 				$scope.showHide = true;
 			}
 		},
