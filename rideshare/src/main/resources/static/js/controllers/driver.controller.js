@@ -20,7 +20,7 @@ export let driverController = function($scope, $http, $state){
 	/*
 	 * Calls the getOpenRequests method in RideController.java with the form "/request/open/{id}"
 	 */
-	$scope.updateSort = function (item){
+/*	$scope.updateSort = function (item){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			//remove the ignored requests from the response
@@ -42,8 +42,14 @@ export let driverController = function($scope, $http, $state){
 
 		});
 	}
-
-	
+*/
+	$scope.updateSort = function (item){
+		$http.get("/ride/request/open/"+item.poiId)
+		.then(function(response) {
+			$scope.openRequest = response.data;	
+		
+		});
+	}
 	
 	/*
 	 * Calling the Ride Controller and its members
@@ -273,33 +279,13 @@ export let driverController = function($scope, $http, $state){
 			setTimeout(function(){$state.reload();}, 500);
 		});
 	}
-	
-	/*
-	 * Simply print ignore request when function is called
-	 */
-	$scope.ignoreReq = function() {
-		console.log("ignore request test");
-	}
-	
-	//ignore open requests
-/*	$scope.ignoreReq3 = function(id) {
-		//set up this endpoint
-		console.log("Ignore Request Clicked!");
-		$http.get("/ride/request/ignore/"+id)
-		.then(function(response) => {
-			console.log("Ignore Request Response!")
-			$scope.openRequest = response.data;
-			setTimeout(function(){$state.reload();}, 500);
-		});
-	}
-	*/
-	
+
 	
 	/*
 	 * Ignore requests by calling the ignoreRequest method in RideController.java 
 	 * with the form "/request/ignore/{id}"
 	 */
-	$scope.ignoreReq = function(reqId) {
+/*	$scope.ignoreReq = function(reqId) {
 		
 		$http.get('/ride/request/ignore/' + reqId)
 			.then((response) => {
@@ -316,7 +302,7 @@ export let driverController = function($scope, $http, $state){
 				setTimeout(function(){$state.reload();}, 500);
 			}
 		);
-	};
+	};*/
 	
 	$scope.ignoreReqAlert = function(reqId) {
 	    if (confirm("Are you sure you want to ignore this request?") == true) {
