@@ -52,17 +52,15 @@
 			
 		<!-- accordion used for display  -->	
 		<div class="panel-group" id="accordionOpen">
-			<div class="panel panel-default"  ng-repeat="ride in activeRides" style = "border: none">
+			<div class="panel panel-default"  ng-repeat="offer in openOffer" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapse{{offer.availRideId}}" >
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionOpen" href="#collapse{{offer.availRideId}}" target="_self" style="text-decoration:none">
 						
-							{{ride.availRide.car.user.fullName}} <em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
-							<br/>
-
-							{{ride.availRide.pickupPOI.poiName}}
-							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-							{{ride.availRide.dropoffPOI.poiName}}
+					{{offer.car.user.fullName}} <em>@</em> {{offer.time | date: 'h:mm a MMM dd'}}<br/>
+					{{offer.pickupPOI.poiName}}
+					<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+					{{offer.dropoffPOI.poiName}}
 						
 						</a>
 					</h4>
@@ -72,15 +70,7 @@
 						
 					<!-- Beginning of expanded portion -->
 					<em>Note:</em> {{offer.notes}} <span ng-show=" offer.notes == null"> N/A </span>
-					<div ng-show="isArray(req.request)">
-						<em>Passengers:</em>
-						<ul class="passenger-list">
-							<li ng-repeat="request in ride.request">
-								{{request.user.fullName}}
-								<span ng-show="request.notes != null"> ( <i>{{request.notes}}</i> )</span>
-							</li>
-						</ul>
-					</div>
+
 					<div class="btn-container">
 						<button type="button" class="btn btn-primary"
 							ng-click="acceptOffer(offer.availRideId)" ng-hide="loggedUser.userId == offer.car.user.userId">Accept Offer</button>
