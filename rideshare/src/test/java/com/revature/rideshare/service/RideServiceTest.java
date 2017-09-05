@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ public class RideServiceTest {
 	RideRepository rideRepository;
 
 	@Mock
-	RideRequestRepository rideReqRepo;
+	RideRequestRepository rideRequestRepository;
 
 	@Mock
 	AvailableRideRepository availableRideRepository;
@@ -48,11 +49,11 @@ public class RideServiceTest {
 	public void testAddRequest() {
 		RideRequest mockRequest = new RideRequest();
 		
-		when(rideReqRepo.saveAndFlush(Matchers.same(mockRequest))).thenReturn(mockRequest);
+		when(rideRequestRepository.saveAndFlush(Matchers.same(mockRequest))).thenReturn(mockRequest);
 		
 		rideService.addRequest(mockRequest);
 		
-		verify(rideReqRepo, atLeastOnce()).saveAndFlush(Matchers.same(mockRequest));
+		verify(rideRequestRepository, atLeastOnce()).saveAndFlush(Matchers.same(mockRequest));
 	}
 	
 	@Test
@@ -120,6 +121,29 @@ public class RideServiceTest {
 	@Test
 	public void testIgnoreRequest() {
 		// TODO - Waiting on method to be complete
+	}
+	
+	@Test
+	public void testCancelRequest() {
+		Random rng = new Random();
+		
+		for (int i = 0; i < 3; i++) {
+			long mockId = rng.nextLong();
+			
+			Ride mockRide = new Ride();
+			RideRequest mockRequest = new RideRequest();
+			mockRide.setRequest(mockRequest);
+			
+			when(rideRepository.findOne(Matchers.eq(mockId))).thenReturn(mockRide);
+			
+			rideService.cancelRequest(mockId, null);
+			
+			
+			verify(rideRepository, atLeastOnce()).findOne(Matchers.eq(mockId));
+			// Were the ride record and request deleted?
+			verify(rideRepository, atLeastOnce()).delete(Matchers.same(mockRide));
+			verify(rideRequestRepository, atLeastOnce()).delete(Matchers.same(mockRequest));
+		}
 	}
 	
 	@Test
