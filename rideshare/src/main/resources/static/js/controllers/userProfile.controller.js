@@ -1,4 +1,4 @@
-export let userProfileController = function ($scope, $http, $state) {
+export let userProfileController = function ($scope, $http, $state, $location) {
 	$scope.allpois = {};
 	$scope.user = {};
 	// Car object which is bound to the car information table
@@ -124,5 +124,22 @@ export let userProfileController = function ($scope, $http, $state) {
 				alert('failure');
 			})
 	}
+	
+	$scope.departUser = function () {
+		$http.post("/user/removeUser", $scope.user)
+			.then((response) => {
 
+				if($scope.car){
+					$http.post("/car/removeCar", $scope.car)
+				} //removing a users car
+
+				$http.post('/logout', {})
+				.then(function() {
+					$location.path("/");
+				})
+			},
+			(failedResponse) => {
+				alert('failure');
+			})
+	}
 }

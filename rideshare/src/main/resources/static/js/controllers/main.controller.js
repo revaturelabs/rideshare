@@ -48,4 +48,14 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 		(failedResponse) => {
 			alert('failure');
 		})
+
+		/*
+		* When a user selects two points start and end that are the same
+		* an alert will appear to inform them of their mistake this resets
+		* the show/hide flag for that alert when they hit 'x' to dismiss it
+		*/
+
+		$scope.revertAlert = function () {
+			$scope.sameStartEnd = false;
+		}
 }
