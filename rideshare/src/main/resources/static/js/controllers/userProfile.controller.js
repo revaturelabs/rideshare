@@ -72,6 +72,9 @@ export let userProfileController = function ($scope, $http, $state, $location) {
 		$http.post("/user/updateCurrentUser", $scope.user)
 			.then((formResponse) => {
 				$state.go('main.userProfile');
+				console.log(formResponse.data);
+				console.log(formResponse.data.mainPOI);
+				console.log(formResponse.data.workPOI);
 				document.getElementById('mainPOI').value = formResponse.data.mainPOI;
 				document.getElementById('workPOI').value = formResponse.data.workPOI;
 			},
