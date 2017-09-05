@@ -20,7 +20,7 @@ import { authFactory } from './js/auth.factory.js';
 //const and let = block scope 
 
 //Main module 
-const app = angular.module('app', ['ui.router', 'angular-jwt', 'ui.bootstrap.datetimepicker','ngCookies'])//;
+const app = angular.module('app', ['ui.router', 'angular-jwt', 'ui.bootstrap.datetimepicker'])//;
 	.factory('authFactory', ['$window', '$log', 'jwtHelper', authFactory]);
 
 /*
