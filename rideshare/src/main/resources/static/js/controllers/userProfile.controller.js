@@ -1,4 +1,4 @@
-export let userProfileController = function ($scope, $http, $state) {
+export let userProfileController = function ($scope, $http, $state, $location) {
 	$scope.allpois = {};
 	$scope.user = {};
 	// Car object which is bound to the car information table
