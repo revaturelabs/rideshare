@@ -1,4 +1,4 @@
-export let userProfileController = function ($scope, $http, $state) {
+export let userProfileController = function ($scope, $http, $state, $location) {
 	$scope.allpois = {};
 	$scope.user = {};
 	// Car object which is bound to the car information table
@@ -52,7 +52,7 @@ export let userProfileController = function ($scope, $http, $state) {
 		.then((response) => {
 			$scope.car = response.data;
 			$scope.carCopy = angular.copy($scope.car);
-			
+			$scope.carMain = angular.copy($scope.car);
 			if ($scope.car === '') {
 				$scope.buttonText = 'Add Car';
 			}
@@ -86,7 +86,7 @@ export let userProfileController = function ($scope, $http, $state) {
 			(formResponse) => {
 				$scope.buttonText = 'Edit Car';
 				$scope.car = angular.copy($scope.carCopy);
-				
+				$scope.carMain = angular.copy($scope.carCopy);
 				// Reloading the view stops the user from adding a new car
 				// after deleting a car.
 				$state.reload('main.userProfile');
@@ -117,12 +117,29 @@ export let userProfileController = function ($scope, $http, $state) {
 
 				$scope.car = {};
 				$scope.carCopy = {};
-				
+				$scope.carMain = {};
 				$state.go("main.userProfile");
 			},
 			(failedResponse) => {
 				alert('failure');
 			})
 	}
+	
+	$scope.departUser = function () {
+		$http.post("/user/removeUser", $scope.user)
+			.then((response) => {
 
+				if($scope.car){
+					$http.post("/car/removeCar", $scope.car)
+				} //removing a users car
+
+				$http.post('/logout', {})
+				.then(function() {
+					$location.path("/");
+				})
+			},
+			(failedResponse) => {
+				alert('failure');
+			})
+	}
 }

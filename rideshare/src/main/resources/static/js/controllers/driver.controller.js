@@ -1,30 +1,65 @@
 export let driverController = function($scope, $http, $state){
-	// scope and function used to pass ride data to front end
+	/*
+	 * Scope and function used to pass ride data to front end
+	 */
 	$scope.isArray = angular.isArray;
 	$scope.rides = {};
+
+	// Setting to empty arrays for correct ng-repeat processing.
+	$scope.openRequest = [];
+	$scope.activeRides = [];
+	$scope.pastRides = [];
 	
-	// global variables
+	/*
+	 * Global variables
+	 */
 	let user;
 	let poiLimit = 0;
 
+	
+	/*
+	 * Calls the getOpenRequests method in RideController.java with the form "/request/open/{id}"
+	 */
 	$scope.updateSort = function (item){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
+			//remove the ignored requests from the response
+			var ignoredRequests =JSON.parse(ignoredRequestsArray);
+			$scope.openRequest = response.data;
+			for(let i = 0; i < $scope.openRequest.length; i++){
+				for(let p=0; p<ignoredRequests.length; p++) {
+					if(response.data[i].requestId == ignoredRequests[p]) {
+						$scope.openRequest.splice(i, 1);
+						console.log(openRequest[i]);
+						$scope.$apply;
+					}
+				}
+			}
+			setTimeout(function(){$state.reload();}, 500);
+			
+
 			$scope.openRequest = response.data;	
-		
+
 		});
 	}
 
 	
+	
+	/*
+	 * Calling the Ride Controller and its members
+	 */
 	$http.get("/ride")
 	.then(function(response) {
 		$scope.rides = response.data;
 		
-		$http.get("/user/me")
+		$http.get("/user/me")//Calling the getCurrentUser method in UserController.java
 		.then(function(response) {
-			// get current user
+			
 			user = response.data;
 
+			/*
+			 * Pass mainPoi to updateSort if it exists
+			 */
 			if(response.data.mainPOI != null) {
 				$scope.selectedItem = $scope.allPoi[user.mainPOI.poiId-1];
 				$scope.updateSort(user.mainPOI);
@@ -33,45 +68,62 @@ export let driverController = function($scope, $http, $state){
 				$scope.updateSort($scope.allPoi[0]);
 			}
 		})
+		
+		
+		
 		.then(function(){
 			$http.get('poiController').then(function(response){
 				let allPOI = response.data;
 				let userMainPOI;
 				$scope.allMainPOI = allPOI;
 				
-				// check if the user main POI is null
-				if(user.mainPOI == null){
-					// if null set the default coordinates to 1st address in the
-					// database
+				
+				
+				// Check if the user main POI is null
+				if(user.mainPOI == null){// If null set the default coordinates to 1st address in the database
 					userMainPOI = {lat: allPOI[0].latitude, lng: allPOI[0].longitude};
-				}else{
-					// get the current user main POI
+				}
+				else{// Get the current user main POI
 					userMainPOI = {lat: user.mainPOI.latitude, lng: user.mainPOI.longitude};
 				}
 
-				// create markers for all the current POI
+				
+				
+				/*
+				 * Create markers for all the current POI
+				 */
 				let locations = [];
 				for(let x = 0; x < response.data.length; x++){
 					let temp = {lat: allPOI[x].latitude, lng: allPOI[x].longitude};
 					locations.push(temp);
 				};
 				
-				// used to initialize the google map
+				
+				
+				/*
+				 * Initialize the Google Map
+				 */
 				function initMap() {
-					let directionsDisplay = new google.maps.DirectionsRenderer();
-					let directionsService = new google.maps.DirectionsService();
+					
+					
+					let directionsDisplay = new google.maps.DirectionsRenderer();//Is what renders directions on the map.
+					let directionsService = new google.maps.DirectionsService();//Calculates directions between locations 
 					
 					var map = new google.maps.Map(document.getElementById('map'), {
 						zoom: 15,
-						center: userMainPOI,
+						center: userMainPOI,//Map will center on this point when initiated
 						disableDefaultUI: true
 					});
 
-					// Add some markers to the map.
-					// Note: The code uses the JavaScript Array.prototype.map()
-					// method to create an array of markers based on a given
-					// "locations" array. The map() method here has nothing
-					// to do with the Google Maps API.
+					
+					
+					/* 
+					 * Add some markers to the map.
+					 * Note: The code uses the JavaScript Array.prototype.map()
+					 * method to create an array of markers based on a given
+					 * "locations" array. The map() method here has nothing
+					 * to do with the Google Maps API.
+					 */
 					var markers = locations.map(function(location, i) {
 						return new google.maps.Marker({
 							position: location
@@ -84,7 +136,9 @@ export let driverController = function($scope, $http, $state){
 						let id = x+1;
 						document.getElementById("mapText").innerHTML = 'Choose Start Point';
 						
-						// add event listener to each marker on the map
+						/*
+						 *  Add event listener to each marker on the map
+						 */
 						markers[x].addListener('click',function(){
 							// set each ng-selected value to false
 							for(let x = 0; x<markers.length; x++){
@@ -98,8 +152,7 @@ export let driverController = function($scope, $http, $state){
 							if(poiLimit === 1){
 								markers[x].setIcon('http://earth.google.com/images/kml-icons/track-directional/track-8.png');
 								
-								// Remove blue markers and text once route shown
-								$scope.clearMapMarkers();
+								$scope.clearMapMarkers();// Remove blue markers and text once route shown
 								document.getElementById("mapText").innerHTML = '';
 								
 								let temp2 = 'destination' + id;
@@ -124,8 +177,11 @@ export let driverController = function($scope, $http, $state){
 
 					}
 					
-					// remove push pins from map, by setting the markers to
-					// default
+					
+					
+					/*
+					 *  Remove push pins from map, by setting the markers to default
+					 */
 					$scope.clearMapMarkers = function() {
 						poiLimit = 0;
 						directionsDisplay.setMap(null);
@@ -136,10 +192,16 @@ export let driverController = function($scope, $http, $state){
 						}
 					};
 					
-					// show the current route from start to destination
+					
+					
+					/*
+					 *  Show the current route from start to destination
+					 */
 					$scope.showDirections = function() {
 						
-						// get the current drop down options id
+						/*
+						 * Get the current drop down options id
+						 */
 						let select1 = document.getElementById("fromPOI");
 						let start = select1.options[select1.selectedIndex].id;
 						
@@ -148,14 +210,19 @@ export let driverController = function($scope, $http, $state){
 						
 						directionsDisplay.setMap(map);
 						let request = {
-								// get the longitude and latitude to match the
-								// selected poi
+								/*
+								 * Get the longitude and latitude to match the selected poi
+								 */ 
 								origin: {lat: allPOI[start].latitude, lng: allPOI[start].longitude},
 								destination: {lat: allPOI[destination].latitude, lng: allPOI[destination].longitude},
 								travelMode: 'DRIVING'
 						}
 						
-						// use google map api to show the current route
+						
+						
+						/*
+						 *  Use google map api to show the current route
+						 */
 						directionsService.route(request, function(result, status){
 							directionsDisplay.setDirections(result);
 						});
@@ -174,21 +241,31 @@ export let driverController = function($scope, $http, $state){
 		});
 	});
 
-	// Setting mPOI in case a user does not have a mPOI.
-	$scope.poiId = {id : 1};
+	
+	
+	$scope.poiId = {id : 1};// Setting mPOI in case a user does not have a mPOI.
 
-	// Setting to empty arrays for correct ng-repeat processing.
+	/*
+	 * Setting to empty arrays for correct ng-repeat processing.
+	 */
 	$scope.openRequest = [];
 	$scope.activeRides = [];
 	$scope.pastRides = [];
 
-	// show open requests from a poi
+	
+	
+	/*
+	 *  Show open requests from a poi by calling getOpenRequests from RideController.java
+	 */
 	$http.get("/ride/request/open/"+$scope.poiId.id)
 	.then(function(response) {
 		$scope.openRequest = response.data;
 	});
 
-	// accept open requests
+	/*
+	 *  Accept open requests by calling acceptRequest method in RideController 
+	 *  with form "/request/accept/{id}" 
+	 */
 	$scope.acceptReq = function(id){
 		console.log("ACCEPT REQUEST CLICKED");
 		$http.get("/ride/request/accept/"+id)
@@ -197,6 +274,9 @@ export let driverController = function($scope, $http, $state){
 		});
 	}
 	
+	/*
+	 * Simply print ignore request when function is called
+	 */
 	$scope.ignoreReq = function() {
 		console.log("ignore request test");
 	}
@@ -213,9 +293,16 @@ export let driverController = function($scope, $http, $state){
 		});
 	}
 	*/
+	
+	
+	/*
+	 * Ignore requests by calling the ignoreRequest method in RideController.java 
+	 * with the form "/request/ignore/{id}"
+	 */
 	$scope.ignoreReq = function(reqId) {
-		$http.get('/ride/request/ignore/' + reqId).then(
-			(response) => {
+		
+		$http.get('/ride/request/ignore/' + reqId)
+			.then((response) => {
 				for(let i = 0; i < $scope.openRequest.length; i++){
 					if($scope.openRequest[i].requestId == reqId) {
 						$scope.openRequest.splice(i, 1);
@@ -223,6 +310,7 @@ export let driverController = function($scope, $http, $state){
 						$scope.$apply;
 					}
 				}
+				
 				$scope.ignoreReqVar = response.data;
 				$scope.openRequest= response.data;
 				setTimeout(function(){$state.reload();}, 500);
@@ -251,6 +339,11 @@ export let driverController = function($scope, $http, $state){
 	    }
 	};
 
+	
+	
+	/*
+	 * Compare IDs between a and b to determine whether a is less than, greater than, or equal to b.
+	 */
 	function compare(a,b) {
 		if (a.availRide.availRideId < b.availRide.availRideId)
 			return -1;
@@ -259,6 +352,10 @@ export let driverController = function($scope, $http, $state){
 		return 0;
 	}
 
+	
+	/*
+	 * Organizes offers by calling getActiveOffersForCurrentUser and getOpenOffers from RideController.java  
+	 */
 	$http.get("/ride/offer/active")
 	.then(function(res){
 		$http.get("/ride/offer/open")
@@ -267,17 +364,36 @@ export let driverController = function($scope, $http, $state){
 			organizeData(res, "active");
 			});
 		});
+	
+	
 
+	/*
+	 * Organizes list of past offers by calling getOfferHistoryForCurrentUser in RideController.java
+	 */
 	$http.get("/ride/offer/history")
 	.then(function(response){
+		console.log("the response from /ride/offer/history");
+		console.log(response.data);
 		organizeData(response, "history");
 		});
 
-	// scope provides structure of object needed to crreate an offer
-	$scope.offer = {car : {}, pickupPOI : {}, dropoffPOI : {}, seatsAvailable:0, time:"", notes:"",open: true};
+	
+	
+	/*
+	 *  Scope provides structure of object needed to create an offer
+	 */
+	$scope.offer = {car : {}, 
+			  pickupPOI : {}, 
+			 dropoffPOI : {}, 
+			seatsAvailable:0, 
+			         time:"",
+			        notes:"",
+			        open: true};
 
 
-	// method to add offer through http post
+	/*
+	 *  Method to add offer through http post
+	 */
 	$scope.addOffer = function(pickup,dropoff,notes,time,seats) {
 
 //		if ($scope.car) {
@@ -303,20 +419,29 @@ export let driverController = function($scope, $http, $state){
 			$scope.offer.notes = notes;
 			$scope.offer.time = new Date(time);
 			$scope.offer.seatsAvailable = seats;
-	
-			$http.post('/ride/offer/add', $scope.offer).then(
-				(formResponse) => {
-					setTimeout(function(){$state.reload();}, 500);
-				},
-				(failedResponse) => {
-					alert('Failure');
-				}
-			)
+			if(pickup == dropoff){
+				$scope.$parent.sameStartEnd = true;
+				console.log("DRIVER: You chose the same two points WHYYYY");
+			}else{
+				$http.post('/ride/offer/add', $scope.offer).then(
+					(formResponse) => {
+						setTimeout(function(){$state.reload();}, 500);
+					},
+					(failedResponse) => {
+						alert('Failure');
+					}
+				)
+			}
 //		} else {
 //			console.log("driver has no car ...")
 //		}
 	};
 
+	
+	
+	/*
+	 * Cancel offer by calling canacelOffer in RideController,java
+	 */
 	$scope.offerCancel = function(activeRideId) {
 		$http.get('/ride/offer/cancel/' + activeRideId).then(
 				(response) => {
@@ -331,6 +456,11 @@ export let driverController = function($scope, $http, $state){
 		);
 	};
 	
+	
+	
+	/*
+	 * Cancels an active offer by calling cancelActiveOffer in RiderController.java
+	 */
 	$scope.offerActiveCancel = function(activeRideId) {
 		$http.get('/ride/offer/cancelActive/' + activeRideId).then(
 				(response) => {
@@ -345,20 +475,34 @@ export let driverController = function($scope, $http, $state){
 		);
 	};
 
-	// get all info needed to make a new offer
-	$scope.car = {};
+	
+	$scope.car = {};// get all info needed to make a new offer
 
+	
+	
+	/*
+	 * Retrieves a car object by calling getCar in CarControler.java
+	 */
 	$http.get("/car/myCar")
 	.then(function(response){
 		$scope.car = response.data;
 	});
-
+	
+	
+	
 	$scope.allPoi = {};
-
+	
+	
+	
+	/*
+	 * Return all Points of Interest
+	 */
 	$http.get("/poiController")
 	.then(function(response){
 		$scope.allPoi = response.data;
 	});
+	
+	
 	
 	/*
 	 * Organizes Ride list data by combining RideRequests with matching
@@ -419,6 +563,11 @@ export let driverController = function($scope, $http, $state){
 		}
 	}
 
+	
+	
+	/*
+	 * Marks a ride and ride request ast complete by calling the completeRequest function in RideController.java 
+	 */
 	$scope.date = new Date().getTime();
 	$scope.completeRequest = function(rideId) {
 		$http.post('/ride/request/complete/' + rideId).then((response) => {
@@ -432,7 +581,11 @@ export let driverController = function($scope, $http, $state){
 		});
 	};
 	
-	//stops past dates from being selected in date/time picker
+	
+	
+	/*
+	 * Stops past dates from being selected in date/time picker
+	 */
 	$scope.startDateBeforeRender = function($dates) {
 		  const todaySinceMidnight = new Date();
 		    todaySinceMidnight.setUTCHours(0,0,0,0);

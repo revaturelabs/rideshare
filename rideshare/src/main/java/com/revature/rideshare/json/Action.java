@@ -255,11 +255,15 @@ public class Action {
 	}
 
 	@Override
-	public boolean equals(Object other) {
-		Action otherAction = (Action) other;
-		if (otherAction == null) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
+		if (obj.getClass() != this.getClass()) {
+			return false;
+		}
+		Action otherAction = (Action) obj;
+		
 		if (!EquivalenceUtilities.SafeCompare(otherAction.getName(), getName())) {
 			return false;
 		}
