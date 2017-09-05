@@ -16,6 +16,11 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 	 * Performs a logout by removing the JWT that was stored locally.
 	 * This ensures that users must perform a login to access their account again 
 	 */
+	
+	$scope.updateUser = function(){
+		loggedUser = authFactory.getUser();
+	}
+	
 	$scope.logout = function() {
 		localStorage.removeItem('RideShare_auth_token');
 		$http.post('/logout', {})
