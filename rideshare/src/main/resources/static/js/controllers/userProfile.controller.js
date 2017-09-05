@@ -126,9 +126,13 @@ export let userProfileController = function ($scope, $http, $state) {
 	}
 	
 	$scope.departUser = function () {
-		
+		console.log("Departing User")
 		$http.post("/removeUser", $scope.user)
 			.then((response) => {
+				console.log("Departing User after protocol")
+//				if($scope.car){
+//					$http.post("/car/removeCar", $scope.car)
+//				} //removing a users car
 
 				$http.post('/logout', {})
 				.then(function() {
