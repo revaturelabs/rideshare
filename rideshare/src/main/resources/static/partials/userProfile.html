@@ -38,11 +38,11 @@
 				<table class="table">
 					<tr>
 						<td>Select Main POI:</td>
-						<td><select id = "mainPOI" class="form-control" id="mainPoi" ng-model="mainPoiOption" ng-options="poi as poi.poiName for poi in allpois"></select></td>
+						<td><select class="form-control" id="mainPoi" ng-model="mainPoiOption" ng-options="poi as poi.poiName for poi in allpois"></select></td>
 					</tr>
 					<tr>
 						<td>Select Work POI:</td>
-						<td><select id = "workPOI" class="form-control" id="workPoi" ng-model="workPoiOption" ng-options="poi as poi.poiName for poi in allpois"></select></td>
+						<td><select class="form-control" id="workPoi" ng-model="workPoiOption" ng-options="poi as poi.poiName for poi in allpois"></select></td>
 					</tr>
 				</table>
 				<button class="btn btn-primary" type="submit" ng-click="setPois()">Save Changes</button>
