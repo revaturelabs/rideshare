@@ -71,7 +71,7 @@
 						
 					<!-- Beginning of expanded portion -->
 					<em>Note:</em> {{offer.notes}} <span ng-show=" offer.notes == null"> N/A </span>
-					<em>Seats:</em> {{offer.seats}} <span ng-show=" offer.seats == null"> N/A </span>
+					<em>Seats:</em> {{offer.seatsAvailable}} <span ng-show=" offer.seatsAvailable == null"> N/A </span>
 					<div class="btn-container">
 						<button type="button" class="btn btn-primary"
 							ng-click="acceptOffer(offer.availRideId)" ng-hide="loggedUser.userId == offer.car.user.userId">Accept Offer</button>
