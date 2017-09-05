@@ -89,6 +89,7 @@
 		</div>
 		<div class="col-md-1"></div>
 		<button class="btn btn-primary" data-toggle="modal" data-target="#carModal">{{buttonText}}</button>
+		<button class="btn btn-primary" data-toggle="modal" data-target="#departModal">Depart RideShare</button>
 	</div>
 	<!--Car Modal -->
 	<div class="modal" id="carModal" tabindex="-1" role="dialog">
@@ -137,5 +138,33 @@
 			</div>
 		</div>
 	</div> <!-- car modal end -->
+	
+	<!--Departing User Modal -->
+	<div class="modal" id="departModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+					<h4 class="modal-title">Departing RideShare</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+					Remove yourself from RideShare. Logging in again will reactivate your account, but your settings will not be saved.
+					</p>
+				</div>
+				<div class="modal-footer">
+					<input class="btn btn-primary" type="button" value="Close" data-dismiss="modal" />
+					
+					<input class="btn btn-danger" type="submit" value="Depart RideShare" ng-click="departUser()" data-dismiss="modal"
+					/>
+					
+				</div>
+			</div>
+		</div>
+	</div> <!-- Departing User modal end -->
+	
+	
 </div> <!-- div fluid container end -->
 

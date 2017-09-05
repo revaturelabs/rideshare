@@ -97,11 +97,15 @@ public class Option {
 	}
 
 	@Override
-	public boolean equals(Object other) {
-		Option otherOption = (Option) other;
-		if (otherOption == null) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
+		if (obj.getClass() != this.getClass()) {
+			return false;
+		}
+		Option otherOption = (Option) obj;
+		
 		if (!EquivalenceUtilities.SafeCompare(getText(), otherOption.getText())) {
 			return false;
 		}

@@ -123,11 +123,6 @@ public class RideServiceTest {
 	}
 	
 	@Test
-	public void testCancelRequest() {
-		
-	}
-	
-	@Test
 	public void testCancelActiveRequest() {
 		
 	}
