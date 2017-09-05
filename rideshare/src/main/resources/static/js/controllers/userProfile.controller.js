@@ -130,9 +130,10 @@ export let userProfileController = function ($scope, $http, $state, $location) {
 		$http.post("/removeUser", $scope.user)
 			.then((response) => {
 				console.log("Departing User after protocol")
-//				if($scope.car){
-//					$http.post("/car/removeCar", $scope.car)
-//				} //removing a users car
+				console.log($scope.user);
+				if($scope.car){
+					$http.post("/car/removeCar", $scope.car)
+				} //removing a users car
 
 				$http.post('/logout', {})
 				.then(function() {
@@ -144,5 +145,17 @@ export let userProfileController = function ($scope, $http, $state, $location) {
 			})
 	}
 	
+	$scope.departUser1 = function () {
+		console.log("Departing User")
+		$http.post("/removeUser1", $scope.user)
+			.then((response) => {
+				console.log("Departing User after protocol")
+				console.log($scope.user);
+
+			},
+			(failedResponse) => {
+				alert('failure');
+			})
+	}
 
 }
