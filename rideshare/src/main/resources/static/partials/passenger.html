@@ -25,7 +25,7 @@
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="#open"
-			aria-controls="open" role="tab" data-toggle="tab" target="_self">Available</a></li>
+			aria-controls="open" role="tab" data-toggle="tab" target="_self">Available Rides</a></li>
 		<li role="presentation"><a href="#active" aria-controls="active"
 			role="tab" data-toggle="tab" target="_self">In Progress</a></li>
 		<li role="presentation"><a href="#history"
@@ -52,6 +52,7 @@
 			
 		<!-- accordion used for display  -->	
 		<div class="panel-group" id="accordionOpen">
+			<!-- I need to call from the rides table and get this information from req.availride.user.fullname etc and then get the passengers from the main object -->
 			<div class="panel panel-default"  ng-repeat="offer in openOffer" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapse{{offer.availRideId}}" >
 					<h4 class="panel-title">
@@ -70,10 +71,10 @@
 						
 					<!-- Beginning of expanded portion -->
 					<em>Note:</em> {{offer.notes}} <span ng-show=" offer.notes == null"> N/A </span>
-
+					<em>Seats:</em> {{offer.seatsAvailable}} <span ng-show=" offer.seatsAvailable == null"> N/A </span>
 					<div class="btn-container">
 						<button type="button" class="btn btn-primary"
-							ng-click="acceptOffer(offer.availRideId)">Accept Offer</button>
+							ng-click="acceptOffer(offer.availRideId)" ng-hide="loggedUser.userId == offer.car.user.userId">Accept Offer</button>
 					</div>
 					<!-- End of expanded portion -->
 						
@@ -100,7 +101,7 @@
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{req.requestId}}" target="_self" style="text-decoration:none">
 						
-							<em>@</em> {{req.time | date: 'h:mm a MMM dd'}}
+							{{req.user.fullName}}<em>@</em> {{req.time | date: 'h:mm a MMM dd'}}
 							<br/>
 							{{req.pickupLocation.poiName}}
 							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
@@ -115,7 +116,6 @@
 						<p>This request has not yet been assigned to a offer.</p>
 						<em>Note:</em> {{req.notes}} <span ng-show="!req.notes"> N/A </span>
 						<br/>
-
 						<div class="btn-container">
 								<button type="submit" class="btn btn-primary"
 									ng-click="cancelActiveRequest(req.requestId)">Cancel Request</button>

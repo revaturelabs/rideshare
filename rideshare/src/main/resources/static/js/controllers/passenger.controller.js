@@ -201,6 +201,7 @@ export let passengerController = function($scope, $http, $state, $location){
 	// show open requests from a poi
 	$http.get("/ride/offer/open/"+1)
 	.then(function(response) {
+		console.log(response.data);
 		$scope.openOffer = response.data;
 	});
 
@@ -270,15 +271,19 @@ export let passengerController = function($scope, $http, $state, $location){
 		$scope.newRequest.time = new Date(time);
 		$scope.newRequest.status = 'OPEN';
 		$scope.newRequest.user = user;
-
-		$http.post('/ride/request/add', $scope.newRequest).then(
-			(formResponse) => {
-				setTimeout(function(){$state.reload();}, 500);
-			},
-			(failedResponse) => {
-				alert('Failure');
-			}
-		)
+		if(pickup == dropoff){
+			$scope.$parent.sameStartEnd = true;
+			console.log("PASSENGER: You chose the same two points WHYYYY");
+		}else{
+			$http.post('/ride/request/add', $scope.newRequest).then(
+				(formResponse) => {
+					setTimeout(function(){$state.reload();}, 500);
+				},
+				(failedResponse) => {
+					alert('Failure');
+				}
+			)
+		}
 	};
 	
 	
