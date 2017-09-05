@@ -201,13 +201,13 @@ export let passengerController = function($scope, $http, $state, $location){
 	// show open requests from a poi
 	$http.get("/ride/offer/open/"+1)
 	.then(function(response) {
+		console.log(response.data);
 		$scope.openOffer = response.data;
 	});
 
 	$http.get("/ride/request/active")
 	.then(function(response){
 		$scope.activeRides = response.data;
-		console.log(response.data);
 	});
 
 	$http.get("/ride/request/history")
