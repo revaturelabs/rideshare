@@ -1,4 +1,4 @@
-export let driverController = function($scope, $http, $state){
+export let driverController = function($scope, $http, $state, $cookies){
 	/*
 	 * Scope and function used to pass ride data to front end
 	 */
@@ -15,17 +15,17 @@ export let driverController = function($scope, $http, $state){
 	 */
 	let user;
 	let poiLimit = 0;
-
+	let ignoredRequestsArray = [];
 	
 
 	/*
 	 * Calls the getOpenRequests method in RideController.java with the form "/request/open/{id}"
 	 */
-	$scope.updateSort = function (item){
+/*	$scope.updateSort = function (item){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			//remove the ignored requests from the response
-			var ignoredRequests =JSON.parse(ignoredRequestsArray);
+			var ignoredRequests =JSON.parse($cookies.get['ignoredRequests']);
 			$scope.openRequest = response.data;
 			for(let i = 0; i < $scope.openRequest.length; i++){
 				for(let p=0; p<ignoredRequests.length; p++) {
@@ -40,6 +40,15 @@ export let driverController = function($scope, $http, $state){
 			
 		});
 	}	
+	*/
+	
+	$scope.updateSort = function (item){
+		$http.get("/ride/request/open/"+item.poiId)
+		.then(function(response) {
+			$scope.openRequest = response.data;	
+			console.log(($cookies.get['ignoredRequests']));
+		});
+	}
 	
 	/*
 	 * Calling the Ride Controller and its members
@@ -277,7 +286,7 @@ export let driverController = function($scope, $http, $state){
 	 */
 	$scope.ignoreReq = function(reqId) {
 		ignoredRequestsArray.put(reqId);
-		$cookie.put('ignoredRequests', JSON.stringify(ignoredRequestsArray));
+		$cookies.put('ignoredRequests', JSON.stringify(ignoredRequestsArray));
 		console.log(JSON.stringify(ignoredRequestsArray));
 	};
 	
