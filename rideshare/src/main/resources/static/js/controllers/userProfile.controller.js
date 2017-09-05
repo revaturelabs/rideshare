@@ -72,8 +72,8 @@ export let userProfileController = function ($scope, $http, $state, $location) {
 		$http.post("/user/updateCurrentUser", $scope.user)
 			.then((formResponse) => {
 				console.log(formResponse.data)
-				$scope.mainPoiOption = formResponse.data.mainPOI;
-				$scope.workPoiOption = formResponse.data.workPOI;
+				$scope.mainPoiOption = formResponse.data.pickupPOI;
+				$scope.workPoiOption = formResponse.data.dropoffPOI;
 				$state.go('main.userProfile');
 			},
 			(failedResponse) => {
