@@ -207,6 +207,7 @@ export let passengerController = function($scope, $http, $state, $location){
 	$http.get("/ride/request/active")
 	.then(function(response){
 		$scope.activeRides = response.data;
+		console.log(response.data);
 	});
 
 	$http.get("/ride/request/history")
