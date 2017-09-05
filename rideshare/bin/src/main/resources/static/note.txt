@@ -1,0 +1,5 @@
+static folder is Where spring looks for html files
+
+
+about the Page interface
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html
