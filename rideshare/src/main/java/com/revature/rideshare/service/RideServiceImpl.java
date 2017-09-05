@@ -154,12 +154,6 @@ public class RideServiceImpl implements RideService {
 			Ride ride = rideRepo.findOne(id);
 			RideRequest req = ride.getRequest();
 
-			AvailableRide availRide = ride.getAvailRide();
-			if (!availRide.isOpen()) {
-				// reopen if closed (because a seat is now available)
-				availRide.setOpen(true);
-			}
-
 			rideRepo.delete(ride);
 			rideReqRepo.delete(req);
 			return true;
