@@ -2,7 +2,6 @@ export let mainController = function($scope, $http, $state, $location, authFacto
 
 	
 	$scope.isAdmin = authFactory.isAdmin();// View that is the parent of all the main views
-	//$scope.isBanned = authFactory.isBanned();
 
 	// view that is the parent of all the main views
 	$scope.isAdmin = authFactory.isAdmin();
