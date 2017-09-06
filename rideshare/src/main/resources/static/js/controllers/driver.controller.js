@@ -52,7 +52,7 @@ export let driverController = function($scope, $http, $state){
 			for(let i = 0; i < $scope.openRequest.length; i++){
 				for(let p=0; p<ignoredRequestsArray.length; p++) {
 					if(response.data[i].requestId == ignoredRequestsArray[p]) {
-						console.log(openRequest[i].requestId + " is not added");
+						console.log($scope.openRequest[i].requestId + " is not added");
 						$scope.openRequest.splice(i, 1);
 						$scope.$apply;
 					}
@@ -304,6 +304,8 @@ export let driverController = function($scope, $http, $state){
 		$http.get('/ride/request/ignore/' + reqId)
 		.then((response) => {
     				$scope.openRequest = response.data;
+    				console.log("$scope.openRequest[0]: " + $scope.openRequest[0]);
+    				console.log("String of the repsonse.data: " + JSON.stringify(response.data));
     				for(let i = 0; i < $scope.openRequest.length; i++){
     					if($scope.openRequest[i].requestId == reqId) {
     						console.log("This request was spliced: " + openRequest[i]);
