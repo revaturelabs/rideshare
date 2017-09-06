@@ -55,8 +55,8 @@
 </nav>
 
 
-
-<ui-view></ui-view>
+<div class="alert alert-info" ng-if = "loggedUser != null"><strong>Your account has been banned.</strong></div>
+<ui-view ng-if = "loggedUser != null"></ui-view>
 
 <!-- Footer -->
 		<footer>

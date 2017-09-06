@@ -15,6 +15,7 @@ export let driverController = function($scope, $http, $state){
 	 */
 	let user;
 	let poiLimit = 0;
+	let ignoredRequestsArray = [9101, 9100];
 
 	
 	/*
@@ -24,13 +25,13 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			//remove the ignored requests from the response
-			var ignoredRequests =JSON.parse(ignoredRequestsArray);
+			//var ignoredRequests =JSON.parse(ignoredRequestsArray);
 			$scope.openRequest = response.data;
 			for(let i = 0; i < $scope.openRequest.length; i++){
-				for(let p=0; p<ignoredRequests.length; p++) {
-					if(response.data[i].requestId == ignoredRequests[p]) {
+				for(let p=0; p<ignoredRequestsArray.length; p++) {
+					if(response.data[i].requestId == ignoredRequestsArray[p]) {
 						$scope.openRequest.splice(i, 1);
-						console.log(openRequest[i]);
+						console.log(openRequest[i] + " is not added");
 						$scope.$apply;
 					}
 				}
@@ -41,13 +42,22 @@ export let driverController = function($scope, $http, $state){
 			$scope.openRequest = response.data;	
 
 		});
-	}
-*/
+	}*/
+
 	$scope.updateSort = function (item){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			$scope.openRequest = response.data;	
-		
+			//ignoredRequestsArray = JSON.parse($cookies.get('ignoredRequests'));
+			for(let i = 0; i < $scope.openRequest.length; i++){
+				for(let p=0; p<ignoredRequestsArray.length; p++) {
+					if(response.data[i].requestId == ignoredRequestsArray[p]) {
+						console.log(openRequest[i].requestId + " is not added");
+						$scope.openRequest.splice(i, 1);
+						$scope.$apply;
+					}
+				}
+			}
 		});
 	}
 	
@@ -273,7 +283,6 @@ export let driverController = function($scope, $http, $state){
 	 *  with form "/request/accept/{id}" 
 	 */
 	$scope.acceptReq = function(id){
-		console.log("ACCEPT REQUEST CLICKED");
 		$http.get("/ride/request/accept/"+id)
 		.then(function(response) {
 			setTimeout(function(){$state.reload();}, 500);
@@ -285,27 +294,34 @@ export let driverController = function($scope, $http, $state){
 	 * Ignore requests by calling the ignoreRequest method in RideController.java 
 	 * with the form "/request/ignore/{id}"
 	 */
-/*	$scope.ignoreReq = function(reqId) {
-		
+	$scope.ignoreReq = function(reqId) {
+		//ignoredRequestsArray = JSON.parse($cookies.get('ignoredRequests'));
+		ignoredRequestsArray.push(reqId);
+		console.log("The ignored requests as a json: " + JSON.stringify(ignoredRequestsArray));
+		console.log("The ignored requests as an array: " + ignoredRequestsArray);
+		console.log("The ID: " + reqId);
+		//$cookies.put('ignoredRequests', JSON.stringify(ignoredRequestsArray));
 		$http.get('/ride/request/ignore/' + reqId)
-			.then((response) => {
-				for(let i = 0; i < $scope.openRequest.length; i++){
-					if($scope.openRequest[i].requestId == reqId) {
-						$scope.openRequest.splice(i, 1);
-						console.log(openRequest[i]);
-						$scope.$apply;
-					}
-				}
-				
-				$scope.ignoreReqVar = response.data;
-				$scope.openRequest= response.data;
-				setTimeout(function(){$state.reload();}, 500);
-			}
-		);
-	};*/
+		.then((response) => {
+    				$scope.openRequest = response.data;
+    				for(let i = 0; i < $scope.openRequest.length; i++){
+    					if($scope.openRequest[i].requestId == reqId) {
+    						console.log("This request was spliced: " + openRequest[i]);
+    						$scope.openRequest.splice(i, 1);
+    						$scope.$apply;
+    					}
+    				}
+    				//setTimeout(function(){$state.reload();}, 500);
+    			}
+    		);	
+	};
 	
-	$scope.ignoreReqAlert = function(reqId) {
-	    if (confirm("Are you sure you want to ignore this request?") == true) {
+/*	$scope.ignoreReqAlert = function(reqId) {
+
+	    	ignoredRequestsArray.put(reqId);
+			//$cookies.put('ignoredRequests', JSON.stringify(ignoredRequestsArray));
+			console.log(JSON.stringify(ignoredRequestsArray));
+	    	
 	    	$http.get('/ride/request/ignore/' + reqId).then(
 	    			(response) => {
 	    				for(let i = 0; i < $scope.openRequest.length; i++){
@@ -316,16 +332,12 @@ export let driverController = function($scope, $http, $state){
 	    					}
 	    				}
 	    				$scope.ignoreReqVar = response.data;
-	    				$scope.openRequest= response.data;
+	    				$scope.openRequest = response.data;
 	    				setTimeout(function(){$state.reload();}, 500);
 	    			}
 	    		);
-	    } else {
-	        
-	    }
-	};
+	};*/
 
-	
 	
 	/*
 	 * Compare IDs between a and b to determine whether a is less than, greater than, or equal to b.
