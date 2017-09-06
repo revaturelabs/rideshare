@@ -9,7 +9,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	/**
 	 * Finds a User by their SlackId.
 	 * 
-	 * @param slackId the SlackId string of the User we are searching for
+	 * @param slackId the SlackId String of the User we are searching for
 	 * @return the User we were searching for
 	 * @see com.revature.rideshare.domain.User The User class
 	 */
