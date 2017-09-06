@@ -1,0 +1,306 @@
+<div id="wrapper">
+   <div id="map" style="height: 450px; width: 100%;"></div>
+
+   <div id="over_map">
+		<button ng-click="clearMapMarkers()" class="btn btn-primary" >Clear Map</button>
+		<!-- <button ng-click="showDirections()" class="btn btn-primary">Directions</button> -->
+		<span id="mapText"></span>
+   </div>
+
+	<!-- Button trigger modal -->
+	<div class="btn-container" style="position:absolute;width:100%;left:0;bottom:-1.5em;z-index:100;">
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal"
+			data-target="#myModal">New Request</button>
+	</div>
+</div>
+
+<p id="display"></p>
+
+<script src="../js/googleMapAPI/markerclusterer.js"></script>
+<script src="../js/paginate/dirPagination.js"></script>
+
+
+<!-- Tabs that display active rides and ride history for a user -->
+<div>
+
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#open"
+			aria-controls="open" role="tab" data-toggle="tab" target="_self">Available</a></li>
+		<li role="presentation"><a href="#active" aria-controls="active"
+			role="tab" data-toggle="tab" target="_self">In Progress</a></li>
+		<li role="presentation"><a href="#history"
+			aria-controls="history" role="tab" data-toggle="tab" target="_self">History</a></li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		
+		<!-- tab that displays open offers that user can accept  -->
+		<div role="tabpanel" class="tab-pane active" id="open">
+
+			<!-- Select location to filter available rides --> 
+			<div class="input-group location-selector">
+				<span class="input-group-addon">Origin</span>
+				<select class="form-control" ng-model="selectedItem"
+					ng-options="poi.poiName for poi in allPoi track by poi.poiId" ng-change="updateSort(selectedItem)">{{poi[0].poiName}}</select>
+			</div>
+
+			<ul class="tabbed-list">
+				<li ng-if="openOffer.length == 0">No open requests for this
+					point of interest</li>
+			</ul>
+			
+		<!-- accordion used for display  -->	
+		<div class="panel-group" id="accordionOpen">
+			<div class="panel panel-default"  ng-repeat="offer in openOffer" style = "border: none">
+				<div class="panel-heading" data-toggle="collapse" data-target = "#collapse{{offer.availRideId}}" >
+					<h4 class="panel-title">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionOpen" href="#collapse{{offer.availRideId}}" target="_self" style="text-decoration:none">
+						
+					{{offer.car.user.fullName}} <em>@</em> {{offer.time | date: 'h:mm a MMM dd'}}<br/>
+					{{offer.pickupPOI.poiName}}
+					<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+					{{offer.dropoffPOI.poiName}}
+						
+						</a>
+					</h4>
+				</div>
+				<div id="collapse{{offer.availRideId}}" class="panel-collapse collapse">
+					<div class="panel-body" data-toggle="collapse" data-target = "#collapse{{offer.availRideId}}" >
+						
+					<!-- Beginning of expanded portion -->
+					<em>Note:</em> {{offer.notes}} <span ng-show=" offer.notes == null"> N/A </span>
+
+					<div class="btn-container">
+						<button type="button" class="btn btn-primary"
+							ng-click="acceptOffer(offer.availRideId)">Accept Offer</button>
+					</div>
+					<!-- End of expanded portion -->
+						
+					</div>
+					
+				</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- panel displays active/accepted rides for passenger -->
+		<div role="tabpanel" class="tab-pane" id="active">
+
+			<!-- html and angular function used to display open rides -->
+			<ul class="tabbed-list">
+				<li ng-if="activeRides.length == 0 && activeRequests.length == 0">No active rides</li>
+			</ul>
+						
+			<div class="panel-group" id="accordionActive">
+			<div class="panel panel-default" dir-paginate="req in activeRequests | itemsPerPage: 10" style="border:none;">
+				<div class="panel panel-default" style = "border: none">
+				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseA{{req.requestId}}" style = "background-color: #fafafa;">
+					<h4 class="panel-title">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{req.requestId}}" target="_self" style="text-decoration:none">
+						
+							<em>@</em> {{req.time | date: 'h:mm a MMM dd'}}
+							<br/>
+							{{req.pickupLocation.poiName}}
+							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+							{{req.dropOffLocation.poiName}}
+						
+						</a>
+					</h4>
+				</div>
+				
+				<div id="collapseA{{req.requestId}}" class="panel-collapse collapse">
+					<div class="panel-body" data-toggle="collapse" data-target = "#collapseA{{req.requestId}}" >
+						<p>This request has not yet been assigned to a offer.</p>
+						<em>Note:</em> {{req.notes}} <span ng-show="!req.notes"> N/A </span>
+						<br/>
+
+						<div class="btn-container">
+								<button type="submit" class="btn btn-primary"
+									ng-click="cancelActiveRequest(req.requestId)">Cancel Request</button>
+									
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+			
+			<div class="panel panel-default" ng-repeat="ride in activeRides" style = "border: none">
+				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseA{{ride.availRide.availRideId}}" >
+					<h4 class="panel-title">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{ride.availRide.availRideId}}" target="_self" style="text-decoration:none">
+						
+							{{ ride.availRide.car.user.fullName }} <em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
+							<br/>
+
+							{{ride.availRide.pickupPOI.poiName}}
+							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+							{{ride.availRide.dropoffPOI.poiName}}
+						
+						</a>
+					</h4>
+				</div>
+				<div id="collapseA{{ride.availRide.availRideId}}" class="panel-collapse collapse">
+					<div ng-repeat="request in ride.request" class="panel-body" data-toggle="collapse" data-target = "#collapseA{{ride.availRide.availRideId}}" >
+						
+						<em>Note:</em> {{request.notes}} <span ng-show="!request.notes"> N/A </span>
+						<br/>
+						<div ng-show="isArray(ride.request)">
+							<em>Passengers:</em>
+							<ul class="passenger-list">
+								<li>
+									{{request.user.fullName}}
+									<span ng-show="request.notes != null"> ( <i>{{request.notes}}</i> )</span>
+								</li>
+							</ul>
+						</div>
+						
+						<div class="btn-container">
+							<button type="submit" class="btn btn-primary"
+								ng-click="cancelRide(ride.rideId)">Cancel Ride</button>
+								
+							<button type="submit" class="btn btn-primary"
+								ng-click="completeRide(ride.rideId)">Complete Request</button>	
+							<!--<button ng-if="request.time < date" type="submit" class="btn btn-primary"
+								ng-click="completeRide(ride.rideId)">Complete Request</button>	-->
+						</div>
+						
+						</div>
+					</div>
+			</div>
+		</div>
+		</div>
+
+		<div role="tabpanel" class="tab-pane" id="history">
+
+			<ul class="tabbed-list">
+				<li ng-if="pastRides.length == 0">No past rides</li>
+			</ul>
+
+			<div class="panel-group" id="accordionPast">
+			<div class="panel panel-default" ng-repeat="ride in pastRides" style = "border: none">
+				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseP{{ride.request.requestId}}" >
+					<h4 class="panel-title">
+						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionPast" href="#collapseP{{ride.request.requestId}}" target="_self" style="text-decoration:none">
+						
+						{{ ride.availRide.car.user.fullName }} <em>@</em> {{ride.request.time | date: 'h:mm a MMM dd'}}
+						<br/>
+
+						{{ride.request.pickupLocation.poiName}}
+						<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+						{{ride.request.dropOffLocation.poiName}}
+						
+						</a>
+					</h4>
+				</div>
+				<div id="collapseP{{ride.request.requestId}}" class="panel-collapse collapse">
+					<div class="panel-body" data-toggle="collapse" data-target = "#collapseP{{ride.request.requestId}}" >
+						<em>Note:</em> {{ride.request.request.notes}} <span ng-show="ride.request.notes == null"> N/A </span>
+						<br/>
+
+						<em>Driver:</em>
+						{{ride.availRide.car.user.fullName}}
+						<span ng-show="ride.availRide.notes != null"> ( <i>{{ride.availRide.notes}}</i> )</span>
+						<!--<br/> Complaint: <i>{{ride.complaint}} <span ng-show=" ride.complaint == null"> N/A </span></i>-->
+						
+					</div>
+				</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Make a Request</h4>
+			</div>
+			<div class="modal-body">
+
+				<form>
+					<table class="table">
+						<tr>
+							<td>
+								<select id="fromPOI" class="form-control" ng-model="pickup">
+									<option value="" disabled selected>Starting Point</option>
+									<option ng-repeat="x in allMainPOI"
+										ng-selected="start{{ x.poiId }}" id="{{ x.poiId - 1 }}" data-poiId="{{ x.poiId - 1 }}">{{
+										x.poiName }}</option>
+								</select>
+							</td>
+						</tr>
+
+
+
+						<tr>
+							<td>
+								<select id="toPOI" class="form-control" ng-model="dropoff">
+									<option value="" disabled selected>Destination</option>
+									<option ng-repeat="x in allMainPOI"
+										ng-selected="destination{{ x.poiId }}" id="{{ x.poiId - 1 }}" data-poiId="{{ x.poiId - 1 }}">{{
+										x.poiName }}</option>
+								</select>
+
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<input class="form-control" type="text" ng-model="notes" placeholder="Notes" />
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="dropdown">
+									<a class="dropdown-toggle" id="dropdown" role="button"
+										data-toggle="dropdown" data-target=".dropdown" href="#dtPicker" target="_self">
+										<div class="input-group">
+											<input type="text" id="date" name="date" class="form-control"
+												data-ng-model="time"> <span
+												class="input-group-addon"><i
+												class="glyphicon glyphicon-calendar"></i></span>
+										</div>
+									</a>
+									<ul class="dropdown-menu" id= "dtPicker" role="menu" aria-labelledby="dLabel">
+										<datetimepicker data-ng-model="time" data-before-render="startDateBeforeRender($dates)"
+											data-datetimepicker-config="{ dropdownSelector: '#dropdown' }"></datetimepicker>
+									</ul>
+								</div>
+
+							</td>
+						</tr>
+
+					</table>
+				</form>
+
+			</div>
+			
+			<dir-pagination-controls ></dir-pagination-controls>
+			
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary"
+					ng-if="dropoff.poiId!=pickup.poiId"
+					ng-click="addRequest(pickup,dropoff,notes,time)"
+					data-dismiss="modal">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
