@@ -49,7 +49,7 @@ export let driverController = function($scope, $http, $state){
 		.then(function(response) {
 			$scope.openRequest = response.data;	
 			for(let i; i<ignoredRequestsArray.length; i++) {
-				console.log(ignoredRequestsArray[i]);
+				console.log("ignored request at $scope.updateSort: " + ignoredRequestsArray[i]);
 			}
 		});
 	}
@@ -288,11 +288,19 @@ export let driverController = function($scope, $http, $state){
 	 * with the form "/request/ignore/{id}"
 	 */
 	$scope.ignoreReq = function(reqId) {
-		ignoredRequestsArray.put(reqId);
-		console.log(JSON.stringify(ignoredRequestsArray));
+		ignoredRequestsArray.push(reqId);
+		console.log("The ignored requests as a json: " + JSON.stringify(ignoredRequestsArray));
+		console.log("The ID: " + reqId);
 		$http.get('/ride/request/ignore/' + reqId)
-		.then(function(response) {
+		.then((response) => {
     				$scope.openRequest = response.data;
+    				for(let i = 0; i < $scope.openRequest.length; i++){
+    					if($scope.openRequest[i].requestId == reqId) {
+    						$scope.openRequest.splice(i, 1);
+    						console.log("This request was spliced: " + openRequest[i]);
+    						$scope.$apply;
+    					}
+    				}
     				setTimeout(function(){$state.reload();}, 500);
     			}
     		);	
