@@ -15,7 +15,7 @@ export let driverController = function($scope, $http, $state){
 	 */
 	let user;
 	let poiLimit = 0;
-	let ignoredRequestsArray = [];
+	let ignoredRequestsArray = [9101, 9100];
 
 	
 	/*
@@ -48,8 +48,15 @@ export let driverController = function($scope, $http, $state){
 		$http.get("/ride/request/open/"+item.poiId)
 		.then(function(response) {
 			$scope.openRequest = response.data;	
-			for(let i; i<ignoredRequestsArray.length; i++) {
-				console.log("ignored request at $scope.updateSort: " + ignoredRequestsArray[i]);
+			//ignoredRequestsArray = JSON.parse($cookies.get('ignoredRequests'));
+			for(let i = 0; i < $scope.openRequest.length; i++){
+				for(let p=0; p<ignoredRequestsArray.length; p++) {
+					if(response.data[i].requestId == ignoredRequestsArray[p]) {
+						console.log(openRequest[i].requestId + " is not added");
+						$scope.openRequest.splice(i, 1);
+						$scope.$apply;
+					}
+				}
 			}
 		});
 	}
@@ -288,20 +295,23 @@ export let driverController = function($scope, $http, $state){
 	 * with the form "/request/ignore/{id}"
 	 */
 	$scope.ignoreReq = function(reqId) {
+		//ignoredRequestsArray = JSON.parse($cookies.get('ignoredRequests'));
 		ignoredRequestsArray.push(reqId);
 		console.log("The ignored requests as a json: " + JSON.stringify(ignoredRequestsArray));
+		console.log("The ignored requests as an array: " + ignoredRequestsArray);
 		console.log("The ID: " + reqId);
+		//$cookies.put('ignoredRequests', JSON.stringify(ignoredRequestsArray));
 		$http.get('/ride/request/ignore/' + reqId)
 		.then((response) => {
     				$scope.openRequest = response.data;
     				for(let i = 0; i < $scope.openRequest.length; i++){
     					if($scope.openRequest[i].requestId == reqId) {
-    						$scope.openRequest.splice(i, 1);
     						console.log("This request was spliced: " + openRequest[i]);
+    						$scope.openRequest.splice(i, 1);
     						$scope.$apply;
     					}
     				}
-    				setTimeout(function(){$state.reload();}, 500);
+    				//setTimeout(function(){$state.reload();}, 500);
     			}
     		);	
 	};
