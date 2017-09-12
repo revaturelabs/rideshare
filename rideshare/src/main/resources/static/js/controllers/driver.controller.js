@@ -15,7 +15,7 @@ export let driverController = function($scope, $http, $state){
 	 */
 	let user;
 	let poiLimit = 0;
-	let ignoredRequestsArray = [9101, 9100];
+	let ignoredRequestsArray = [];
 
 	
 	/*
@@ -51,13 +51,14 @@ export let driverController = function($scope, $http, $state){
 			//ignoredRequestsArray = JSON.parse($cookies.get('ignoredRequests'));
 			for(let i = 0; i < $scope.openRequest.length; i++){
 				for(let p=0; p<ignoredRequestsArray.length; p++) {
-					if(response.data[i].requestId == ignoredRequestsArray[p]) {
+					if($scope.openRequest[i].requestId == ignoredRequestsArray[p]) {
 						console.log($scope.openRequest[i].requestId + " is not added");
 						$scope.openRequest.splice(i, 1);
-						$scope.$apply;
+						
 					}
 				}
 			}
+			$scope.$apply;
 		});
 	}
 	
