@@ -56,9 +56,10 @@ public class UserController {
 	}
 	
 	@PostMapping("/updateCurrentUser")
-	public void updateUser(@RequestHeader(name = "X-JWT-RIDESHARE") String token, 
+	public User updateUser(@RequestHeader(name = "X-JWT-RIDESHARE") String token, 
 			@RequestBody User user) {
 		userService.updateUser(user);
+		return user;
 	}
 	
 	public User getUser(String jsonString) {

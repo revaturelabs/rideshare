@@ -172,6 +172,18 @@ public class RideRequest implements Serializable, Comparable<RideRequest> {
 	public int compareTo(RideRequest ar) {
 		return this.getTime().compareTo(ar.getTime());
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj.getClass() != this.getClass()) {
+			return false;
+		}
+		
+		return (compareTo((RideRequest) obj) == 0);
+	}
 
 	@Override
 	public String toString() {

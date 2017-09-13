@@ -129,9 +129,9 @@ public class RideServiceImpl implements RideService {
 			if (r.getStatus() == RequestStatus.OPEN && r.getPickupLocation() == rq.getPickupLocation()) {
 				//dont add ignored request
 				if(r.getRequestId() == id){
-					RideRequest req = rideReqRepo.getOne(id);
+					/*RideRequest req = rideReqRepo.getOne(id);
 					req.setStatus(RequestStatus.STALE);
-					rideReqRepo.saveAndFlush(req);
+					rideReqRepo.saveAndFlush(req);*/
 				} else {
 					temp.add(r);
 				}
@@ -139,7 +139,7 @@ public class RideServiceImpl implements RideService {
 				logger.debug("NOT ADDED\n\n");
 			}
 		}
-		temp.remove(rq);
+		//temp.remove(rq);
 		
 		return temp;
 	}
@@ -153,12 +153,6 @@ public class RideServiceImpl implements RideService {
 		try {
 			Ride ride = rideRepo.findOne(id);
 			RideRequest req = ride.getRequest();
-
-			AvailableRide availRide = ride.getAvailRide();
-			if (!availRide.isOpen()) {
-				// reopen if closed (because a seat is now available)
-				availRide.setOpen(true);
-			}
 
 			rideRepo.delete(ride);
 			rideReqRepo.delete(req);

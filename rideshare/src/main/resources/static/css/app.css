@@ -113,6 +113,7 @@ a {
 	max-height: 40px;
 }
 
+li { cursor: pointer; cursor: hand; }
 /**********************
 	Login
 **********************/

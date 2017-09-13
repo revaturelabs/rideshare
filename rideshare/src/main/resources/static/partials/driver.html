@@ -33,7 +33,7 @@
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="#open"
-			aria-controls="open" role="tab" data-toggle="tab" target="_self">Available</a></li>
+			aria-controls="open" role="tab" data-toggle="tab" target="_self">Ride Requests</a></li>
 		<li role="presentation"><a href="#active" aria-controls="active"
 			role="tab" data-toggle="tab" target="_self">In Progress</a></li>
 		<li role="presentation"><a href="#history"
@@ -81,8 +81,9 @@
 					<em>Note:</em> {{req.notes}} <span ng-show=" req.notes == null"> N/A </span>
 					
 					<div class="btn-container">
-					<button type="button" class="btn btn-primary" ng-click="acceptReq(req.requestId)">Accept Request</button>
+					<button type="button" class="btn btn-primary" ng-click="acceptReq(req.requestId)" ng-hide="loggedUser.userId == req.user.userId">Accept Request</button>
 					<button type="button" class="btn btn-primary" ng-click="ignoreReq(req.requestId)">Ignore Request</button>
+					<!-- <button type="button" class="btn btn-primary" ng-click="ignoreReqAlert(req.requestId)">Ignore Request 2</button> -->
 					
 					</div>
 					<!-- End of expanded portion -->
@@ -109,7 +110,7 @@
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{offer.availRideId}}" target="_self" style="text-decoration:none">
 						
-							<em>@</em> {{offer.time | date: 'h:mm a MMM dd'}}
+							{{offer.car.user.fullName}}<em>@</em> {{offer.time | date: 'h:mm a MMM dd'}}
 							<br/>
 							{{offer.pickupPOI.poiName}}
 							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
@@ -133,13 +134,13 @@
 					</div>
 				</div>
 			</div>
-
+			<!-- This "ride" in activeRides gets data from the Rides Table -->
 			<div class="panel panel-default" ng-repeat="ride in activeRides" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseA{{ride.availRide.availRideId}}" >
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionActive" href="#collapseA{{ride.availRide.availRideId}}" target="_self" style="text-decoration:none">
 						
-							<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
+							{{ride.availRide.car.user.fullName}} <em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
 							<br/>
 
 							{{ride.availRide.pickupPOI.poiName}}
@@ -150,7 +151,7 @@
 					</h4>
 				</div>
 				<div id="collapseA{{ride.availRide.availRideId}}" class="panel-collapse collapse">
-					<div ng-repeat="request in ride.request" class="panel-body" data-toggle="collapse" data-target = "#collapseA{{ride.availRide.availRideId}}" >
+					<div class="panel-body" data-toggle="collapse" data-target = "#collapseA{{ride.availRide.availRideId}}" >
 						<em>Note:</em> {{ride.availRide.notes}} <span ng-show="!ride.availRide.notes"> N/A </span>
 						<br/>
 						<em>Available Seats:</em> {{ride.availRide.seatsAvailable}}
@@ -158,10 +159,10 @@
 						<div ng-show="isArray(ride.request)">
 							<em>Passengers:</em>
 							<ul class="passenger-list">
-								<li>
+								<li ng-repeat="request in ride.request">
 									{{request.user.fullName}}
 									<span ng-show="request.notes != null"> ( <i>{{request.notes}}</i> )</span>
-									</li>
+								</li>
 							</ul>
 						</div>
 
@@ -188,12 +189,13 @@
 			</ul>
 
 			<div class="panel-group" id="accordionPast">
+				<!-- This "ride" in pastRides gets data from the Rides Table -->
 			<div class="panel panel-default" ng-repeat="ride in pastRides" style = "border: none">
 				<div class="panel-heading" data-toggle="collapse" data-target = "#collapseP{{ride.availRide.availRideId}}" >
 					<h4 class="panel-title">
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionPast" href="#collapseP{{ride.availRide.availRideId}}" target="_self" style="text-decoration:none">
 						
-						<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
+						{{ride.availRide.car.user.fullName}}<em>@</em> {{ride.availRide.time | date: 'h:mm a MMM dd'}}
 						<br/>
 
 						{{ride.availRide.pickupPOI.poiName}}

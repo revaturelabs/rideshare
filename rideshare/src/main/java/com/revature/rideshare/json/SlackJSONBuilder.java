@@ -240,11 +240,14 @@ public class SlackJSONBuilder {
 	}
 
 	@Override
-	public boolean equals(Object other) {
-		SlackJSONBuilder otherJSONBuilder = (SlackJSONBuilder) other;
-		if (otherJSONBuilder == null) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
+		if (obj.getClass() != this.getClass()) {
+			return false;
+		}
+		SlackJSONBuilder otherJSONBuilder = (SlackJSONBuilder) obj;
 		if (!EquivalenceUtilities.SafeCompare(otherJSONBuilder.getChannel(), getChannel())) {
 			return false;
 		}
